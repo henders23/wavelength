@@ -4,6 +4,7 @@
 import React from 'react';
 import { DIMS } from './data.js';
 import { Eyebrow, Dot, Code, WaveChart } from './components.jsx';
+import { Search } from './search.jsx';
 
 const C_CX = 450, C_CY = 330, C_R = 250;
 const C_ANG = { semantics: 0, specialization: 72, autonomy: 144, density: 216, temporality: 288 };
@@ -67,10 +68,7 @@ export function ConstellationView({ go }) {
             <span className="san" style={{ fontSize: 12, color: 'var(--ink-3)', marginLeft: 10 }}>Legitimation Code Theory for EAP</span>
           </div>
           <div style={{ flex: 1 }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 13px', borderRadius: 9, background: 'var(--surface)', border: '1px solid var(--line)', width: 240, color: 'var(--ink-3)' }}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="6" cy="6" r="4.5" /><path d="M9.5 9.5L13 13" strokeLinecap="round" /></svg>
-            <span className="san" style={{ fontSize: 12.5 }}>Search concepts & sources…</span>
-          </div>
+          <Search go={go} />
         </div>
 
         {/* fitted map — ref measures the space left between the top bar and legend */}

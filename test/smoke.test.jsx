@@ -89,6 +89,15 @@ describe('Wavelength views mount cleanly', () => {
     expect(container.querySelectorAll('input[type="range"]').length).toBe(2);
   });
 
+  it('searches from the constellation and navigates to a result', () => {
+    const { getByLabelText, getByText, getByRole } = render(<App />);
+    const input = getByLabelText('Search concepts and sources');
+    fireEvent.change(input, { target: { value: 'autonomy tour' } });
+    // a matching glossary term surfaces; clicking it routes to its dimension
+    fireEvent.click(getByText('Autonomy tour'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('Autonomy');
+  });
+
   it('renders the Glossary with the notation key and every key term', () => {
     const { getByText, getAllByText } = render(<GlossaryView go={go} />);
     expect(getByText('The notation')).toBeTruthy();
