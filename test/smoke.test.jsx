@@ -66,6 +66,17 @@ describe('Wavelength views mount cleanly', () => {
     expect(getByText(/economists track as the inflation rate/)).toBeTruthy();
   });
 
+  it('lets you code your own text in the Studio', () => {
+    const { getByText, getByRole, getByPlaceholderText, container } = render(<StudioView go={go} />);
+    fireEvent.click(getByRole('button', { name: 'Your text' }));
+    const ta = getByPlaceholderText(/Paste or type a paragraph/);
+    fireEvent.change(ta, { target: { value: 'Inflation is a sustained rise in prices. A pound buys less bread than last year.' } });
+    fireEvent.click(getByText('Segment & plot →'));
+    // both detected sentences render, and the rating sliders appear
+    expect(getByText(/A pound buys less bread/)).toBeTruthy();
+    expect(container.querySelectorAll('input[type="range"]').length).toBe(2);
+  });
+
   it('renders the Glossary with the notation key and every key term', () => {
     const { getByText, getAllByText } = render(<GlossaryView go={go} />);
     expect(getByText('The notation')).toBeTruthy();

@@ -23,9 +23,11 @@ how LCT itself theorises knowledge as constellations.
   Sources), the iconic LCT **code plane** (a hoverable 2×2 of named codes), an
   EAP-application panel, related dimensions and a sources list. Semantics also
   has an interactive **Unpack / Repack lab** that traces out the semantic wave.
-- **🎼 The Studio** — code a real paragraph: toggle a flatlined student draft
-  against a reworked "waved" version, click any sentence to read its semantic
-  gravity / density coding, and watch the profile redraw.
+- **🎼 The Studio** — code a real paragraph. Study two worked drafts (a
+  flatlined student draft vs. a reworked "waved" version), or switch to **Your
+  text** to paste your own paragraph: it's segmented into sentences you rate
+  with semantic gravity / density sliders, and the wave redraws live. Your text
+  and ratings persist across reloads.
 - **📑 Glossary & notation key** — every organising code (SG, SD, ER, SR, PA,
   RA, MaD, MoD, TP, TO) grouped by dimension, plus a glossary of key LCT terms
   (semantic wave, code clash, autonomy tour, recontextualisation, …) with
