@@ -46,6 +46,15 @@ describe('Wavelength views mount cleanly', () => {
     }
   });
 
+  it('renders Going deeper + In practice content for every dimension', () => {
+    for (const m of DIMS) {
+      const { getByText, getAllByText, unmount } = render(<DimensionView dim={m.key} go={go} />);
+      expect(getByText('Going deeper')).toBeTruthy();
+      expect(getAllByText(new RegExp('In practice')).length).toBeGreaterThan(0);
+      unmount();
+    }
+  });
+
   it('steps through the Semantics unpack/repack lab without error', () => {
     const { getByText, getAllByText } = render(<DimensionView dim="semantics" go={go} />);
     // the lab's "Next →" renders before the footer dimension-nav's "Next →"

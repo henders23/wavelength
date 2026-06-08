@@ -56,7 +56,10 @@ export function DimensionView({ dim, go }) {
   const prev = DIMS[(i - 1 + DIMS.length) % DIMS.length], next = DIMS[(i + 1) % DIMS.length];
   const scrollRef = React.useRef(null);
   React.useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, [dim]);
-  const sourceKeys = Array.from(new Set([...m.cites, 'Maton 2014']));
+  // gather every inline [Citation] across the prose so the Sources list resolves them all
+  const inlineKeys = [...(m.idea || []), ...(m.deeper || []), m.worked?.note || '']
+    .flatMap((s) => (String(s).match(/\[([^\]]+)\]/g) || []).map((b) => b.slice(1, -1)));
+  const sourceKeys = Array.from(new Set([...m.cites, ...inlineKeys, 'Maton 2014']));
 
   return (
     <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', background: 'var(--paper)' }}>
@@ -126,6 +129,25 @@ export function DimensionView({ dim, go }) {
             <section style={{ margin: '34px 0' }}>
               <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 14, display: 'block' }}>See it move</Eyebrow>
               <UnpackLab hue={m.hue} />
+            </section>
+          )}
+
+          {/* going deeper */}
+          {m.deeper && (
+            <section style={{ margin: '40px 0 0' }}>
+              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 14, display: 'block' }}>Going deeper</Eyebrow>
+              {m.deeper.map((p, k) => <RichText key={k} className="ser" style={{ margin: '0 0 18px', fontSize: 18.5, lineHeight: 1.62, color: 'var(--ink)' }}>{p}</RichText>)}
+            </section>
+          )}
+
+          {/* worked example */}
+          {m.worked && (
+            <section style={{ margin: '30px 0 0' }}>
+              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 12, display: 'block' }}>In practice · {m.worked.label}</Eyebrow>
+              <figure style={{ margin: 0, border: '1px solid var(--line)', borderRadius: 16, background: 'var(--surface)', overflow: 'hidden' }}>
+                <blockquote className="ser" style={{ margin: 0, padding: '20px 24px', fontSize: 19, lineHeight: 1.5, color: 'var(--ink)', borderLeft: `3px solid ${m.hue}` }}>{m.worked.text}</blockquote>
+                <figcaption className="san" style={{ padding: '14px 24px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-2)', borderTop: '1px solid var(--line)', background: 'var(--surface-2)' }}>{m.worked.note}</figcaption>
+              </figure>
             </section>
           )}
 
