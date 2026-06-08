@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { REFS, PLANES, DIMS } from './data.js';
+import { Tweaks } from './tweaks.jsx';
 
 export function Code({ children, hue }) {
   return <span className="code" style={hue ? { borderColor: hue, color: hue } : null}>{children}</span>;
@@ -144,7 +145,8 @@ export function NavRail({ route, dim, go }) {
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M2 13c2-.2 2-7 4-7s2 5 4 5 2-7 4-7" /></svg>
       </RailBtn>
       <div style={{ flex: 1 }} />
-      <div style={{ width: 34, height: 34, borderRadius: 34, background: 'var(--d-spec)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--sans)', fontSize: 12.5, fontWeight: 600, cursor: 'pointer' }}>AO</div>
+      <Tweaks />
+      <div style={{ width: 34, height: 34, borderRadius: 34, background: 'var(--d-spec)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--sans)', fontSize: 12.5, fontWeight: 600, cursor: 'pointer', marginTop: 8 }}>AO</div>
     </nav>
   );
 }

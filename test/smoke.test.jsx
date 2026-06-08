@@ -17,6 +17,9 @@ const go = () => {};
 afterEach(() => {
   cleanup();
   localStorage.clear();
+  // reset any document-root tweaks so state doesn't leak between tests
+  document.documentElement.classList.remove('wl-reduce-motion');
+  document.documentElement.removeAttribute('style');
 });
 
 describe('Wavelength views mount cleanly', () => {
@@ -89,6 +92,17 @@ describe('Wavelength views mount cleanly', () => {
     const { getByTitle, getByRole } = render(<App />);
     fireEvent.click(getByTitle('Glossary & notation key'));
     expect(getByRole('heading', { level: 1 }).textContent).toMatch(/Glossary/);
+  });
+
+  it('opens the Tweaks panel and applies an accent and reduced motion', () => {
+    const { getByLabelText, getByText } = render(<App />);
+    fireEvent.click(getByLabelText('Tweaks'));
+    // pick the Teal accent → overrides the --clay variable on <html>
+    fireEvent.click(getByLabelText('Teal'));
+    expect(document.documentElement.style.getPropertyValue('--clay')).toBe('#2E6E68');
+    // reduce motion → adds the root class
+    fireEvent.click(getByText('Reduced'));
+    expect(document.documentElement.classList.contains('wl-reduce-motion')).toBe(true);
   });
 
   it('routes from constellation into a dimension and back via App state', () => {

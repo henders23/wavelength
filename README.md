@@ -33,6 +33,10 @@ how LCT itself theorises knowledge as constellations.
   (semantic wave, code clash, autonomy tour, recontextualisation, …) with
   citations that jump to their sources.
 
+- **⚙️ Tweaks** — an appearance panel in the rail: choose an accent colour and
+  reading font, or switch to reduced motion. Preferences apply instantly (by
+  overriding the design-system CSS variables) and persist.
+
 A persistent left rail keeps every view one click away.
 
 ## Running locally
