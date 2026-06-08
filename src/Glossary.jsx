@@ -2,12 +2,13 @@
    code, grouped by dimension) and a glossary of key terms with citations. */
 
 import { DIMS, GLOSSARY, REFS } from './data.js';
-import { Code, Eyebrow, Dot, RichText } from './components.jsx';
+import { Code, Eyebrow, Dot, RichText, useNarrow } from './components.jsx';
 
 // Sources cited across the glossary definitions, in REFS order.
 const GLOSSARY_SOURCES = ['Maton 2013', 'Maton 2014', 'Maton & Howard 2018', 'Maton & Doran 2017', 'Bernstein 2000', 'Monbec 2020'];
 
 export function GlossaryView({ go }) {
+  const narrow = useNarrow();
   return (
     <div style={{ flex: 1, overflowY: 'auto', background: 'var(--paper)' }}>
       {/* sticky header */}
@@ -16,9 +17,9 @@ export function GlossaryView({ go }) {
         <span className="san" style={{ fontSize: 13, color: 'var(--ink-2)' }}>Glossary & notation key</span>
       </div>
 
-      <div style={{ maxWidth: 880, margin: '0 auto', padding: '52px 34px 70px' }}>
+      <div style={{ maxWidth: 880, margin: '0 auto', padding: narrow ? '34px 18px 56px' : '52px 34px 70px' }}>
         <Eyebrow size={11} hue="var(--clay)">Reference</Eyebrow>
-        <h1 className="ser" style={{ margin: '14px 0 16px', fontSize: 56, fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1 }}>Glossary &amp; notation key</h1>
+        <h1 className="ser" style={{ margin: '14px 0 16px', fontSize: narrow ? 38 : 56, fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1 }}>Glossary &amp; notation key</h1>
         <p className="ser" style={{ margin: '0 0 10px', fontSize: 21, fontStyle: 'italic', lineHeight: 1.4, color: 'var(--ink-2)' }}>Every code and key term in one place — a quick reference as you read across the dimensions or code a text.</p>
 
         <div style={{ height: 1, background: 'var(--line)', margin: '36px 0' }} />
@@ -35,7 +36,7 @@ export function GlossaryView({ go }) {
                 <span className="ser" style={{ fontSize: 19, fontWeight: 500, color: 'var(--ink)', letterSpacing: '-0.01em' }}>{m.name}</span>
                 {m.emerging && <span className="san" style={{ fontSize: 10.5, fontStyle: 'italic', color: 'var(--ink-3)' }}>emerging</span>}
               </button>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 1fr', gap: 10 }}>
                 {m.concepts.map((c) => (
                   <div key={c.code} onClick={() => go('dimension', m.key)} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '13px 15px', borderRadius: 12, border: '1px solid var(--line)', background: 'var(--surface)', cursor: 'pointer' }}>
                     <Code hue={m.hue}>{c.code}</Code>

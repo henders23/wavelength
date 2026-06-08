@@ -64,7 +64,7 @@ export function Search({ go }) {
   const showResults = open && q.trim() && results.length > 0;
 
   return (
-    <div ref={wrapRef} style={{ position: 'relative', width: 264 }}>
+    <div ref={wrapRef} style={{ position: 'relative', width: 'clamp(150px, 40vw, 264px)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 13px', borderRadius: 9, background: 'var(--surface)', border: `1px solid ${open ? 'var(--line-strong)' : 'var(--line)'}`, color: 'var(--ink-3)' }}>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="6" cy="6" r="4.5" /><path d="M9.5 9.5L13 13" strokeLinecap="round" /></svg>
         <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} onKeyDown={onKey}

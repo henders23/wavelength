@@ -5,6 +5,19 @@ import React from 'react';
 import { REFS, PLANES, DIMS } from './data.js';
 import { Tweaks } from './tweaks.jsx';
 
+/* True when the viewport is narrower than `bp` — drives the responsive
+   single-column layouts. Defaults to a tablet/phone breakpoint. */
+export function useNarrow(bp = 860) {
+  const [n, setN] = React.useState(() => (typeof window !== 'undefined' ? window.innerWidth < bp : false));
+  React.useEffect(() => {
+    const on = () => setN(window.innerWidth < bp);
+    on();
+    window.addEventListener('resize', on);
+    return () => window.removeEventListener('resize', on);
+  }, [bp]);
+  return n;
+}
+
 export function Code({ children, hue }) {
   return <span className="code" style={hue ? { borderColor: hue, color: hue } : null}>{children}</span>;
 }
@@ -121,7 +134,7 @@ function RailBtn({ active, hue, title, onClick, children }) {
 
 export function NavRail({ route, dim, go }) {
   return (
-    <nav style={{ width: 62, flex: '0 0 auto', background: 'var(--surface-2)', borderRight: '1px solid var(--line)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px 0', gap: 6, zIndex: 20 }}>
+    <nav style={{ width: 62, flex: '0 0 auto', background: 'var(--surface-2)', borderRight: '1px solid var(--line)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px 0', gap: 6, zIndex: 20, overflowY: 'auto', minHeight: 0 }}>
       <button onClick={() => go('map')} title="Constellation home" style={{ background: 'none', border: 'none', cursor: 'pointer', marginBottom: 10 }}>
         <svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" rx="8" fill="var(--ink)" /><path d="M5 19c2.4 0 2.4-8 4.8-8s2.4 8 4.8 8 2.4-8 4.8-8 2.4 8 4.8 8" fill="none" stroke="var(--paper)" strokeWidth="1.8" strokeLinecap="round" /></svg>
       </button>

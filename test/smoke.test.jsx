@@ -21,6 +21,7 @@ afterEach(() => {
   document.documentElement.classList.remove('wl-reduce-motion');
   document.documentElement.removeAttribute('style');
   window.location.hash = '';
+  window.innerWidth = 1024;
 });
 
 describe('Wavelength views mount cleanly', () => {
@@ -134,6 +135,14 @@ describe('Wavelength views mount cleanly', () => {
     window.location.hash = '#/glossary';
     const { getByRole } = render(<App />);
     expect(getByRole('heading', { level: 1 }).textContent).toMatch(/Glossary/);
+  });
+
+  it('renders and navigates on a narrow (mobile) viewport', () => {
+    window.innerWidth = 480;
+    const { getByText, getByRole } = render(<App />);
+    expect(getByText('Wavelength')).toBeTruthy();
+    fireEvent.click(getByText('Enter Semantics →'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('Semantics');
   });
 
   it('routes from constellation into a dimension and back via App state', () => {

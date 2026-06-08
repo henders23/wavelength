@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { DIMS } from './data.js';
-import { Eyebrow, Dot, Code, WaveChart } from './components.jsx';
+import { Eyebrow, Dot, Code, WaveChart, useNarrow } from './components.jsx';
 import { Search } from './search.jsx';
 
 const C_CX = 450, C_CY = 330, C_R = 250;
@@ -55,17 +55,18 @@ export function ConstellationView({ go }) {
   const [focusKey, setFocusKey] = React.useState(() => localStorage.getItem('wl-focus') || 'semantics');
   const focus = DIMS.find((d) => d.key === focusKey) || DIMS[0];
   const [boxRef, scale] = useFit(900, 680);
+  const narrow = useNarrow();
   React.useEffect(() => { localStorage.setItem('wl-focus', focusKey); }, [focusKey]);
 
   return (
-    <div style={{ flex: 1, display: 'flex', minWidth: 0, background: 'var(--paper)' }}>
+    <div style={{ flex: 1, display: 'flex', flexDirection: narrow ? 'column' : 'row', minWidth: 0, minHeight: 0, background: 'var(--paper)' }}>
       {/* canvas */}
-      <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minWidth: 0 }}>
+      <div style={{ flex: narrow ? '0 0 auto' : 1, height: narrow ? '48vh' : 'auto', minHeight: narrow ? 300 : 0, position: 'relative', overflow: 'hidden', minWidth: 0 }}>
         {/* top strip */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 58, display: 'flex', alignItems: 'center', padding: '0 24px', gap: 16, zIndex: 10 }}>
           <div>
             <span className="ser" style={{ fontSize: 17, fontWeight: 600 }}>Wavelength</span>
-            <span className="san" style={{ fontSize: 12, color: 'var(--ink-3)', marginLeft: 10 }}>Legitimation Code Theory for EAP</span>
+            {!narrow && <span className="san" style={{ fontSize: 12, color: 'var(--ink-3)', marginLeft: 10 }}>Legitimation Code Theory for EAP</span>}
           </div>
           <div style={{ flex: 1 }} />
           <Search go={go} />
@@ -97,7 +98,7 @@ export function ConstellationView({ go }) {
       </div>
 
       {/* docked panel */}
-      <aside key={focusKey} style={{ width: 384, flex: '0 0 auto', background: 'var(--surface)', borderLeft: '1px solid var(--line)', padding: '30px 28px', display: 'flex', flexDirection: 'column', overflowY: 'auto', animation: 'wlFade .25s ease' }}>
+      <aside key={focusKey} style={{ width: narrow ? '100%' : 384, flex: narrow ? '1 1 auto' : '0 0 auto', minHeight: 0, background: 'var(--surface)', borderLeft: narrow ? 'none' : '1px solid var(--line)', borderTop: narrow ? '1px solid var(--line)' : 'none', padding: '30px 28px', display: 'flex', flexDirection: 'column', overflowY: 'auto', animation: 'wlFade .25s ease' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 12 }}>
           <Dot hue={focus.hue} size={11} />
           <Eyebrow size={11} hue={focus.hue}>Dimension {focus.n}{focus.emerging ? ' · emerging' : ''}</Eyebrow>

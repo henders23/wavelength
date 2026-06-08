@@ -39,7 +39,10 @@ how LCT itself theorises knowledge as constellations.
   reading font, or switch to reduced motion. Preferences apply instantly (by
   overriding the design-system CSS variables) and persist.
 
-A persistent left rail keeps every view one click away.
+A persistent left rail keeps every view one click away. The layout is
+responsive — multi-column views collapse to a single column and the
+constellation stacks its map above the detail panel on narrow screens — and
+every view is linkable via a URL hash (`#/dimension/semantics`, `#/studio`, …).
 
 ## Running locally
 

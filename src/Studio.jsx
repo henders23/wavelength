@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { STUDIO } from './data.js';
-import { Eyebrow, WaveChart } from './components.jsx';
+import { Eyebrow, WaveChart, useNarrow } from './components.jsx';
 
 /* Read-only meter for the worked samples. */
 function Meter({ label, code, v, hue }) {
@@ -47,6 +47,7 @@ function segment(text) {
 const OWN_KEY = 'wl-studio-own';
 
 export function StudioView({ go }) {
+  const narrow = useNarrow();
   const [mode, setMode] = React.useState('flat'); // 'flat' | 'waved' | 'own'
   const [sel, setSel] = React.useState(0);
 
@@ -101,9 +102,9 @@ export function StudioView({ go }) {
         <span className="san" style={{ fontSize: 13, color: 'var(--ink-2)' }}>The Studio · code a text</span>
       </div>
 
-      <div style={{ maxWidth: 1080, margin: '0 auto', padding: '40px 34px 60px' }}>
+      <div style={{ maxWidth: 1080, margin: '0 auto', padding: narrow ? '28px 18px 48px' : '40px 34px 60px' }}>
         <Eyebrow size={11} hue="var(--clay)">Applied · Semantics</Eyebrow>
-        <h1 className="ser" style={{ margin: '12px 0 10px', fontSize: 46, fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1 }}>Plot a paragraph’s semantic wave</h1>
+        <h1 className="ser" style={{ margin: '12px 0 10px', fontSize: narrow ? 34 : 46, fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1 }}>Plot a paragraph’s semantic wave</h1>
         <p className="ser" style={{ margin: '0 0 26px', fontSize: 19, fontStyle: 'italic', color: 'var(--ink-2)', maxWidth: 660, lineHeight: 1.4 }}>Study the two worked drafts, or switch to <em>Your text</em> to code a paragraph of your own — rate each sentence and watch the profile take shape.</p>
 
         {/* mode toggle */}
@@ -113,7 +114,7 @@ export function StudioView({ go }) {
           ))}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 440px', gap: 36, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 440px', gap: narrow ? 26 : 36, alignItems: 'start' }}>
           {/* text / editor */}
           <div>
             {isOwn && editing ? (
@@ -154,7 +155,7 @@ export function StudioView({ go }) {
           </div>
 
           {/* analysis */}
-          <aside style={{ position: 'sticky', top: 78, display: 'flex', flexDirection: 'column', gap: 18 }}>
+          <aside style={{ position: narrow ? 'static' : 'sticky', top: 78, display: 'flex', flexDirection: 'column', gap: 18 }}>
             <div style={{ border: '1px solid var(--line)', borderRadius: 16, background: 'var(--surface)', overflow: 'hidden' }}>
               <div style={{ padding: '14px 18px 4px' }}><Eyebrow size={9.5}>Semantic profile</Eyebrow></div>
               <div style={{ padding: '4px 18px 16px' }}>

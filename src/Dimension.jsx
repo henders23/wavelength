@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { DIMS, REFS } from './data.js';
-import { Code, Eyebrow, Dot, RichText, WaveChart, CodePlane } from './components.jsx';
+import { Code, Eyebrow, Dot, RichText, WaveChart, CodePlane, useNarrow } from './components.jsx';
 
 const UNPACK = [
   { move: 'Technical statement', code: 'SG−, SD+', sg: 0.15, t: 'Osmosis is the net movement of solvent across a semipermeable membrane down a concentration gradient.' },
@@ -54,6 +54,7 @@ export function DimensionView({ dim, go }) {
   const i = DIMS.findIndex((d) => d.key === dim);
   const m = DIMS[i];
   const prev = DIMS[(i - 1 + DIMS.length) % DIMS.length], next = DIMS[(i + 1) % DIMS.length];
+  const narrow = useNarrow();
   const scrollRef = React.useRef(null);
   React.useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, [dim]);
   // gather every inline [Citation] across the prose so the Sources list resolves them all
@@ -75,22 +76,22 @@ export function DimensionView({ dim, go }) {
       </div>
 
       {/* hero */}
-      <header style={{ padding: '46px 34px 30px', maxWidth: 1080, margin: '0 auto', width: '100%', borderBottom: `1px solid var(--line)` }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 28 }}>
-          <div className="ser" style={{ fontSize: 92, fontWeight: 300, lineHeight: 0.8, color: m.hue, letterSpacing: '-0.03em' }}>{m.n}</div>
+      <header style={{ padding: narrow ? '28px 18px 22px' : '46px 34px 30px', maxWidth: 1080, margin: '0 auto', width: '100%', borderBottom: `1px solid var(--line)` }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: narrow ? 16 : 28 }}>
+          <div className="ser" style={{ fontSize: narrow ? 52 : 92, fontWeight: 300, lineHeight: 0.8, color: m.hue, letterSpacing: '-0.03em' }}>{m.n}</div>
           <div style={{ paddingTop: 6 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
               <Eyebrow size={11} hue={m.hue}>Dimension</Eyebrow>
               {m.emerging && <span className="san" style={{ fontSize: 10.5, fontStyle: 'italic', color: 'var(--ink-3)' }}>an emerging dimension</span>}
             </div>
-            <h1 className="ser" style={{ margin: '0 0 12px', fontSize: 58, fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 0.98 }}>{m.name}</h1>
-            <p className="ser" style={{ margin: 0, fontSize: 23, fontStyle: 'italic', lineHeight: 1.35, color: 'var(--ink-2)', maxWidth: 620 }}>{m.question}</p>
+            <h1 className="ser" style={{ margin: '0 0 12px', fontSize: narrow ? 38 : 58, fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 0.98 }}>{m.name}</h1>
+            <p className="ser" style={{ margin: 0, fontSize: narrow ? 18 : 23, fontStyle: 'italic', lineHeight: 1.35, color: 'var(--ink-2)', maxWidth: 620 }}>{m.question}</p>
           </div>
         </div>
       </header>
 
       {/* body */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 296px', gap: 48, maxWidth: 1080, margin: '0 auto', padding: '34px 34px 60px', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : 'minmax(0,1fr) 296px', gap: narrow ? 28 : 48, maxWidth: 1080, margin: '0 auto', padding: narrow ? '24px 18px 48px' : '34px 34px 60px', alignItems: 'start' }}>
         {/* main column */}
         <article>
           <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 14, display: 'block' }}>The idea</Eyebrow>
@@ -165,7 +166,7 @@ export function DimensionView({ dim, go }) {
         </article>
 
         {/* right rail */}
-        <aside style={{ position: 'sticky', top: 78, display: 'flex', flexDirection: 'column', gap: 22 }}>
+        <aside style={{ position: narrow ? 'static' : 'sticky', top: 78, paddingTop: narrow ? 24 : 0, borderTop: narrow ? '1px solid var(--line)' : 'none', display: 'flex', flexDirection: 'column', gap: 22 }}>
           <div>
             <Eyebrow size={10} style={{ marginBottom: 11 }}>Organising concepts</Eyebrow>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
