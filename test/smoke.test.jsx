@@ -20,6 +20,7 @@ afterEach(() => {
   // reset any document-root tweaks so state doesn't leak between tests
   document.documentElement.classList.remove('wl-reduce-motion');
   document.documentElement.removeAttribute('style');
+  window.location.hash = '';
 });
 
 describe('Wavelength views mount cleanly', () => {
@@ -121,6 +122,18 @@ describe('Wavelength views mount cleanly', () => {
     // reduce motion → adds the root class
     fireEvent.click(getByText('Reduced'));
     expect(document.documentElement.classList.contains('wl-reduce-motion')).toBe(true);
+  });
+
+  it('reflects navigation in the URL hash', () => {
+    const { getByText } = render(<App />);
+    fireEvent.click(getByText('Enter Semantics →'));
+    expect(window.location.hash).toBe('#/dimension/semantics');
+  });
+
+  it('opens the view named by the URL hash on load', () => {
+    window.location.hash = '#/glossary';
+    const { getByRole } = render(<App />);
+    expect(getByRole('heading', { level: 1 }).textContent).toMatch(/Glossary/);
   });
 
   it('routes from constellation into a dimension and back via App state', () => {
