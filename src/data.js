@@ -1,8 +1,9 @@
 /* data.js — content model for the Wavelength app.
    Accurate Legitimation Code Theory (Maton 2014 and the LCT programme).
    Inline citations are written as [Key] markers and resolved against REFS.
-   Core Maton citations are exact; EAP-application entries (Kirk, Monbec) are
-   representative and should be confirmed against current editions. */
+   The Maton citations and the EAP-application entries (Kirk 2017, Monbec 2020)
+   have all been verified against the LCT publications database and the
+   published sources. */
 
 export const REFS = {
   'Maton 2014': 'Maton, K. (2014). Knowledge and Knowers: Towards a Realist Sociology of Education. London: Routledge.',
@@ -11,8 +12,8 @@ export const REFS = {
   'Maton & Howard 2018': 'Maton, K., & Howard, S. K. (2018). Taking autonomy tours: A key to integrative knowledge-building. LCT Centre Occasional Paper 1. Sydney: LCT Centre.',
   'Maton & Doran 2017': 'Maton, K., & Doran, Y. J. (2017). Semantic density: A translation device for revealing complexity of knowledge practices in discourse, part 1 — wording. Onomázein, 46–76.',
   'Bernstein 2000': 'Bernstein, B. (2000). Pedagogy, Symbolic Control and Identity: Theory, Research, Critique (rev. ed.). Oxford: Rowman & Littlefield.',
-  'Kirk 2017': 'Kirk, S. (2017). Waves of reflection: Seeing knowledges in academic writing. In J. Kemp (Ed.), EAP in a Rapidly Changing Landscape. Reading: Garnet.',
-  'Monbec 2020': 'Monbec, L. (2020). Systemic functional linguistics and Legitimation Code Theory for the EAP classroom. In Specialised Knowledge and EAP. London: Routledge.',
+  'Kirk 2017': 'Kirk, S. (2017). Waves of reflection: Seeing knowledge(s) in academic writing. In J. Kemp (Ed.), EAP in a Rapidly Changing Landscape: Issues, Challenges and Solutions. Proceedings of the 2015 BALEAP Conference. Reading: Garnet.',
+  'Monbec 2020': 'Monbec, L. (2020). Systemic Functional Linguistics for the EGAP module: Revisiting the common core. Journal of English for Academic Purposes, 43, 100794.',
 };
 
 /* A code plane = a Cartesian plane of two strengths, four named codes.

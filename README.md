@@ -42,9 +42,10 @@ Built with **React 18** and **Vite**.
 
 ## A note on content
 
-The core Maton citations (Maton 2013, 2014; Maton & Howard 2018; Maton & Doran
-2017) are exact. The EAP-application references (Kirk 2017, Monbec 2020) and the
-Studio / Unpack example texts are illustrative and should be confirmed against
-current editions before any real classroom use. Density and Temporality are
-presented honestly as emerging dimensions whose full four-code matrices are
-still being elaborated in the literature.
+All references are verified: the core Maton citations (Maton 2013, 2014; Maton &
+Howard 2018; Maton & Doran 2017) plus the EAP-application sources (Kirk 2017,
+Monbec 2020) have been checked against the LCT publications database and the
+published works. The Studio / Unpack **example texts** (the osmosis and
+inflation paragraphs) remain illustrative teaching samples. Density and
+Temporality are presented honestly as emerging dimensions whose full four-code
+matrices are still being elaborated in the literature.
