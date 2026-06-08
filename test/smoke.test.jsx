@@ -9,7 +9,8 @@ import { ConstellationView } from '../src/Constellation.jsx';
 import { DimensionView } from '../src/Dimension.jsx';
 import { FoundationsView } from '../src/Foundations.jsx';
 import { StudioView } from '../src/Studio.jsx';
-import { DIMS } from '../src/data.js';
+import { GlossaryView } from '../src/Glossary.jsx';
+import { DIMS, GLOSSARY } from '../src/data.js';
 
 const go = () => {};
 
@@ -63,6 +64,20 @@ describe('Wavelength views mount cleanly', () => {
     fireEvent.click(getByText('Reworked draft'));
     // reworked draft has a 4th sentence the flat draft lacks
     expect(getByText(/economists track as the inflation rate/)).toBeTruthy();
+  });
+
+  it('renders the Glossary with the notation key and every key term', () => {
+    const { getByText, getAllByText } = render(<GlossaryView go={go} />);
+    expect(getByText('The notation')).toBeTruthy();
+    for (const g of GLOSSARY) {
+      expect(getAllByText(g.term).length).toBeGreaterThan(0);
+    }
+  });
+
+  it('reaches the Glossary from the nav rail', () => {
+    const { getByTitle, getByRole } = render(<App />);
+    fireEvent.click(getByTitle('Glossary & notation key'));
+    expect(getByRole('heading', { level: 1 }).textContent).toMatch(/Glossary/);
   });
 
   it('routes from constellation into a dimension and back via App state', () => {

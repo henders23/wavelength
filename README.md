@@ -26,6 +26,10 @@ how LCT itself theorises knowledge as constellations.
 - **🎼 The Studio** — code a real paragraph: toggle a flatlined student draft
   against a reworked "waved" version, click any sentence to read its semantic
   gravity / density coding, and watch the profile redraw.
+- **📑 Glossary & notation key** — every organising code (SG, SD, ER, SR, PA,
+  RA, MaD, MoD, TP, TO) grouped by dimension, plus a glossary of key LCT terms
+  (semantic wave, code clash, autonomy tour, recontextualisation, …) with
+  citations that jump to their sources.
 
 A persistent left rail keeps every view one click away.
 

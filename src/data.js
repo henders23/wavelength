@@ -146,6 +146,30 @@ export const FOUNDATIONS = {
   ],
 };
 
+/* Glossary — key LCT terms with accurate definitions and citations.
+   `dim` ties a term to a dimension's hue/route where one applies. */
+export const GLOSSARY = [
+  { term: 'Legitimation code', dim: null, def: 'The underlying organising principle of a practice — what is taken as the basis of achievement or status. LCT makes these codes visible so they can be compared and changed [Maton 2014].' },
+  { term: 'Semantic gravity (SG)', dim: 'semantics', def: 'How far meaning depends on its context. Stronger gravity (SG+) means meaning is bound to a specific situation; weaker gravity (SG−) means it is more abstract and generalised [Maton 2013].' },
+  { term: 'Semantic density (SD)', dim: 'semantics', def: 'How much meaning is condensed into a word, symbol or gesture. Denser (SD+) terms gather many threads of significance; lighter (SD−) terms carry less [Maton & Doran 2017].' },
+  { term: 'Semantic wave', dim: 'semantics', def: 'The profile traced when knowledge-building moves up and down the semantic continua over time — unpacking abstraction into example, then repacking it. Associated with cumulative learning [Maton 2013].' },
+  { term: 'Flatlining', dim: 'semantics', def: 'A semantic profile that stays at the abstract ceiling or the concrete floor without moving — associated with weaker cumulative knowledge-building [Maton 2013].' },
+  { term: 'Unpacking / repacking', dim: 'semantics', def: 'Teaching moves that weaken semantic gravity (unpack a term into concrete example) and then strengthen it again (repack the example into the concept) — the engine of a semantic wave [Maton 2013].' },
+  { term: 'Epistemic relations (ER)', dim: 'specialization', def: 'The relation of a practice to its objects of study — the phenomena, methods and procedures a field is about — the "what" [Maton 2014].' },
+  { term: 'Social relations (SR)', dim: 'specialization', def: 'The relation of a practice to its subjects — the authors, knowers and dispositions doing the work — the "who" [Maton 2014].' },
+  { term: 'Specialization codes', dim: 'specialization', def: 'The four codes from strengthening/weakening ER and SR: knowledge (ER+, SR−), knower (ER−, SR+), élite (ER+, SR+) and relativist (ER−, SR−) [Maton 2014].' },
+  { term: 'Code clash / code match', dim: 'specialization', def: 'A clash occurs when the code a student brings differs from the code a task rewards, so effort does not convert into achievement; a match is when they align [Maton 2014].' },
+  { term: 'Gaze', dim: 'specialization', def: 'A cultivated way of seeing, hearing or feeling that knower codes legitimate — acquired dispositions rather than explicit procedures [Maton 2014].' },
+  { term: 'Positional autonomy (PA)', dim: 'autonomy', def: 'Where the constituents of a practice come from — drawn from the target practice (PA+) or imported from elsewhere (PA−) [Maton & Howard 2018].' },
+  { term: 'Relational autonomy (RA)', dim: 'autonomy', def: 'Whose purposes the constituents serve — the target practice’s own principles (RA+) or another’s (RA−) [Maton & Howard 2018].' },
+  { term: 'Autonomy tour', dim: 'autonomy', def: 'A move that leaves the target practice for an example, anecdote or other field and then returns, integrating the detour rather than getting lost in it [Maton & Howard 2018].' },
+  { term: 'Material / moral density', dim: 'density', def: 'A finer cut of condensation: material density (MaD) packs natural-technical meaning; moral density (MoD) packs social-moral meaning — values, stances and judgements [Maton & Doran 2017].' },
+  { term: 'Temporal position / orientation', dim: 'temporality', def: 'Temporal position (TP) locates a practice in time relative to others; temporal orientation (TO) captures whether it faces the past, present or future [Maton 2014].' },
+  { term: 'Knowledge-blindness', dim: null, def: 'Treating what is learned as a black box while studying only who learns and how — the problem LCT sets out to overcome [Maton 2014].' },
+  { term: 'Cumulative knowledge-building', dim: null, def: 'Learning in which new knowledge builds on and integrates prior knowledge over time, rather than segmenting into disconnected facts [Maton 2013].' },
+  { term: 'Recontextualisation', dim: null, def: 'The relocation of knowledge from its site of production into pedagogic settings, where it is reshaped for newcomers — the work EAP does [Bernstein 2000; Monbec 2020].' },
+];
+
 /* Studio sample: one idea, two codings. sg = gravity strength 0..1
    (1 = concrete/strong gravity, 0 = abstract ceiling). */
 export const STUDIO = {

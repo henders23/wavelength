@@ -130,6 +130,9 @@ export function NavRail({ route, dim, go }) {
       <RailBtn active={route === 'foundations'} title="Foundations" onClick={() => go('foundations')}>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 4.5C7.5 3.3 5.5 3 3.5 3.4V14c2-.4 4 0 5.5 1.2M9 4.5c1.5-1.2 3.5-1.5 5.5-1.1V14c-2-.4-4 0-5.5 1.2M9 4.5V15" strokeLinejoin="round" /></svg>
       </RailBtn>
+      <RailBtn active={route === 'glossary'} title="Glossary & notation key" onClick={() => go('glossary')}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 4.5h7M3 9h7M3 13.5h4.5" /><circle cx="13.5" cy="9" r="2" /><path d="M13.5 11v2.5" /></svg>
+      </RailBtn>
       <div style={{ width: 24, height: 1, background: 'var(--line)', margin: '4px 0' }} />
       {DIMS.map((m) => (
         <RailBtn key={m.key} active={route === 'dimension' && dim === m.key} hue={m.hue} title={`${m.n} · ${m.name}`} onClick={() => go('dimension', m.key)}>

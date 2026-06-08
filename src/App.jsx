@@ -6,6 +6,7 @@ import { ConstellationView } from './Constellation.jsx';
 import { DimensionView } from './Dimension.jsx';
 import { FoundationsView } from './Foundations.jsx';
 import { StudioView } from './Studio.jsx';
+import { GlossaryView } from './Glossary.jsx';
 
 export default function App() {
   const [st, setSt] = React.useState(() => {
@@ -20,6 +21,7 @@ export default function App() {
   if (st.route === 'dimension') view = <DimensionView dim={st.dim} go={go} />;
   else if (st.route === 'foundations') view = <FoundationsView go={go} />;
   else if (st.route === 'studio') view = <StudioView go={go} />;
+  else if (st.route === 'glossary') view = <GlossaryView go={go} />;
   else view = <ConstellationView go={go} />;
 
   return (
