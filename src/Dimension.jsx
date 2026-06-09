@@ -50,6 +50,40 @@ function navBtn(disabled, hue) {
   return { fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 600, padding: '8px 14px', borderRadius: 9, cursor: disabled ? 'default' : 'pointer', border: '1px solid var(--line-strong)', background: hue || 'var(--surface)', color: hue ? '#fff' : 'var(--ink)', opacity: disabled ? 0.4 : 1, borderColor: hue || 'var(--line-strong)' };
 }
 
+/* A short check-yourself exercise: a text and questions whose answers reveal
+   on click. Keyed by dimension so it resets when you navigate. */
+function Exercise({ ex, hue }) {
+  const [shown, setShown] = React.useState({});
+  return (
+    <div>
+      <p className="san" style={{ margin: '0 0 14px', fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-2)' }}>{ex.prompt}</p>
+      <blockquote className="ser" style={{ margin: '0 0 20px', padding: '18px 22px', fontSize: 18, lineHeight: 1.5, color: 'var(--ink)', background: 'var(--surface)', border: '1px solid var(--line)', borderLeft: `3px solid ${hue}`, borderRadius: 12 }}>{ex.text}</blockquote>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {ex.questions.map((qa, i) => {
+          const open = !!shown[i];
+          return (
+            <div key={i} style={{ padding: '15px 17px', borderRadius: 12, border: '1px solid var(--line)', background: 'var(--surface)' }}>
+              <div style={{ display: 'flex', gap: 11, alignItems: 'baseline' }}>
+                <span className="mono" style={{ fontSize: 12, fontWeight: 600, color: hue, flex: '0 0 auto' }}>Q{i + 1}</span>
+                <span className="ser" style={{ fontSize: 16.5, lineHeight: 1.45, color: 'var(--ink)' }}>{qa.q}</span>
+              </div>
+              {open ? (
+                <div className="san" style={{ margin: '12px 0 0', paddingLeft: 28, fontSize: 14, lineHeight: 1.6, color: 'var(--ink-2)' }}>
+                  <span className="eyebrow" style={{ fontSize: 9.5, color: hue, display: 'block', marginBottom: 5 }}>Answer</span>
+                  {qa.a}
+                </div>
+              ) : (
+                <button onClick={() => setShown((s) => ({ ...s, [i]: true }))}
+                  style={{ marginLeft: 28, marginTop: 11, fontFamily: 'var(--sans)', fontSize: 12.5, fontWeight: 600, padding: '6px 13px', borderRadius: 8, cursor: 'pointer', border: `1px solid ${hue}`, background: 'transparent', color: hue }}>Reveal answer</button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function DimensionView({ dim, go }) {
   const i = DIMS.findIndex((d) => d.key === dim);
   const m = DIMS[i];
@@ -183,6 +217,36 @@ export function DimensionView({ dim, go }) {
                 <blockquote className="ser" style={{ margin: 0, padding: '20px 24px', fontSize: 19, lineHeight: 1.5, color: 'var(--ink)', borderLeft: `3px solid ${m.hue}` }}>{m.worked.text}</blockquote>
                 <figcaption className="san" style={{ padding: '14px 24px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-2)', borderTop: '1px solid var(--line)', background: 'var(--surface-2)' }}>{m.worked.note}</figcaption>
               </figure>
+            </section>
+          )}
+
+          {/* annotated passage */}
+          {m.annotated && (
+            <section style={{ margin: '40px 0 0' }}>
+              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 10, display: 'block' }}>Annotated example</Eyebrow>
+              <p className="san" style={{ margin: '0 0 16px', fontSize: 13.5, color: 'var(--ink-2)', lineHeight: 1.5 }}>{m.annotated.lede}</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {m.annotated.segments.map((seg, k) => (
+                  <div key={k} style={{ padding: seg.note ? '14px 18px' : '6px 18px', borderRadius: 12, borderLeft: `3px solid ${seg.note ? m.hue : 'transparent'}`, background: seg.note ? 'var(--surface)' : 'transparent', border: seg.note ? '1px solid var(--line)' : 'none' }}>
+                    <p className="ser" style={{ margin: 0, fontSize: 17, lineHeight: 1.5, color: 'var(--ink)' }}>{seg.t}</p>
+                    {seg.note && (
+                      <div className="san" style={{ display: 'flex', gap: 8, marginTop: 9, fontSize: 13, lineHeight: 1.5, color: 'var(--ink-2)' }}>
+                        <span style={{ color: m.hue, flex: '0 0 auto', fontWeight: 700 }}>↳</span>
+                        <span>{seg.note}</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* exercise */}
+          {m.exercise && (
+            <section style={{ margin: '40px 0 0', padding: narrow ? '22px 18px' : '26px 28px', borderRadius: 16, border: `1px solid color-mix(in srgb, ${m.hue}, transparent 78%)`, background: `color-mix(in srgb, ${m.hue}, transparent 96%)` }}>
+              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 4, display: 'block' }}>Try it yourself</Eyebrow>
+              <p className="san" style={{ margin: '0 0 18px', fontSize: 12.5, color: 'var(--ink-3)' }}>Have a go before revealing each answer.</p>
+              <Exercise key={m.key} ex={m.exercise} hue={m.hue} />
             </section>
           )}
 
