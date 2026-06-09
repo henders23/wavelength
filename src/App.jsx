@@ -27,12 +27,11 @@ function parseHash() {
 }
 
 function initialState() {
+  // A specific hash (deep link, reload, back/forward) wins; otherwise the app
+  // opens on the welcome screen.
   const parsed = parseHash();
   if (parsed) return { route: parsed.route, dim: parsed.dim || 'semantics' };
-  // first-ever visit (no hash) → the welcome screen
-  try { if (!localStorage.getItem('wl-welcomed')) return { route: 'welcome', dim: 'semantics' }; } catch {}
-  try { const s = JSON.parse(localStorage.getItem('wl-route') || 'null'); if (s && s.route) return { route: s.route, dim: s.dim || 'semantics' }; } catch {}
-  return { route: 'map', dim: 'semantics' };
+  return { route: 'welcome', dim: 'semantics' };
 }
 
 export default function App() {
@@ -58,9 +57,7 @@ export default function App() {
 
   const go = React.useCallback((route, dim) => {
     const d = dim || dimRef.current;
-    const next = { route, dim: d };
-    setSt(next);
-    localStorage.setItem('wl-route', JSON.stringify(next));
+    setSt({ route, dim: d });
     const hash = hashFor(route, d);
     if (window.location.hash !== hash) window.location.hash = hash; // pushes history; hashchange is then a no-op
   }, []);
