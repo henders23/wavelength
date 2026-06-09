@@ -13,18 +13,22 @@ how LCT itself theorises knowledge as constellations.
 
 ## What's inside
 
+- **👋 Welcome screen** — a first-run guide explaining what LCT is and how to use
+  the app, with a step-by-step "how to use this app" walkthrough. Shown
+  automatically on a first visit and reopenable any time from the **?** in the rail.
 - **🌌 Constellation home** — the five dimensions orbit a central hub. Click a
   node (or legend chip) to dock its detail; the hub opens Foundations. The
   focused dimension persists across reloads.
 - **📖 Foundations** — a four-part primer: knowledge-blindness, the
   Bernstein/Bourdieu inheritance, legitimation codes, and why EAP took to LCT.
 - **Five dimension reading views** — Semantics, Specialization, Autonomy,
-  Density and Temporality. Each has the idea (with inline citations that jump to
-  Sources), the iconic LCT **code plane** (a hoverable 2×2 of named codes), an
-  EAP-application panel, related dimensions and a sources list. Each also has a
-  cited **Going deeper** reading and an **In practice** worked example, and
-  Semantics adds an interactive **Unpack / Repack lab** that traces out the
-  semantic wave.
+  Density and Temporality, each written to build up gradually: it opens with the
+  plain-English **gist** and a few **See it in writing** examples, then the fuller
+  cited **idea**, the iconic LCT **code plane** (a hoverable 2×2 of named codes),
+  an EAP-application panel, related dimensions and a sources list. The most
+  advanced material sits behind a collapsible **Going deeper** toggle, and every
+  dimension has an **In practice** worked example. Semantics adds an interactive
+  **Unpack / Repack lab** that traces out the semantic wave.
 - **🎼 The Studio** — code a real paragraph. Study two worked drafts (a
   flatlined student draft vs. a reworked "waved" version), or switch to **Your
   text** to paste your own paragraph: it's segmented into sentences you rate

@@ -56,7 +56,8 @@ export function DimensionView({ dim, go }) {
   const prev = DIMS[(i - 1 + DIMS.length) % DIMS.length], next = DIMS[(i + 1) % DIMS.length];
   const narrow = useNarrow();
   const scrollRef = React.useRef(null);
-  React.useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, [dim]);
+  const [showDeeper, setShowDeeper] = React.useState(false);
+  React.useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; setShowDeeper(false); }, [dim]);
   // gather every inline [Citation] across the prose so the Sources list resolves them all
   const inlineKeys = [...(m.idea || []), ...(m.deeper || []), m.worked?.note || '']
     .flatMap((s) => (String(s).match(/\[([^\]]+)\]/g) || []).map((b) => b.slice(1, -1)));
@@ -94,7 +95,31 @@ export function DimensionView({ dim, go }) {
       <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : 'minmax(0,1fr) 296px', gap: narrow ? 28 : 48, maxWidth: 1080, margin: '0 auto', padding: narrow ? '24px 18px 48px' : '34px 34px 60px', alignItems: 'start' }}>
         {/* main column */}
         <article>
-          <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 14, display: 'block' }}>The idea</Eyebrow>
+          {/* 1 · the gist — plain language, for newcomers */}
+          {m.simple && (
+            <section style={{ marginBottom: 30, padding: narrow ? '20px 20px' : '24px 26px', borderRadius: 16, background: `color-mix(in srgb, ${m.hue}, transparent 94%)`, border: `1px solid color-mix(in srgb, ${m.hue}, transparent 82%)` }}>
+              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 10, display: 'block' }}>Start here · the gist</Eyebrow>
+              <RichText className="ser" style={{ margin: 0, fontSize: narrow ? 19 : 21, lineHeight: 1.5, color: 'var(--ink)' }}>{m.simple}</RichText>
+            </section>
+          )}
+
+          {/* 2 · concrete examples that make the gist land */}
+          {m.examples && (
+            <section style={{ marginBottom: 36 }}>
+              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 14, display: 'block' }}>See it in writing</Eyebrow>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {m.examples.map((ex, k) => (
+                  <div key={k} style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '170px 1fr', gap: narrow ? 6 : 16, alignItems: 'start', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--line)', background: 'var(--surface)' }}>
+                    <span className="san" style={{ fontSize: 12.5, fontWeight: 700, color: m.hue, paddingTop: 1 }}>{ex.label}</span>
+                    <span className="ser" style={{ fontSize: 16, lineHeight: 1.5, color: 'var(--ink)' }}>{ex.text}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* 3 · the fuller idea, with citations */}
+          <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 14, display: 'block' }}>The idea · in theory</Eyebrow>
           {m.idea.map((p, k) => <RichText key={k} className="ser" style={{ margin: '0 0 18px', fontSize: 18.5, lineHeight: 1.62, color: 'var(--ink)' }}>{p}</RichText>)}
 
           {/* code plane or emerging note */}
@@ -133,11 +158,20 @@ export function DimensionView({ dim, go }) {
             </section>
           )}
 
-          {/* going deeper */}
+          {/* going deeper — collapsed by default so the page starts simple */}
           {m.deeper && (
             <section style={{ margin: '40px 0 0' }}>
-              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 14, display: 'block' }}>Going deeper</Eyebrow>
-              {m.deeper.map((p, k) => <RichText key={k} className="ser" style={{ margin: '0 0 18px', fontSize: 18.5, lineHeight: 1.62, color: 'var(--ink)' }}>{p}</RichText>)}
+              <button onClick={() => setShowDeeper((s) => !s)} aria-expanded={showDeeper}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', padding: '14px 16px', borderRadius: 12, cursor: 'pointer', border: `1px solid ${showDeeper ? m.hue : 'var(--line-strong)'}`, background: showDeeper ? `color-mix(in srgb, ${m.hue}, transparent 94%)` : 'var(--surface)' }}>
+                <span className="eyebrow" style={{ fontSize: 11, color: m.hue }}>Going deeper</span>
+                <span className="san" style={{ fontSize: 12.5, color: 'var(--ink-3)' }}>for when you’re ready — the more detailed theory</span>
+                <span className="san" style={{ marginLeft: 'auto', fontSize: 16, color: m.hue, transform: showDeeper ? 'rotate(90deg)' : 'none', transition: 'transform .2s' }}>›</span>
+              </button>
+              {showDeeper && (
+                <div style={{ padding: '20px 4px 0' }}>
+                  {m.deeper.map((p, k) => <RichText key={k} className="ser" style={{ margin: '0 0 18px', fontSize: 18.5, lineHeight: 1.62, color: 'var(--ink)' }}>{p}</RichText>)}
+                </div>
+              )}
             </section>
           )}
 

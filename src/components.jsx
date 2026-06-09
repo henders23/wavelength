@@ -158,6 +158,9 @@ export function NavRail({ route, dim, go }) {
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M2 13c2-.2 2-7 4-7s2 5 4 5 2-7 4-7" /></svg>
       </RailBtn>
       <div style={{ flex: 1 }} />
+      <RailBtn active={route === 'welcome'} title="How to use Wavelength" onClick={() => go('welcome')}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="9" cy="9" r="7.5" /><path d="M6.9 6.7a2.1 2.1 0 0 1 4.1.6c0 1.4-2 1.7-2 3.1" strokeLinecap="round" /><circle cx="9" cy="13" r=".55" fill="currentColor" stroke="none" /></svg>
+      </RailBtn>
       <Tweaks />
       <div style={{ width: 34, height: 34, borderRadius: 34, background: 'var(--d-spec)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--sans)', fontSize: 12.5, fontWeight: 600, cursor: 'pointer', marginTop: 8 }}>AO</div>
     </nav>

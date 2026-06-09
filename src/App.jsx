@@ -10,8 +10,9 @@ import { DimensionView } from './Dimension.jsx';
 import { FoundationsView } from './Foundations.jsx';
 import { StudioView } from './Studio.jsx';
 import { GlossaryView } from './Glossary.jsx';
+import { WelcomeView } from './Welcome.jsx';
 
-const PAGES = ['map', 'foundations', 'glossary', 'studio'];
+const PAGES = ['welcome', 'map', 'foundations', 'glossary', 'studio'];
 
 function hashFor(route, dim) {
   return route === 'dimension' ? `#/dimension/${dim}` : `#/${route}`;
@@ -28,6 +29,8 @@ function parseHash() {
 function initialState() {
   const parsed = parseHash();
   if (parsed) return { route: parsed.route, dim: parsed.dim || 'semantics' };
+  // first-ever visit (no hash) → the welcome screen
+  try { if (!localStorage.getItem('wl-welcomed')) return { route: 'welcome', dim: 'semantics' }; } catch {}
   try { const s = JSON.parse(localStorage.getItem('wl-route') || 'null'); if (s && s.route) return { route: s.route, dim: s.dim || 'semantics' }; } catch {}
   return { route: 'map', dim: 'semantics' };
 }
@@ -63,7 +66,8 @@ export default function App() {
   }, []);
 
   let view;
-  if (st.route === 'dimension') view = <DimensionView dim={st.dim} go={go} />;
+  if (st.route === 'welcome') view = <WelcomeView go={go} />;
+  else if (st.route === 'dimension') view = <DimensionView dim={st.dim} go={go} />;
   else if (st.route === 'foundations') view = <FoundationsView go={go} />;
   else if (st.route === 'studio') view = <StudioView go={go} />;
   else if (st.route === 'glossary') view = <GlossaryView go={go} />;

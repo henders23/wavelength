@@ -32,7 +32,7 @@ function useFit(boxW, boxH) {
 
 function CNode({ m, focused, onClick }) {
   const { x, y } = cPos(m.key);
-  const d = focused ? 130 : 98;
+  const d = focused ? 148 : 114;
   const [h, setH] = React.useState(false);
   return (
     <div onClick={onClick} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}

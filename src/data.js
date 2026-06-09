@@ -56,6 +56,12 @@ export const DIMS = [
   {
     key: 'semantics', n: '01', name: 'Semantics', hue: 'var(--d-sem)', star: true,
     question: 'How abstract is the meaning — and how much is packed inside it?',
+    simple: 'Here’s the gist: some writing floats up in big, abstract ideas, and some sits down in concrete, everyday detail. Strong explanations *move* between the two — they take an idea, bring it down to an example, then lift it back up. Charted over time, that movement makes a *semantic wave* — the most useful single idea in this whole app.',
+    examples: [
+      { label: 'Up in the abstract', text: '“Photosynthesis is the conversion of radiant energy into chemical energy.” True — but a newcomer has nothing to hold onto yet.' },
+      { label: 'Brought down to earth', text: '“A leaf is basically a tiny solar panel: it catches sunlight and uses it to make sugar.”' },
+      { label: 'Lifted back up', text: '“That sunlight-into-sugar process is what we call photosynthesis.” Now the word means something.' },
+    ],
     concepts: [
       { code: 'SG', label: 'Semantic gravity', gloss: 'how far meaning depends on its context' },
       { code: 'SD', label: 'Semantic density', gloss: 'how much meaning is condensed into a term' },
@@ -78,6 +84,12 @@ export const DIMS = [
   {
     key: 'specialization', n: '02', name: 'Specialization', hue: 'var(--d-spec)',
     question: 'What makes something legitimate — what you know, or who you are?',
+    simple: 'Here’s the gist: every subject rewards a blend of two things — *what you know* (facts and methods) and *who you are* (the right way of seeing, a personal voice). A chemistry exam mostly rewards knowledge; an art critique mostly rewards a cultivated eye. Working out which a task rewards tells you what “good writing” actually means there.',
+    examples: [
+      { label: 'Rewards what you know', text: 'A maths proof stands or falls on its logic — it doesn’t matter who wrote it.' },
+      { label: 'Rewards who you are', text: 'A personal reflection rewards an honest, distinctive voice more than technical correctness.' },
+      { label: 'The mismatch', text: 'A heartfelt, first-person lab report — or a cold, impersonal reflective essay — has misread which kind of “good” the task wants.' },
+    ],
     concepts: [
       { code: 'ER', label: 'Epistemic relations', gloss: 'to objects of study — the “what”' },
       { code: 'SR', label: 'Social relations', gloss: 'to knowers and actors — the “who”' },
@@ -100,6 +112,11 @@ export const DIMS = [
   {
     key: 'autonomy', n: '03', name: 'Autonomy', hue: 'var(--d-auto)',
     question: 'Whose content is in play, whose purposes — and do we find our way home?',
+    simple: 'Here’s the gist: strong academic writing often takes a short trip — it leaves its main point to bring in an example, a quotation, or an idea from another field — and then comes *back*, using the detour to strengthen its own argument. Weaker writing wanders off and never returns. The skill is making the round trip.',
+    examples: [
+      { label: 'A round trip', text: 'An essay on climate policy borrows a term from economics, explains it, then uses it to sharpen its own argument — and returns home.' },
+      { label: 'A one-way trip', text: 'An essay drops in a long quotation, then moves on — never showing why it mattered.' },
+    ],
     concepts: [
       { code: 'PA', label: 'Positional autonomy', gloss: 'where the constituents come from' },
       { code: 'RA', label: 'Relational autonomy', gloss: 'whose purposes they serve' },
@@ -122,6 +139,11 @@ export const DIMS = [
   {
     key: 'density', n: '04', name: 'Density', hue: 'var(--d-den)', emerging: true,
     question: 'How is complexity condensed — into things, or into values?',
+    simple: 'Here’s the gist: “dense” writing packs a lot of meaning into few words — but there are two kinds of packing. Some words are loaded with *technical* meaning (“entropy”); some are loaded with *values and judgement* (“unjust”). Noticing which kind is at work tells you whether a passage needs more precision or a clearer stance.',
+    examples: [
+      { label: 'Packed with technical meaning', text: '“Exergonic” folds a whole chemistry definition into a single word.' },
+      { label: 'Packed with judgement', text: '“Exploitative” folds a whole moral verdict into a single word.' },
+    ],
     concepts: [
       { code: 'MaD', label: 'Material density', gloss: 'condensation of natural-technical meaning' },
       { code: 'MoD', label: 'Moral density', gloss: 'condensation of social-moral meaning' },
@@ -142,6 +164,11 @@ export const DIMS = [
   {
     key: 'temporality', n: '05', name: 'Temporality', hue: 'var(--d-temp)', emerging: true,
     question: 'Where in time does a practice stand, and which way does it face?',
+    simple: 'Here’s the gist: different kinds of academic writing sit at different points in *time* and face different directions. A literature review looks back over what’s already been done; a research proposal looks forward to what’s still to come. Noticing a text’s relationship to time helps explain what it’s trying to do.',
+    examples: [
+      { label: 'Facing the past', text: 'A literature review locates itself after — and because of — the work that came before it.' },
+      { label: 'Facing the future', text: 'A grant proposal promises findings that haven’t happened yet.' },
+    ],
     concepts: [
       { code: 'TP', label: 'Temporal position', gloss: 'where a practice sits in time' },
       { code: 'TO', label: 'Temporal orientation', gloss: 'past-, present- or future-facing' },

@@ -2,7 +2,7 @@
    jsdom. Any render-time error (bad import, undefined access, broken hook)
    fails the test — this is the runtime check the production build can't give. */
 
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { cleanup, render, fireEvent, within } from '@testing-library/react';
 import App from '../src/App.jsx';
 import { ConstellationView } from '../src/Constellation.jsx';
@@ -13,6 +13,12 @@ import { GlossaryView } from '../src/Glossary.jsx';
 import { DIMS, GLOSSARY } from '../src/data.js';
 
 const go = () => {};
+
+// By default, treat the welcome screen as already seen so App opens on the map.
+// The welcome-specific test clears this flag itself.
+beforeEach(() => {
+  localStorage.setItem('wl-welcomed', '1');
+});
 
 afterEach(() => {
   cleanup();
@@ -38,6 +44,30 @@ describe('Wavelength views mount cleanly', () => {
       // dimension name appears (node + legend), so at least one match
       expect(getAllByText(m.name).length).toBeGreaterThan(0);
     }
+  });
+
+  it('shows the welcome screen on a first visit and lets you enter the app', () => {
+    localStorage.removeItem('wl-welcomed');
+    const { getByText } = render(<App />);
+    expect(getByText('How to use this app')).toBeTruthy();
+    fireEvent.click(getByText('Explore the map →'));
+    expect(getByText('Wavelength')).toBeTruthy(); // constellation brand
+  });
+
+  it('reopens the welcome guide from the rail help button', () => {
+    const { getByTitle, getByText } = render(<App />); // starts on the map (welcomed)
+    fireEvent.click(getByTitle('How to use Wavelength'));
+    expect(getByText('How to use this app')).toBeTruthy();
+  });
+
+  it('layers dimension content: gist, examples, and a collapsible Going deeper', () => {
+    const { getByText, container } = render(<DimensionView dim="autonomy" go={go} />);
+    expect(getByText('Start here · the gist')).toBeTruthy();
+    expect(getByText('See it in writing')).toBeTruthy();
+    // advanced prose is hidden until the toggle is opened
+    expect(container.textContent).not.toMatch(/Charting positional and relational autonomy/);
+    fireEvent.click(getByText('Going deeper'));
+    expect(container.textContent).toMatch(/Charting positional and relational autonomy/);
   });
 
   it('renders every dimension reading view, including the code planes', () => {
