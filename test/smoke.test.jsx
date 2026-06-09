@@ -14,10 +14,10 @@ import { DIMS, GLOSSARY } from '../src/data.js';
 
 const go = () => {};
 
-// By default, treat the welcome screen as already seen so App opens on the map.
-// The welcome-specific test clears this flag itself.
+// The app now opens on the welcome screen by default; most App tests want to
+// start on the map, so enter via a #/map deep link. The welcome test clears it.
 beforeEach(() => {
-  localStorage.setItem('wl-welcomed', '1');
+  window.location.hash = '#/map';
 });
 
 afterEach(() => {
@@ -31,7 +31,7 @@ afterEach(() => {
 });
 
 describe('Wavelength views mount cleanly', () => {
-  it('renders the app shell on the default (constellation) route', () => {
+  it('renders the app shell (nav rail + constellation) on the map route', () => {
     const { getByText, container } = render(<App />);
     // brand in the top strip + nav rail present
     expect(getByText('Wavelength')).toBeTruthy();
@@ -46,8 +46,8 @@ describe('Wavelength views mount cleanly', () => {
     }
   });
 
-  it('shows the welcome screen on a first visit and lets you enter the app', () => {
-    localStorage.removeItem('wl-welcomed');
+  it('opens on the welcome screen by default and lets you enter the app', () => {
+    window.location.hash = ''; // no deep link → the welcome landing
     const { getByText } = render(<App />);
     expect(getByText('How to use this app')).toBeTruthy();
     fireEvent.click(getByText('Explore the map →'));

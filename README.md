@@ -13,9 +13,10 @@ how LCT itself theorises knowledge as constellations.
 
 ## What's inside
 
-- **👋 Welcome screen** — a first-run guide explaining what LCT is and how to use
-  the app, with a step-by-step "how to use this app" walkthrough. Shown
-  automatically on a first visit and reopenable any time from the **?** in the rail.
+- **👋 Welcome screen** — the default landing: a guide explaining what LCT is and
+  how to use the app, with a step-by-step "how to use this app" walkthrough. The
+  app opens here every time (deep links and reloads still go straight to their
+  view), and it's reopenable any time from the **?** in the rail.
 - **🌌 Constellation home** — the five dimensions orbit a central hub. Click a
   node (or legend chip) to dock its detail; the hub opens Foundations. The
   focused dimension persists across reloads.

@@ -2,7 +2,6 @@
    use it. Shown automatically on a first visit (and reachable any time from the
    “?” in the rail). Marks itself seen so it doesn't reappear unprompted. */
 
-import React from 'react';
 import { Eyebrow } from './components.jsx';
 
 const STEPS = [
@@ -14,9 +13,6 @@ const STEPS = [
 ];
 
 export function WelcomeView({ go }) {
-  // Remember that the welcome has been seen, so it won't auto-open again.
-  React.useEffect(() => { try { localStorage.setItem('wl-welcomed', '1'); } catch {} }, []);
-
   return (
     <div style={{ flex: 1, overflowY: 'auto', background: 'var(--paper)' }}>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: 'clamp(40px, 7vw, 84px) clamp(18px, 5vw, 34px) 72px' }}>
