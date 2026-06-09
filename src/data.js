@@ -80,6 +80,24 @@ export const DIMS = [
     plane: 'semantics', wave: true,
     cites: ['Maton 2013', 'Maton & Doran 2017'],
     related: ['specialization', 'autonomy'],
+    annotated: {
+      lede: 'A short passage from a student’s biology assignment, annotated for its semantic movement — watch the wave travel down to an example and back up to the concept.',
+      segments: [
+        { t: 'Diffusion is the net movement of particles from a region of high concentration to one of low concentration.', note: 'Weak gravity, high density — an abstract, condensed definition. The “ceiling” of the wave.' },
+        { t: 'Picture a drop of ink spreading through a glass of water until the colour is even throughout.', note: 'Gravity strengthens sharply: a concrete, everyday image anchors the idea. The wave travels down.' },
+        { t: 'The ink moves because random motion carries more particles out of the crowded drop than back into it.', note: 'A bridging move — still concrete, but starting to generalise the mechanism.' },
+        { t: 'This spontaneous spreading down a concentration gradient is what we call diffusion.', note: 'Gravity weakens and the term is repacked: the example folds back into the concept. The wave returns to the top.' },
+      ],
+    },
+    exercise: {
+      prompt: 'Read this sentence from a first draft. It scores poorly for semantic movement — see if you can say why.',
+      text: '“Osmosis constitutes the passage of solvent molecules across a selectively permeable membrane along a water-potential gradient, a process of considerable physiological significance.”',
+      questions: [
+        { q: 'Is the semantic gravity here strong or weak?', a: 'Weak. The sentence stays entirely in abstract, technical language — there is no concrete situation or example to ground it.' },
+        { q: 'Is the semantic density high or low?', a: 'High. Terms like “selectively permeable membrane” and “water-potential gradient” each pack a great deal of meaning into very few words.' },
+        { q: 'What single move would most improve it for a beginner?', a: 'Unpack it — add a concrete example (a raisin swelling in water) to bring the gravity down, before repacking into the term. As written, the profile flatlines at the abstract ceiling.' },
+      ],
+    },
   },
   {
     key: 'specialization', n: '02', name: 'Specialization', hue: 'var(--d-spec)',
@@ -108,6 +126,22 @@ export const DIMS = [
     plane: 'specialization',
     cites: ['Maton 2014'],
     related: ['semantics', 'autonomy'],
+    annotated: {
+      lede: 'Two extracts from the same student, written for different tasks — annotated for the specialization code each one performs.',
+      segments: [
+        { t: 'Lab report: “The titration was repeated three times and the mean titre recorded; anomalous results were excluded, and the standard method was followed throughout.”', note: 'A knowledge code (ER+, SR−): legitimacy rests on correct method and procedure, and the author is deliberately effaced — no “I”, no personal stance.' },
+        { t: 'Reflective journal: “Watching the colour change, I felt the same quiet thrill I’d had as a child with a chemistry set, and it reminded me why I chose this subject.”', note: 'A knower code (ER−, SR+): legitimacy rests on a cultivated personal voice and disposition — the “I” and the feeling are exactly the point.' },
+      ],
+    },
+    exercise: {
+      prompt: 'Here is a line from a history essay. Use the specialization codes to analyse it.',
+      text: '“While the sources are fragmentary, a careful reading suggests the rebellion was driven less by ideology than by hunger.”',
+      questions: [
+        { q: 'Are epistemic relations (ER) being foregrounded?', a: 'Yes — the claim is anchored in evidence (“the sources”, “a careful reading”). The object of study and method matter.' },
+        { q: 'Are social relations (SR) doing visible work too?', a: 'Yes, somewhat. History rewards a cultivated interpretive “gaze” — the judicious reading of fragmentary sources — so SR is not fully effaced. Many humanities fields lean toward an élite or knower code.' },
+        { q: 'What would a code clash look like for a student here?', a: 'A student trained only to report facts (a pure knowledge code) may under-perform, because the task also rewards a cultivated interpretive voice — and vice versa. Naming the code makes that hidden demand visible.' },
+      ],
+    },
   },
   {
     key: 'autonomy', n: '03', name: 'Autonomy', hue: 'var(--d-auto)',
@@ -135,6 +169,24 @@ export const DIMS = [
     plane: 'autonomy',
     cites: ['Maton & Howard 2018'],
     related: ['semantics', 'specialization'],
+    annotated: {
+      lede: 'A paragraph from an essay on urban planning, annotated for its autonomy tour — out to a borrowed idea, and back home again.',
+      segments: [
+        { t: 'Cities have long struggled to manage traffic congestion.', note: 'Home: the target content and purpose (PA+, RA+) — squarely on topic.' },
+        { t: 'Economists describe a “tragedy of the commons”, where a shared resource is overused because no single user bears the full cost.', note: 'The tour leaves home: content is imported from economics (PA−). On its own, this is a detour.' },
+        { t: 'A road behaves the same way: each extra car slows everyone slightly, but no driver feels that cost directly.', note: 'The borrowed idea is bent to the essay’s own purpose (RA+) — an introjected move, not an aimless one.' },
+        { t: 'Congestion charging works precisely because it makes that hidden cost visible, returning the problem to the planner’s control.', note: 'The tour returns home (PA+, RA+): the detour has strengthened the argument rather than replaced it.' },
+      ],
+    },
+    exercise: {
+      prompt: 'Read this excerpt and diagnose its autonomy.',
+      text: '“To understand motivation, consider Maslow’s hierarchy of needs, which arranges human needs from the physiological to the self-actualising. Maslow proposed five levels, and the theory has been widely taught since the 1940s.”',
+      questions: [
+        { q: 'Does the writer leave the target practice (positional autonomy)?', a: 'Yes — they import a psychological model (PA−), which is perfectly fine in itself.' },
+        { q: 'Do they bring it back to serve their own argument (relational autonomy)?', a: 'No. The passage drifts into describing Maslow for its own sake (RA−, drifting toward exotic). It never returns the idea to the writer’s point about motivation.' },
+        { q: 'How would you fix it?', a: 'Complete the tour: after introducing the model, apply it back to the specific case the essay is about — turning a one-way trip into a round trip.' },
+      ],
+    },
   },
   {
     key: 'density', n: '04', name: 'Density', hue: 'var(--d-den)', emerging: true,
@@ -160,6 +212,23 @@ export const DIMS = [
     worked: { label: 'Two kinds of thick', text: '“The reaction is exergonic and therefore spontaneous” versus “The policy is unjust and, frankly, indefensible.”', note: 'The first is materially dense (MaD+) — technical meaning condensed — but morally light. The second is morally dense (MoD+) but technically light. Each needs a different kind of unpacking for a newcomer.' },
     cites: ['Maton & Doran 2017'],
     related: ['semantics'],
+    annotated: {
+      lede: 'A sentence from a discussion section, annotated for the two kinds of density at work.',
+      segments: [
+        { t: 'The intervention produced a statistically significant reduction in cortisol,', note: 'High material density (MaD+): “statistically significant” and “cortisol” each condense technical meaning.' },
+        { t: 'but deploying it without consent would be ethically indefensible.', note: 'High moral density (MoD+): “ethically indefensible” condenses a strong value judgement, not a technical fact.' },
+        { t: 'Any responsible rollout must therefore weigh efficacy against autonomy.', note: 'Both kinds travel together: a technical claim (“efficacy”) and a moral one (“autonomy”) balanced in a single clause.' },
+      ],
+    },
+    exercise: {
+      prompt: 'Consider this sentence and the kinds of density it carries.',
+      text: '“The regime’s austerity programme was technically coherent yet morally bankrupt.”',
+      questions: [
+        { q: 'Which phrase carries mainly material (technical) density?', a: '“Technically coherent” — it condenses an economic/technical appraisal into two words.' },
+        { q: 'Which carries mainly moral density?', a: '“Morally bankrupt” — it condenses a strong ethical judgement.' },
+        { q: 'Why is separating the two useful for a writer?', a: 'Because the sentence makes two different kinds of claim. A reader might accept the technical one but contest the moral one — and a writer revising it can see whether to add evidence (for the technical claim) or justify a stance (for the moral one).' },
+      ],
+    },
   },
   {
     key: 'temporality', n: '05', name: 'Temporality', hue: 'var(--d-temp)', emerging: true,
@@ -185,6 +254,23 @@ export const DIMS = [
     worked: { label: 'Two genres, two clocks', text: 'A literature review historicises a debate; a grant proposal promises future findings.', note: 'The review faces the past, locating itself after prior work; the proposal faces the future, positioning itself before results yet to come. Same author, different temporal orientation.' },
     cites: ['Maton 2014'],
     related: ['specialization'],
+    annotated: {
+      lede: 'Three sentences from different parts of a dissertation, annotated for their temporal orientation — the writing faces a different way each time.',
+      segments: [
+        { t: 'Literature review: “Early studies in the 1970s treated the gut as a passive tube.”', note: 'Past-facing: the writing locates itself after, and in contrast to, earlier work.' },
+        { t: 'Aims: “This study tests whether gut bacteria influence mood in healthy adults.”', note: 'Present-facing: positioned at the moment of the research itself.' },
+        { t: 'Conclusion: “If confirmed, these findings could reshape how we treat anxiety within a decade.”', note: 'Future-facing: the writing reaches forward to results and implications not yet realised.' },
+      ],
+    },
+    exercise: {
+      prompt: 'Read this opening line of a research proposal.',
+      text: '“Although decades of research have mapped the disease’s genetics, no treatment yet exists; this project will deliver the first targeted therapy within five years.”',
+      questions: [
+        { q: 'Where does the sentence face at first?', a: 'The past: “decades of research have mapped…” locates the work after an established body of knowledge.' },
+        { q: 'Where does it face by the end?', a: 'The future: “will deliver… within five years” orients toward results not yet achieved — typical of the proposal genre.' },
+        { q: 'What does this temporal shift accomplish?', a: 'It positions the project as the next step on a timeline — building on the past to justify a forward-looking promise. Spotting the move helps students write proposals that connect what is known to what they will do.' },
+      ],
+    },
   },
 ];
 

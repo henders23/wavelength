@@ -26,9 +26,12 @@ how LCT itself theorises knowledge as constellations.
   plain-English **gist** and a few **See it in writing** examples, then the fuller
   cited **idea**, the iconic LCT **code plane** (a hoverable 2×2 of named codes),
   an EAP-application panel, related dimensions and a sources list. The most
-  advanced material sits behind a collapsible **Going deeper** toggle, and every
-  dimension has an **In practice** worked example. Semantics adds an interactive
-  **Unpack / Repack lab** that traces out the semantic wave.
+  advanced material sits behind a collapsible **Going deeper** toggle. Every
+  dimension also has an **In practice** worked example, an **Annotated example**
+  (a paragraph or two with margin notes showing the feature at work), and a
+  **Try it yourself** exercise — a short text with questions whose answers
+  reveal on click. Semantics adds an interactive **Unpack / Repack lab** that
+  traces out the semantic wave.
 - **🎼 The Studio** — code a real paragraph. Study two worked drafts (a
   flatlined student draft vs. a reworked "waved" version), or switch to **Your
   text** to paste your own paragraph: it's segmented into sentences you rate

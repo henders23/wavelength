@@ -70,6 +70,16 @@ describe('Wavelength views mount cleanly', () => {
     expect(container.textContent).toMatch(/Charting positional and relational autonomy/);
   });
 
+  it('shows an annotated example and an exercise with reveal-able answers', () => {
+    const { getByText, getAllByText, container } = render(<DimensionView dim="semantics" go={go} />);
+    expect(getByText('Annotated example')).toBeTruthy();
+    expect(getByText('Try it yourself')).toBeTruthy();
+    // the answer is hidden until revealed
+    expect(container.textContent).not.toMatch(/there is no concrete situation or example to ground it/);
+    fireEvent.click(getAllByText('Reveal answer')[0]);
+    expect(container.textContent).toMatch(/there is no concrete situation or example to ground it/);
+  });
+
   it('renders every dimension reading view, including the code planes', () => {
     for (const m of DIMS) {
       const { getByRole, unmount } = render(<DimensionView dim={m.key} go={go} />);
