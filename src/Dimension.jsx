@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { DIMS, REFS } from './data.js';
-import { Code, Eyebrow, Dot, RichText, WaveChart, CodePlane, useNarrow } from './components.jsx';
+import { Code, Eyebrow, Dot, RichText, WaveChart, CodePlane, splitCiteKeys, useNarrow } from './components.jsx';
 
 const UNPACK = [
   { move: 'Technical statement', code: 'SG−, SD+', sg: 0.15, t: 'Osmosis is the net movement of solvent across a semipermeable membrane down a concentration gradient.' },
@@ -93,9 +93,10 @@ export function DimensionView({ dim, go }) {
   const [showDeeper, setShowDeeper] = React.useState(false);
   React.useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; setShowDeeper(false); }, [dim]);
   // gather every inline [Citation] across the prose so the Sources list resolves them all
-  const inlineKeys = [...(m.idea || []), ...(m.deeper || []), m.worked?.note || '']
-    .flatMap((s) => (String(s).match(/\[([^\]]+)\]/g) || []).map((b) => b.slice(1, -1)));
-  const sourceKeys = Array.from(new Set([...m.cites, ...inlineKeys, 'Maton 2014']));
+  const inlineKeys = [...(m.idea || []), ...(m.deeper || []), m.worked?.note || '', m.eap || '', ...(m.classroom || []).map((c) => c.how)]
+    .flatMap(splitCiteKeys);
+  const whys = new Map((m.readmore || []).map((r) => [r.key, r.why]));
+  const sourceKeys = Array.from(new Set([...m.cites, ...inlineKeys, 'Maton 2014', ...whys.keys()]));
 
   return (
     <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', background: 'var(--paper)' }}>
@@ -253,8 +254,24 @@ export function DimensionView({ dim, go }) {
           {/* EAP */}
           <section style={{ margin: '34px 0 0', padding: '22px 24px', borderRadius: 16, background: `color-mix(in srgb, ${m.hue}, transparent 93%)`, borderLeft: `3px solid ${m.hue}` }}>
             <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 10 }}>For the EAP classroom</Eyebrow>
-            <p className="ser" style={{ margin: 0, fontSize: 18, lineHeight: 1.55, color: 'var(--ink)' }}>{m.eap}</p>
+            <RichText className="ser" style={{ margin: 0, fontSize: 18, lineHeight: 1.55, color: 'var(--ink)' }}>{m.eap}</RichText>
           </section>
+
+          {/* concrete teaching moves */}
+          {m.classroom && (
+            <section style={{ margin: '26px 0 0' }}>
+              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 6, display: 'block' }}>Take it to class</Eyebrow>
+              <p className="san" style={{ margin: '0 0 14px', fontSize: 12.5, color: 'var(--ink-3)' }}>Low-prep activities you could run this week.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {m.classroom.map((c, k) => (
+                  <div key={k} style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '170px 1fr', gap: narrow ? 6 : 16, alignItems: 'start', padding: '14px 16px', borderRadius: 12, border: '1px solid var(--line)', background: 'var(--surface)' }}>
+                    <span className="san" style={{ fontSize: 12.5, fontWeight: 700, color: m.hue, paddingTop: 2 }}>{c.name}</span>
+                    <RichText className="san" style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'var(--ink)' }}>{c.how}</RichText>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* dimension nav */}
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 14, marginTop: 40 }}>
@@ -289,12 +306,16 @@ export function DimensionView({ dim, go }) {
           <div style={{ height: 1, background: 'var(--line)' }} />
 
           <div>
-            <Eyebrow size={10} style={{ marginBottom: 11 }}>Sources</Eyebrow>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+            <Eyebrow size={10} style={{ marginBottom: 11 }}>Sources & further reading</Eyebrow>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {sourceKeys.map((k) => (
-                <p key={k} id={'ref-' + k} className="ser" style={{ margin: 0, fontSize: 12.5, lineHeight: 1.45, color: 'var(--ink-2)', paddingLeft: 12, borderLeft: `2px solid ${m.hue}`, borderRadius: 2 }}>{REFS[k]}</p>
+                <div key={k} id={'ref-' + k} style={{ paddingLeft: 12, borderLeft: `2px solid ${m.hue}`, borderRadius: 2 }}>
+                  <RichText className="ser" style={{ margin: 0, fontSize: 12.5, lineHeight: 1.45, color: 'var(--ink-2)' }}>{REFS[k]}</RichText>
+                  {whys.has(k) && <p className="san" style={{ margin: '4px 0 0', fontSize: 11.5, lineHeight: 1.45, color: 'var(--ink-3)', fontStyle: 'italic' }}>{whys.get(k)}</p>}
+                </div>
               ))}
             </div>
+            <button onClick={() => go('library')} style={{ marginTop: 14, fontFamily: 'var(--sans)', fontSize: 12, fontWeight: 600, padding: '6px 12px', borderRadius: 8, cursor: 'pointer', border: '1px solid var(--line-strong)', background: 'var(--surface)', color: 'var(--ink-2)' }}>Browse the full Library →</button>
           </div>
 
           <button onClick={() => go('studio')} style={{ display: 'flex', flexDirection: 'column', gap: 3, padding: '14px 16px', borderRadius: 13, border: '1px solid var(--line)', background: 'var(--surface)', cursor: 'pointer', textAlign: 'left' }}>

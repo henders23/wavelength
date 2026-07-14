@@ -2,10 +2,10 @@
    code, grouped by dimension) and a glossary of key terms with citations. */
 
 import { DIMS, GLOSSARY, REFS } from './data.js';
-import { Code, Eyebrow, Dot, RichText, useNarrow } from './components.jsx';
+import { Code, Eyebrow, Dot, RichText, splitCiteKeys, useNarrow } from './components.jsx';
 
-// Sources cited across the glossary definitions, in REFS order.
-const GLOSSARY_SOURCES = ['Maton 2013', 'Maton 2014', 'Maton & Howard 2018', 'Maton & Doran 2017', 'Bernstein 2000', 'Monbec 2020'];
+// Every source actually cited across the glossary definitions.
+const GLOSSARY_SOURCES = Array.from(new Set(GLOSSARY.flatMap((g) => splitCiteKeys(g.def))));
 
 export function GlossaryView({ go }) {
   const narrow = useNarrow();
@@ -80,7 +80,7 @@ export function GlossaryView({ go }) {
         {/* ── Sources ────────────────────────────────────────────── */}
         <Eyebrow size={11} style={{ marginBottom: 14, display: 'block' }}>Sources</Eyebrow>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {GLOSSARY_SOURCES.map((k) => <p key={k} id={'ref-' + k} className="ser" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: 'var(--ink-2)', paddingLeft: 14, borderLeft: '2px solid var(--clay)' }}>{REFS[k]}</p>)}
+          {GLOSSARY_SOURCES.map((k) => <RichText key={k} id={'ref-' + k} className="ser" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: 'var(--ink-2)', paddingLeft: 14, borderLeft: '2px solid var(--clay)' }}>{REFS[k]}</RichText>)}
         </div>
       </div>
     </div>

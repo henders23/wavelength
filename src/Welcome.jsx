@@ -10,6 +10,7 @@ const STEPS = [
   { icon: '🪜', h: 'Each topic builds up gradually', t: 'Every dimension opens with the plain-English gist and a few examples, then moves to the fuller theory, and tucks the most advanced material behind a “Going deeper” toggle — so you’re never thrown in the deep end.' },
   { icon: '🎼', h: 'Get hands-on in the Studio', t: 'Paste a paragraph and watch its “semantic wave” take shape as you rate each sentence — the quickest way to feel how the theory works on real writing.' },
   { icon: '📑', h: 'Look things up, and make it yours', t: 'The Glossary explains every code and term, the search bar finds anything fast, and the Tweaks panel (the cog in the rail) sets the accent colour, reading font and motion.' },
+  { icon: '📚', h: 'Read beyond the app', t: 'The Library is an annotated reading list: every reference in the app plus the wider EAP-and-LCT literature, Harvard-referenced and grouped by purpose — with a note on why each one is worth your time.' },
 ];
 
 export function WelcomeView({ go }) {

@@ -10,7 +10,8 @@ import { DimensionView } from '../src/Dimension.jsx';
 import { FoundationsView } from '../src/Foundations.jsx';
 import { StudioView } from '../src/Studio.jsx';
 import { GlossaryView } from '../src/Glossary.jsx';
-import { DIMS, GLOSSARY } from '../src/data.js';
+import { LibraryView } from '../src/Library.jsx';
+import { DIMS, FOUNDATIONS, GLOSSARY, LIBRARY, REFS } from '../src/data.js';
 
 const go = () => {};
 
@@ -106,10 +107,32 @@ describe('Wavelength views mount cleanly', () => {
     expect(getByText(/3 \/ 5/)).toBeTruthy();
   });
 
-  it('renders Foundations with its four sections', () => {
+  it('renders Foundations with its sections', () => {
     const { getByText } = render(<FoundationsView go={go} />);
     expect(getByText(/What is Legitimation Code/)).toBeTruthy();
     expect(getByText('The move: legitimation codes')).toBeTruthy();
+    expect(getByText('The company it keeps: LCT & SFL')).toBeTruthy();
+  });
+
+  it('renders a Take it to class section on every dimension', () => {
+    for (const m of DIMS) {
+      const { getByText, unmount } = render(<DimensionView dim={m.key} go={go} />);
+      expect(getByText('Take it to class')).toBeTruthy();
+      expect(getByText(m.classroom[0].name)).toBeTruthy();
+      unmount();
+    }
+  });
+
+  it('renders the Library with every group and its annotated entries', () => {
+    const { getByRole, getByText } = render(<LibraryView go={go} />);
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('The Library');
+    for (const grp of LIBRARY.groups) expect(getByText(grp.h)).toBeTruthy();
+  });
+
+  it('reaches the Library from the nav rail', () => {
+    const { getByTitle, getByRole } = render(<App />);
+    fireEvent.click(getByTitle('The Library — annotated reading list'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('The Library');
   });
 
   it('renders the Studio and toggles between drafts', () => {
@@ -145,6 +168,32 @@ describe('Wavelength views mount cleanly', () => {
     expect(getByText('The notation')).toBeTruthy();
     for (const g of GLOSSARY) {
       expect(getAllByText(g.term).length).toBeGreaterThan(0);
+    }
+  });
+
+  it('resolves every citation in the content against the reference list', () => {
+    // inline [Key] and [Key; Key] markers anywhere in the prose content
+    const prose = [
+      ...DIMS.flatMap((m) => [
+        m.simple, m.eap, m.worked?.note,
+        ...(m.idea || []), ...(m.deeper || []),
+        ...(m.classroom || []).map((c) => c.how),
+        ...(m.readmore || []).map((r) => r.why),
+      ]),
+      ...FOUNDATIONS.sections.map((s) => s.t),
+      ...GLOSSARY.map((g) => g.def),
+      ...LIBRARY.groups.flatMap((grp) => grp.items.map((it) => it.why)),
+    ].filter(Boolean);
+    const inline = prose
+      .flatMap((s) => [...String(s).matchAll(/\[([^\]]+)\]/g)])
+      .flatMap((match) => match[1].split(';').map((k) => k.trim()));
+    // keys referenced structurally: per-dimension cites/readmore and the Library
+    const structural = [
+      ...DIMS.flatMap((m) => [...m.cites, ...(m.readmore || []).map((r) => r.key)]),
+      ...LIBRARY.groups.flatMap((grp) => grp.items.map((it) => it.key)),
+    ];
+    for (const k of [...inline, ...structural]) {
+      expect(REFS[k], `citation key does not resolve: "${k}"`).toBeTruthy();
     }
   });
 
