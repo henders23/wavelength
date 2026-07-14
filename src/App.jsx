@@ -10,9 +10,10 @@ import { DimensionView } from './Dimension.jsx';
 import { FoundationsView } from './Foundations.jsx';
 import { StudioView } from './Studio.jsx';
 import { GlossaryView } from './Glossary.jsx';
+import { LibraryView } from './Library.jsx';
 import { WelcomeView } from './Welcome.jsx';
 
-const PAGES = ['welcome', 'map', 'foundations', 'glossary', 'studio'];
+const PAGES = ['welcome', 'map', 'foundations', 'glossary', 'library', 'studio'];
 
 function hashFor(route, dim) {
   return route === 'dimension' ? `#/dimension/${dim}` : `#/${route}`;
@@ -68,6 +69,7 @@ export default function App() {
   else if (st.route === 'foundations') view = <FoundationsView go={go} />;
   else if (st.route === 'studio') view = <StudioView go={go} />;
   else if (st.route === 'glossary') view = <GlossaryView go={go} />;
+  else if (st.route === 'library') view = <LibraryView go={go} />;
   else view = <ConstellationView go={go} />;
 
   return (

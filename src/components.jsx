@@ -35,18 +35,30 @@ export function Cite({ k }) {
   return <sup className="cite" title={REFS[k] || k} onClick={jump} style={{ cursor: 'pointer' }}>{k}</sup>;
 }
 
-/* RichText — renders *emphasis* and [Citation] markers inside a string. */
+/* RichText — renders *emphasis* and [Citation] markers inside a string.
+   A marker may hold several keys separated by semicolons: [A 2013; B 2020]. */
 export function RichText({ children, ...rest }) {
   const parts = String(children).split(/(\*[^*]+\*|\[[^\]]+\])/g).filter(Boolean);
   return (
     <p {...rest}>
       {parts.map((p, i) => {
         if (p[0] === '*' && p[p.length - 1] === '*') return <em key={i} style={{ fontStyle: 'italic', color: 'var(--ink)' }}>{p.slice(1, -1)}</em>;
-        if (p[0] === '[' && p[p.length - 1] === ']') return <Cite key={i} k={p.slice(1, -1)} />;
+        if (p[0] === '[' && p[p.length - 1] === ']') {
+          const keys = p.slice(1, -1).split(';').map((k) => k.trim()).filter(Boolean);
+          return keys.map((k, j) => <React.Fragment key={`${i}-${j}`}>{j > 0 && <sup className="cite">, </sup>}<Cite k={k} /></React.Fragment>);
+        }
         return <React.Fragment key={i}>{p}</React.Fragment>;
       })}
     </p>
   );
+}
+
+/* splitCiteKeys — every citation key used inside a prose string. */
+export function splitCiteKeys(s) {
+  return (String(s).match(/\[([^\]]+)\]/g) || [])
+    .flatMap((b) => b.slice(1, -1).split(';'))
+    .map((k) => k.trim())
+    .filter(Boolean);
 }
 
 /* ── Semantic-wave chart ──────────────────────────────────────────
@@ -146,6 +158,9 @@ export function NavRail({ route, dim, go }) {
       </RailBtn>
       <RailBtn active={route === 'glossary'} title="Glossary & notation key" onClick={() => go('glossary')}>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 4.5h7M3 9h7M3 13.5h4.5" /><circle cx="13.5" cy="9" r="2" /><path d="M13.5 11v2.5" /></svg>
+      </RailBtn>
+      <RailBtn active={route === 'library'} title="The Library — annotated reading list" onClick={() => go('library')}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 15V3h3v12zM6 15V3h3v12z" strokeLinejoin="round" /><path d="M9.5 3.6l3.4-.9 3.1 11.6-3.4.9z" strokeLinejoin="round" /></svg>
       </RailBtn>
       <div style={{ width: 24, height: 1, background: 'var(--line)', margin: '4px 0' }} />
       {DIMS.map((m) => (

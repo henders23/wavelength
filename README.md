@@ -26,13 +26,14 @@ how LCT itself theorises knowledge as constellations.
   Density and Temporality, each written to build up gradually: it opens with the
   plain-English **gist** and a few **See it in writing** examples, then the fuller
   cited **idea**, the iconic LCT **code plane** (a hoverable 2×2 of named codes),
-  an EAP-application panel, related dimensions and a sources list. The most
-  advanced material sits behind a collapsible **Going deeper** toggle. Every
-  dimension also has an **In practice** worked example, an **Annotated example**
-  (a paragraph or two with margin notes showing the feature at work), and a
-  **Try it yourself** exercise — a short text with questions whose answers
-  reveal on click. Semantics adds an interactive **Unpack / Repack lab** that
-  traces out the semantic wave.
+  an EAP-application panel, related dimensions and an annotated
+  **Sources & further reading** rail. The most advanced material sits behind a
+  collapsible **Going deeper** toggle. Every dimension also has an
+  **In practice** worked example, an **Annotated example** (a paragraph or two
+  with margin notes showing the feature at work), a **Take it to class** panel
+  of low-prep teaching activities, and a **Try it yourself** exercise — a short
+  text with questions whose answers reveal on click. Semantics adds an
+  interactive **Unpack / Repack lab** that traces out the semantic wave.
 - **🎼 The Studio** — code a real paragraph. Study two worked drafts (a
   flatlined student draft vs. a reworked "waved" version), or switch to **Your
   text** to paste your own paragraph: it's segmented into sentences you rate
@@ -40,8 +41,13 @@ how LCT itself theorises knowledge as constellations.
   and ratings persist across reloads.
 - **📑 Glossary & notation key** — every organising code (SG, SD, ER, SR, PA,
   RA, MaD, MoD, TP, TO) grouped by dimension, plus a glossary of key LCT terms
-  (semantic wave, code clash, autonomy tour, recontextualisation, …) with
-  citations that jump to their sources.
+  (semantic wave, code clash, autonomy tour, translation device, the Icarus
+  effect, recontextualisation, …) with citations that jump to their sources.
+- **📚 The Library** — an annotated, Harvard-style reading list of ~25 verified
+  sources: the core Maton theory, the dimension-specific apparatus, the LCT-in-EAP
+  literature (Kirk, Monbec, Brooke, Ingold & O'Sullivan) and cross-disciplinary
+  applications — grouped by purpose, each with a one-line note on why it earns
+  its place, and linked from every dimension's sources rail.
 
 - **⚙️ Tweaks** — an appearance panel in the rail: choose an accent colour and
   reading font, or switch to reduced motion. Preferences apply instantly (by
@@ -65,10 +71,15 @@ Built with **React 18** and **Vite**.
 
 ## A note on content
 
-All references are verified: the core Maton citations (Maton 2013, 2014; Maton &
-Howard 2018; Maton & Doran 2017) plus the EAP-application sources (Kirk 2017,
-Monbec 2020) have been checked against the LCT publications database and the
-published works. The Studio / Unpack **example texts** (the osmosis and
-inflation paragraphs) remain illustrative teaching samples. Density and
-Temporality are presented honestly as emerging dimensions whose full four-code
-matrices are still being elaborated in the literature.
+All references are verified and Harvard-formatted: the core Maton citations
+(Maton 2013, 2014, 2016, 2020; Maton & Howard 2018; Maton & Doran 2017a/b) and
+every EAP- and discipline-application source (Kirk 2017, 2018; Monbec 2018,
+2020; Brooke 2017; Ingold & O'Sullivan 2017; Blackie 2014; Clarence 2016;
+Georgiou, Maton & Sharma 2014; Szenes, Tilakaratna & Maton 2015; and the rest
+of the Library) have been checked against the LCT publications database and the
+publishers' records, including volumes and page ranges. A smoke test enforces
+that every inline citation and Library entry resolves against the reference
+list. The Studio / Unpack **example texts** (the osmosis and inflation
+paragraphs) remain illustrative teaching samples. Density and Temporality are
+presented honestly as emerging dimensions whose full four-code matrices are
+still being elaborated in the literature.

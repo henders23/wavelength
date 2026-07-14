@@ -19,7 +19,8 @@ function buildIndex() {
   out.push({ label: 'Foundations', sub: 'Start here', hue: 'var(--clay)', route: ['foundations'], hay: 'foundations what is legitimation code theory bernstein bourdieu knowledge-blindness eap' });
   out.push({ label: 'The Studio', sub: 'Code a text', hue: 'var(--clay)', route: ['studio'], hay: 'studio semantic wave code a text gravity density paragraph profile' });
   out.push({ label: 'Glossary & notation key', sub: 'Reference', hue: 'var(--clay)', route: ['glossary'], hay: 'glossary notation key terms codes sources reference' });
-  Object.keys(REFS).forEach((k) => out.push({ label: k, sub: 'Source', hue: 'var(--ink-3)', route: ['glossary'], hay: `${k} ${REFS[k]}` }));
+  out.push({ label: 'The Library', sub: 'Annotated references', hue: 'var(--clay)', route: ['library'], hay: 'library references reading list bibliography harvard sources annotated further reading' });
+  Object.keys(REFS).forEach((k) => out.push({ label: k, sub: 'Source', hue: 'var(--ink-3)', route: ['library'], hay: `${k} ${REFS[k]}` }));
   return out;
 }
 const INDEX = buildIndex();
