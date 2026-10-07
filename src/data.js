@@ -14,6 +14,7 @@ export const REFS = {
   'Clarence 2016': 'Clarence, S. (2016) ‘Exploring the nature of disciplinary teaching and learning using Legitimation Code Theory Semantics’, *Teaching in Higher Education*, 21(2), pp. 123–137.',
   'Ding & Bruce 2017': 'Ding, A. and Bruce, I. (2017) *The English for Academic Purposes Practitioner: Operating on the Edge of Academia*. Cham: Palgrave Macmillan.',
   'Georgiou, Maton & Sharma 2014': 'Georgiou, H., Maton, K. and Sharma, M. (2014) ‘Recovering knowledge for science education research: exploring the “Icarus effect” in student work’, *Canadian Journal of Science, Mathematics and Technology Education*, 14(3), pp. 252–268.',
+  'Hyland 2002': 'Hyland, K. (2002) ‘Specificity revisited: how far should we go now?’, *English for Specific Purposes*, 21(4), pp. 385–395.',
   'Hyland 2006': 'Hyland, K. (2006) *English for Academic Purposes: An Advanced Resource Book*. London: Routledge.',
   'Ingold & O’Sullivan 2017': 'Ingold, R. and O’Sullivan, D. (2017) ‘Riding the waves to academic success’, *Modern English Teacher*, 26(2), pp. 39–42.',
   'Kirk 2017': 'Kirk, S. (2017) ‘Waves of reflection: seeing knowledge(s) in academic writing’, in Kemp, J. (ed.) *EAP in a Rapidly Changing Landscape: Issues, Challenges and Solutions. Proceedings of the 2015 BALEAP Conference*. Reading: Garnet Education.',
@@ -30,7 +31,9 @@ export const REFS = {
   'Maton, Hood & Shay 2016': 'Maton, K., Hood, S. and Shay, S. (eds) (2016) *Knowledge-building: Educational Studies in Legitimation Code Theory*. London: Routledge.',
   'Monbec 2018': 'Monbec, L. (2018) ‘Designing an EAP curriculum for transfer: a focus on knowledge’, *Journal of Academic Language and Learning*, 12(2), pp. A88–A101.',
   'Monbec 2020': 'Monbec, L. (2020) ‘Systemic Functional Linguistics for the EGAP module: revisiting the common core’, *Journal of English for Academic Purposes*, 43, 100794.',
+  'Monbec et al. 2021': 'Monbec, L., Tilakaratna, N., Brooke, M., Lau, S.T., Chan, Y.S. and Wu, V. (2021) ‘Designing a rubric for reflection in nursing: a Legitimation Code Theory and systemic functional linguistics-informed framework’, *Assessment & Evaluation in Higher Education*, 46(8), pp. 1157–1172.',
   'Szenes, Tilakaratna & Maton 2015': 'Szenes, E., Tilakaratna, N. and Maton, K. (2015) ‘The knowledge practices of critical thinking’, in Davies, M. and Barnett, R. (eds) *The Palgrave Handbook of Critical Thinking in Higher Education*. New York: Palgrave Macmillan, pp. 573–591.',
+  'Tilakaratna & Szenes 2020': 'Tilakaratna, N. and Szenes, E. (2020) ‘(Un)critical reflection: uncovering disciplinary values in social work and business reflective writing assignments’, in Winberg, C., McKenna, S. and Wilmot, K. (eds) *Building Knowledge in Higher Education: Enhancing Teaching and Learning with Legitimation Code Theory*. London: Routledge.',
   'Winberg, McKenna & Wilmot 2020': 'Winberg, C., McKenna, S. and Wilmot, K. (eds) (2020) *Building Knowledge in Higher Education: Enhancing Teaching and Learning with Legitimation Code Theory*. London: Routledge.',
 };
 
@@ -382,8 +385,191 @@ export const GLOSSARY = [
   { term: 'Translation device', dim: null, def: 'The explicit bridge between LCT’s concepts and real data: a worked-out scheme stating what counts as, say, stronger or weaker semantic gravity *in this particular text* — built so that coding is principled, shareable and contestable rather than impressionistic [Maton & Chen 2016; Maton & Doran 2017a].' },
 ];
 
-/* The Library — an annotated, Harvard-style reading list, grouped for
-   practitioners. Every `key` resolves against REFS. */
+/* The Fieldwork — designing EAP materials for specific disciplines.
+   An intro that frames the EGAP/ESAP specificity debate through LCT, then
+   worked discipline profiles. Each profile names its specialization-code
+   signature (a quadrant on the Specialization plane), sketches the semantic
+   signatures of its flagship genres (pts feed the WaveChart: sg 0 = abstract
+   ceiling, 1 = concrete floor), annotates an extract, and draws out the
+   materials-design moves. `grounding` says honestly what is directly studied
+   in the literature and what is our own illustrative analysis. */
+export const FIELDWORK = {
+  lede: 'The dimensions are the transferable core; this is where they meet particular disciplines. Profiles of what “good writing” rewards across the academy — and what that means for the materials you design.',
+  intro: [
+    { h: 'An old argument, sharpened', t: 'EAP has long argued about specificity: teach a general academic English, or dig into each discipline’s ways of meaning? Hyland’s case for specificity is that disciplinary variation runs too deep for a comfortable common core — “academic English” is always somebody’s academic English [Hyland 2002; Hyland 2006].' },
+    { h: 'What LCT changes', t: 'LCT reframes the question. The lenses — codes, waves, tours — are transferable; it is their *settings* that are discipline-specific. That lets a course hold both positions at once: Monbec designs the common core around knowledge principles precisely so that learning transfers, then lets each discipline supply the values those principles take [Monbec 2018; Monbec 2020]. You teach the wave once; you surf it differently in nursing and in law.' },
+    { h: 'Materials that wave on purpose', t: 'The design implication: profile first, write second. Establish what the target task actually rewards — its specialization code, the semantic signature of its genre — and then sequence the unit so the materials themselves wave: orient, unpack, practise in the concrete, repack to the principle. The same logic can be built into assessment, as Monbec and colleagues did in their LCT-informed reflection rubric for nursing [Monbec et al. 2021], and it is how practitioners like Kirk profile whole lessons and courses [Kirk 2018].' },
+    { h: 'How to read these profiles', t: 'Code signatures are tendencies, not destinies: disciplines contain multitudes, tasks vary within a single module, and the only code that finally matters is the one *your students’* assessment rewards — so run the “code the brief” activity from Specialization on the local rubric before trusting any profile here. Each profile says plainly what is directly studied in the LCT literature and what is our own illustrative analysis.' },
+  ],
+  disciplines: [
+    {
+      key: 'sciences', name: 'Chemistry & the physical sciences', hue: 'var(--d-sem)',
+      tagline: 'The textbook knowledge code — and the home turf of the semantic wave.',
+      codeQuad: 'tl', codeName: 'knowledge code (ER+, SR−)',
+      signature: [
+        'The experimental sciences are the textbook *knowledge code* (ER+, SR−): achievement means mastery of content, method and procedure, and the writer is conventionally effaced — passives, hedged claims, no “I” [Maton 2014]. Their knowledge structure is *hierarchical* — new findings integrate into ever more general theory — which is why science prose climbs so readily into condensed abstraction, and why newcomers so often get stranded up there [Bernstein 1999].',
+      ],
+      grounding: 'Directly studied: semantic waves in chemistry teaching [Blackie 2014] and the Icarus effect in physics writing [Georgiou, Maton & Sharma 2014]. The genre profiles are our illustrative analyses in that tradition.',
+      genres: [
+        { name: 'The lab report', pts: [[0, 0.3], [0.33, 0.9], [0.66, 0.75], [1, 0.3]], note: 'Aim states the principle; method and results sit in concrete, procedural detail; the discussion must climb back to theory. The repack is where marks are won and lost — “results without discussion” is a wave that never comes home.' },
+        { name: 'The Icarus answer (a failure profile)', pts: [[0, 0.15], [0.5, 0.2], [1, 0.15]], note: 'The classic exam failure: an answer that soars in formula-talk and never touches the physical situation the question asked about — abstraction without grounding, named the Icarus effect [Georgiou, Maton & Sharma 2014].' },
+      ],
+      annotated: {
+        lede: 'Three sentences from a chemistry lab-report discussion, annotated for the climb the genre demands.',
+        segments: [
+          { t: 'The observed titre fell steadily across the three trials as the temperature of the acid bath was raised.', note: 'Strong gravity: the sentence lives at the bench, in this experiment’s particulars.' },
+          { t: 'This pattern suggests that higher temperatures were accelerating the side-reaction, consuming reagent before titration.', note: 'The bridging move: still this experiment, but a mechanism is being generalised.' },
+          { t: 'Such temperature sensitivity is characteristic of kinetically controlled reactions, consistent with the Arrhenius relationship.', note: 'The repack: the result is folded into theory. Without this sentence the report describes; with it, it explains.' },
+        ],
+      },
+      design: [
+        { name: 'Engineer the repack', how: 'Discussion sections fail at the climb, so scaffold it: sentence frames that walk from “we observed…” through “this suggests…” to “this is consistent with…” make the repack a visible, assessable step rather than a hidden expectation.' },
+        { name: 'Wave the input, not just the output', how: 'Sequence reading and lecture material principle → bench example → principle, so the unit itself models the profile you want in students’ writing [Blackie 2014].' },
+        { name: 'Anti-Icarus drills', how: 'Pair every definition task with a “so what happens in the beaker?” question. Students who can ground an abstraction are inoculated against answers that never land [Georgiou, Maton & Sharma 2014].' },
+      ],
+      clash: 'Watch for students performing a knower code — personal voice, “I believe” — in tasks that efface the author. Then watch the reverse clash when the same degree suddenly demands first-person reflection in a skills portfolio, and the trained effacement becomes the problem.',
+    },
+    {
+      key: 'engineering', name: 'Engineering', hue: 'var(--d-auto)',
+      tagline: 'A knowledge code whose flagship genre is built from autonomy tours.',
+      codeQuad: 'tl', codeName: 'knowledge code (ER+, SR−), touring constantly',
+      signature: [
+        'Engineering shares the sciences’ *knowledge code* (ER+, SR−) [Maton 2014], but its signature genre — the design report — is an exercise in *autonomy tours*: standards, client constraints, costings and theory are all imported content (PA−) that must be bent to the design’s own purpose (RA+) [Maton & Howard 2018]. The engineer’s skill the genre performs is exactly the tour that returns.',
+      ],
+      grounding: 'LCT has been used extensively in engineering education, notably across the South African higher-education work collected by Winberg and colleagues [Winberg, McKenna & Wilmot 2020]. The genre profiles are our illustrative analyses in that tradition.',
+      genres: [
+        { name: 'The design report', pts: [[0, 0.35], [0.25, 0.85], [0.5, 0.45], [0.75, 0.9], [1, 0.3]], note: 'A double wave: the report repeatedly drops into specification detail — dimensions, standards, costs — and must climb back each time to justification against the brief. Description that never climbs reads as a catalogue, not engineering judgement.' },
+        { name: 'The problem set', pts: [[0, 0.2], [0.5, 0.75], [1, 0.25]], note: 'Model stated, applied to a concrete case, result generalised. The last move is the one students skip — and the one that makes the learning cumulative.' },
+      ],
+      annotated: {
+        lede: 'A short passage from a design report, annotated as an autonomy tour.',
+        segments: [
+          { t: 'The footbridge must carry pedestrian loads of 5 kN/m² with minimal perceptible sway.', note: 'Home base: the design brief — the report’s own content and purpose (PA+, RA+).' },
+          { t: 'Eurocode 1 specifies dynamic load models for synchronised walking, including a 1.25 Hz vertical forcing case.', note: 'The tour departs: an external standard is imported (PA−). Alone, this is borrowed furniture.' },
+          { t: 'Applying this forcing case to the proposed span gives a comfort margin of 1.8 — acceptable, provided the damping assumption holds.', note: 'The return (RA+): the standard is made to serve the design decision. The borrowed content has been introjected, and the paragraph arrives home with a verdict.' },
+        ],
+      },
+      design: [
+        { name: 'Brief as home base', how: 'Train students to open and close every section by returning to the design requirement — the anchor that stops a report drifting into a tour that never ends. A wall-chart of the brief beside the draft makes “have we come home?” a mechanical check.' },
+        { name: 'Tour the standard', how: 'Set drills that practise one move in isolation: introduce an external standard or data sheet, then write the single sentence that turns it back onto this design. Introjection as a repeatable skill [Maton & Howard 2018].' },
+        { name: 'Numbers need waves too', how: 'Calculations earn marks when repacked into claims. Materials should model the move from “margin = 1.8” to “the structure is safe under the specified loading because…”.' },
+      ],
+      clash: 'High-achieving maths and physics entrants can flatline in concrete project detail: the calculations are right, but nothing is ever turned back into justification, so the report reads as description. The hidden criterion is the return move, and nobody told them.',
+    },
+    {
+      key: 'business', name: 'Business & management', hue: 'var(--d-spec)',
+      tagline: 'Frameworks must be mastered — and a decisive managerial verdict performed.',
+      codeQuad: 'tr', codeName: 'leaning élite (ER+, SR+)',
+      signature: [
+        'Business writing tends toward an *élite* blend: analytic frameworks and financial technique must be mastered (ER+), but achievement also demands a confident, decisive managerial stance (SR+) — the case analysis that merely applies the framework without delivering a verdict underperforms [Maton 2014]. Crucially, what counts as “critical thinking” here is not generic: in business assignments it is realised as condensed evaluation built on technical analysis, quite unlike its realisation in, say, social work [Szenes, Tilakaratna & Maton 2015].',
+      ],
+      grounding: 'Directly studied: the knowledge practices of critical thinking in business assignments [Szenes, Tilakaratna & Maton 2015] and the disciplinary values hidden in business reflective writing [Tilakaratna & Szenes 2020]. The genre profiles are our illustrative analyses.',
+      genres: [
+        { name: 'The case-study analysis', pts: [[0, 0.3], [0.4, 0.85], [0.7, 0.55], [1, 0.35]], note: 'Framework stated, driven down into company detail, then climbed back out — but the summit here is evaluative: the repack must carry a recommendation, not just a restatement of the model.' },
+        { name: 'The reflective assignment', pts: [[0, 0.85], [0.5, 0.3], [1, 0.55]], note: 'An inverted wave: it starts in the incident, climbs to theory, and comes partway back down to changed future practice. Business reflection that stays in the incident reads as diary; reflection that stays in theory reads as evasion [Tilakaratna & Szenes 2020].' },
+      ],
+      annotated: {
+        lede: 'The closing moves of a strategy case analysis, annotated for what the genre actually rewards.',
+        segments: [
+          { t: 'Against Porter’s five forces, the firm’s position is weakest on buyer power: three customers account for 61% of revenue.', note: 'Framework (dense, imported) driven into company specifics (strong gravity) — the analytic engine room.' },
+          { t: 'This concentration makes the proposed price increase untenable in the short term.', note: 'Evaluation begins: the analysis is condensed into a judgement. Note the evaluative loading of “untenable” — moral density doing business work.' },
+          { t: 'We therefore recommend renegotiating the two largest contracts before any repricing, accepting slower margin growth for reduced dependency.', note: 'The performed verdict (SR+): decisive, costed, first-person-plural. This sentence — not the framework — is what the marker is waiting for.' },
+        ],
+      },
+      design: [
+        { name: 'Name the hidden verdict', how: 'Business “criticality” means taking a position. Teach the evaluative lexis explicitly — *untenable, defensible, exposed, over-leveraged* — and practise ranking it by strength, as the Density dimension suggests.' },
+        { name: 'Framework in, framework out', how: 'Drills where a model is introduced, applied, and must visibly reappear inside the recommendation. An analysis section that never resurfaces in the verdict is an autonomy tour that failed to return.' },
+        { name: 'Mark reflection for what it is', how: 'Business reflective tasks secretly reward theorised lessons-for-practice, not confession. Show students annotated contrasts between diary-writing and the assessed genre [Szenes, Tilakaratna & Maton 2015; Tilakaratna & Szenes 2020].' },
+      ],
+      clash: 'Two symmetrical clashes: students who treat the reflective assignment as personal diary when the rubric wants analysed experience — and students who deliver immaculate framework summaries with no verdict, having missed that the discipline also rewards a performed managerial self.',
+    },
+    {
+      key: 'nursing', name: 'Nursing & health sciences', hue: 'var(--d-den)',
+      tagline: 'Clinical knowledge plus a cultivated caring gaze — an élite code with two registers.',
+      codeQuad: 'tr', codeName: 'élite code (ER+, SR+)',
+      signature: [
+        'Nursing legitimates both strong epistemic relations — pathophysiology, pharmacology, protocol (ER+) — and a cultivated professional gaze: empathy, ethical judgement, reflective self-awareness (SR+). An *élite code*, demanding two registers from the same writer, often inside one portfolio [Maton 2014].',
+        'Its reflective genres are among the best-mapped territory in LCT-informed EAP: Monbec and colleagues built a nursing reflection rubric directly from Semantics, making the expected movement between incident and theory explicit and teachable [Monbec et al. 2021].',
+      ],
+      grounding: 'Directly studied: the LCT-and-SFL reflection rubric for first-year nursing [Monbec et al. 2021], alongside closely related work on reflective writing’s disciplinary values [Tilakaratna & Szenes 2020]. The care-plan profile is our illustrative analysis.',
+      genres: [
+        { name: 'The reflective account', pts: [[0, 0.9], [0.3, 0.75], [0.65, 0.25], [1, 0.55]], note: 'From the incident (strong gravity), through feelings, up into theory — dignity, patient autonomy, communication models — and back down to an action plan. “Descriptive, not critical” almost always means the profile never left the incident [Monbec et al. 2021].' },
+        { name: 'The care plan', pts: [[0, 0.8], [0.5, 0.35], [1, 0.75]], note: 'Assessment data (concrete) → rationale (theoretical climb) → intervention (concrete again). Evidence-based practice is a wave discipline: every intervention must be repacked into its rationale.' },
+      ],
+      annotated: {
+        lede: 'Three moments from a student nurse’s reflective account, annotated for the climb the rubric rewards.',
+        segments: [
+          { t: 'Mr T refused his evening medication and turned to face the wall; I stood holding the cup, unsure whether to insist.', note: 'The incident: maximal gravity, the lived particular. Essential — but a profile that stays here is description.' },
+          { t: 'Reflecting afterwards, I recognised this as a conflict between beneficence and respect for patient autonomy, sharpened by his recent loss of independence.', note: 'The climb: the moment is repacked into ethical concepts. Semantic density rises; the incident becomes a case *of* something.' },
+          { t: 'In future I will open such moments with a question rather than a cup — making space for refusal to be discussed before it is enacted.', note: 'The return: theory folded back into a concrete, changed future practice. The wave completes, which is what “deep reflection” cashes out as.' },
+        ],
+      },
+      design: [
+        { name: 'Rubric the wave', how: 'Share profile-based rubrics so students can see that “deeper reflection” means semantic range — incident, concept, changed practice — not a greater quantity of emotion. This is precisely what the Monbec et al. rubric operationalises [Monbec et al. 2021].' },
+        { name: 'Theory on call', how: 'Students stall on the climb because the mid-level concepts aren’t to hand. Bank them in advance: a one-page lexicon of dignity, advocacy, holistic care, informed consent, ready to be reached for mid-reflection.' },
+        { name: 'Two voices, one text', how: 'Set tasks that practise the register switch itself: the same event written as clinical note (effaced, technical) and as reflection (first-person, evaluative), then spliced into one portfolio entry. The élite code demands both voices; show the join.' },
+      ],
+      clash: 'Students who stay in the incident read as “descriptive, not critical”; students who hide in textbook language fail the authenticity the caring gaze demands. The élite code punishes retreat to either comfort zone — which is why nursing students, more than most, need the wave made explicit.',
+    },
+    {
+      key: 'law', name: 'Law', hue: 'var(--d-temp)',
+      tagline: 'Doctrinal mastery delivered in an authoritative interpretive voice.',
+      codeQuad: 'tr', codeName: 'élite code (ER+, SR+)',
+      signature: [
+        'Law rewards an *élite code*: command of doctrine, statute and precedent (ER+) *and* an authoritative interpretive voice — the trained confidence to apply contested rules to messy facts and commit to a conclusion (SR+) [Maton 2014]. The discipline’s signature genre, the problem question, is practically a wave schema wearing a wig.',
+      ],
+      grounding: 'Law awaits a substantial LCT-in-EAP literature of its own; this profile is our carefully reasoned illustration, built on the Specialization concepts [Maton 2014] and the wave [Maton 2013].',
+      genres: [
+        { name: 'The problem question (IRAC)', pts: [[0, 0.6], [0.25, 0.2], [0.65, 0.9], [1, 0.35]], note: 'Issue spotted in the facts, Rule stated in condensed doctrine (the abstract ceiling), Application driving gravity hard into the client’s particulars, Conclusion repacking into a legal position. IRAC is taught as a checklist; it works better taught as a wave.' },
+        { name: 'The case note', pts: [[0, 0.8], [0.5, 0.3], [1, 0.5]], note: 'The decision’s facts, the principle extracted, the significance assessed. The middle move — ratio from narrative — is the condensation students find hardest.' },
+      ],
+      annotated: {
+        lede: 'A compressed IRAC sequence from a contract-law problem answer, annotated as a wave.',
+        segments: [
+          { t: 'The question is whether Dana’s email of 3 May amounted to acceptance or a counter-offer.', note: 'Issue: pitched between fact and law — moderate gravity, naming the doctrinal battleground.' },
+          { t: 'Under Hyde v Wrench, a reply that varies the terms of an offer destroys it and constitutes a counter-offer.', note: 'Rule: the abstract ceiling. Precedent condenses a whole dispute into a portable principle — semantic density at its most lawyerly.' },
+          { t: 'Dana’s email accepted the price but demanded delivery a week earlier; this variation of terms is precisely the Hyde v Wrench situation.', note: 'Application: gravity strengthens sharply as the rule is pressed into these facts. This is where answers are won.' },
+          { t: 'Her email was therefore a counter-offer, and no contract formed on 3 May.', note: 'Conclusion: the repack — facts and rule condensed into a committed legal position. Hedging here, after committing above, is the voice the élite code punishes.' },
+        ],
+      },
+      design: [
+        { name: 'Teach IRAC as a shape, not a checklist', how: 'Have students sketch the gravity profile of model answers before writing their own. The insight — rule high, application low, conclusion back up — transfers to every new topic in a way the acronym alone does not.' },
+        { name: 'Authority tours', how: 'Quoting precedent is an autonomy tour: the case is imported content that must be returned to the client’s facts. Drill the return sentence — “this is precisely / distinguishable from the X v Y situation because…”.' },
+        { name: 'Calibrated commitment', how: 'Legal voice means hedging the contestable and committing on the clear. Build a two-column lexicon — *arguably, on balance* versus *plainly, necessarily* — and practise choosing the column, since misplaced certainty and misplaced doubt both read as non-lawyerly.' },
+      ],
+      clash: 'Two flatlines: the answer that summarises doctrine and never descends to the facts (all rule, no application), and the one that narrates the dispute without ever stating law (all facts, no rule). Both students know the material; neither has been shown the wave the genre demands.',
+    },
+    {
+      key: 'history', name: 'History & the humanities', hue: 'var(--clay)',
+      tagline: 'A cultivated interpretive gaze over a horizontally structured field.',
+      codeQuad: 'br', codeName: 'knower-leaning (ER−, SR+), often élite in practice',
+      signature: [
+        'The humanities lean toward a *knower code*: achievement rests on a cultivated interpretive gaze — judicious weighing, a feel for significance, a distinctive reading — more than on fixed procedure (SR+), though evidence-handling keeps epistemic relations alive and many tasks are élite in practice [Maton 2014]. The knowledge structure is *horizontal*: the field grows by adding new approaches and languages rather than integrating into one theory, so “coverage” never ends and positioning among interpretations is itself a skill [Bernstein 1999].',
+      ],
+      grounding: 'The specialization analysis follows Maton’s account of knower codes and gazes [Maton 2014] and Bernstein’s knowledge structures [Bernstein 1999]; the genre profiles are our illustrative analyses.',
+      genres: [
+        { name: 'The essay', pts: [[0, 0.35], [0.35, 0.85], [0.7, 0.5], [1, 0.25]], note: 'Thesis, descent into the sources, interpretive climb, return to a sharpened thesis. The characteristic failure is the middle that never climbs: narrative mistaken for argument.' },
+        { name: 'The historiographical review', pts: [[0, 0.3], [0.5, 0.6], [1, 0.3]], note: 'A gentler wave: positions surveyed, exemplified just enough, and arranged into a map that clears ground for the writer’s own stance — constellation work, in LCT terms.' },
+      ],
+      annotated: {
+        lede: 'A paragraph from a history essay, annotated for the interpretive gaze at work.',
+        segments: [
+          { t: 'The parish records for 1548–52 show grain prices trebling while recorded alms fell by half.', note: 'The sources: strong gravity, the evidence floor. Epistemic relations visibly at work.' },
+          { t: 'Fragmentary as the record is, the direction of change is consistent across all three surviving registers.', note: 'The gaze performs itself: judicious hedging plus a committed reading — exactly the cultivated judgement the discipline rewards (SR+).' },
+          { t: 'Hunger, not doctrine, was doing the recruiting for the rebellion.', note: 'The interpretive repack: evidence condensed into a claim with a voice. Note how much semantic density — and quiet confidence — one short sentence carries.' },
+        ],
+      },
+      design: [
+        { name: 'Make the gaze audible', how: 'The hidden criterion is judgement, so model its language explicitly: the hedged-but-committed move (“fragmentary as the record is…”), the weighing move (“more persuasive than…”). Students can’t cultivate a gaze they’ve never heard isolated.' },
+        { name: 'Source sandwiches as tours', how: 'Reframe quotation-handling as autonomy tours: every primary source is a departure that must return bearing interpretation. The return sentence — what the source *shows* — is the paragraph’s reason to exist.' },
+        { name: 'End a floor up', how: 'A mechanical but effective rule for drafting: each paragraph should end one register more abstract than its evidence sat. It forces the interpretive climb that separates argument from narrative.' },
+      ],
+      clash: 'Students trained to report facts underperform because judgement is the quietly assessed criterion — the clash the Specialization dimension’s history exercise stages. The knower code’s demands feel tacit and unfair precisely because the strength of social relations is rarely advertised [Maton 2014].',
+    },
+  ],
+};
+
+
 export const LIBRARY = {
   lede: 'Every source in this app, plus the wider reading an EAP practitioner needs — grouped by purpose, each with a note on why it earns its place.',
   note: 'Most LCT papers, including several listed here, are freely downloadable via the publications database at legitimationcodetheory.com — the LCT Centre keeps it current.',
@@ -427,7 +613,9 @@ export const LIBRARY = {
         { key: 'Kirk 2018', why: 'A practitioner’s doctoral study of how EAP curriculum is enacted, analysed with Specialization and Semantics — the fullest LCT treatment of EAP to date.' },
         { key: 'Monbec 2018', why: 'Uses LCT to design an EAP curriculum that transfers into disciplinary study.' },
         { key: 'Monbec 2020', why: 'Rethinks the EGAP “common core” with SFL and LCT together.' },
+        { key: 'Monbec et al. 2021', why: 'An LCT-and-SFL reflection rubric for nursing — discipline-specific materials design in action, and the model behind the Fieldwork nursing profile.' },
         { key: 'Brooke 2017', why: 'An instructional model for gravity-waving across the research-writing process.' },
+        { key: 'Hyland 2002', why: 'The specificity argument — the debate the Fieldwork view takes up.' },
         { key: 'Ding & Bruce 2017', why: 'Not LCT, but the book on EAP practitioner identity and scholarship — the context in which theory like this earns its keep.' },
         { key: 'Hyland 2006', why: 'The standard map of EAP as a field, if you need the wider terrain.' },
       ],
@@ -440,6 +628,7 @@ export const LIBRARY = {
         { key: 'Georgiou, Maton & Sharma 2014', why: 'The “Icarus effect” in physics students’ writing — abstraction that never lands.', dim: 'semantics' },
         { key: 'Clarence 2016', why: 'Semantic profiles as a way to open pedagogic conversations with disciplinary academics.', dim: 'semantics' },
         { key: 'Szenes, Tilakaratna & Maton 2015', why: 'What “critical thinking” rewards in business vs social work — a study in hidden codes.', dim: 'specialization' },
+        { key: 'Tilakaratna & Szenes 2020', why: 'Reflective writing’s hidden disciplinary values in social work and business — companion reading for the Fieldwork business profile.', dim: 'specialization' },
         { key: 'Winberg, McKenna & Wilmot 2020', why: 'A whole volume of LCT-informed teaching improvement across higher education.' },
         { key: 'Martin, Maton & Doran 2020', why: 'The state of the LCT–SFL partnership, for the linguistically inclined.' },
       ],

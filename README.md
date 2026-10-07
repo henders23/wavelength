@@ -39,6 +39,17 @@ how LCT itself theorises knowledge as constellations.
   text** to paste your own paragraph: it's segmented into sentences you rate
   with semantic gravity / density sliders, and the wave redraws live. Your text
   and ratings persist across reloads.
+- **🧭 Fieldwork** — designing EAP materials for specific disciplines. Opens
+  with the EGAP/ESAP specificity debate read through LCT (Hyland's specificity
+  argument vs. Monbec's knowledge-based common core), then six worked
+  discipline profiles — the physical sciences, engineering, business, nursing,
+  law, and history/humanities. Each profile names the specialization code the
+  discipline's writing rewards (highlighted live on the code plane), sketches
+  the semantic signatures of its flagship genres as wave charts (including a
+  physics "Icarus" failure profile), annotates an extract, lists concrete
+  materials-design moves, and flags the characteristic code clash — with an
+  honesty line separating what is directly studied in the literature from the
+  app's own illustrative analyses.
 - **📑 Glossary & notation key** — every organising code (SG, SD, ER, SR, PA,
   RA, MaD, MoD, TP, TO) grouped by dimension, plus a glossary of key LCT terms
   (semantic wave, code clash, autonomy tour, translation device, the Icarus
@@ -74,12 +85,15 @@ Built with **React 18** and **Vite**.
 All references are verified and Harvard-formatted: the core Maton citations
 (Maton 2013, 2014, 2016, 2020; Maton & Howard 2018; Maton & Doran 2017a/b) and
 every EAP- and discipline-application source (Kirk 2017, 2018; Monbec 2018,
-2020; Brooke 2017; Ingold & O'Sullivan 2017; Blackie 2014; Clarence 2016;
-Georgiou, Maton & Sharma 2014; Szenes, Tilakaratna & Maton 2015; and the rest
-of the Library) have been checked against the LCT publications database and the
-publishers' records, including volumes and page ranges. A smoke test enforces
-that every inline citation and Library entry resolves against the reference
-list. The Studio / Unpack **example texts** (the osmosis and inflation
-paragraphs) remain illustrative teaching samples. Density and Temporality are
+2020; Monbec et al. 2021; Brooke 2017; Ingold & O'Sullivan 2017; Blackie 2014;
+Clarence 2016; Georgiou, Maton & Sharma 2014; Szenes, Tilakaratna & Maton 2015;
+Tilakaratna & Szenes 2020; Hyland 2002; and the rest of the Library) have been
+checked against the LCT publications database and the publishers' records,
+including volumes and page ranges. A smoke test enforces that every inline
+citation and Library entry resolves against the reference list. The Studio /
+Unpack **example texts** (the osmosis and inflation paragraphs) remain
+illustrative teaching samples, as do the Fieldwork extracts; each Fieldwork
+profile states explicitly which claims are directly studied in the literature
+and which are the app's own illustrative analyses. Density and Temporality are
 presented honestly as emerging dimensions whose full four-code matrices are
 still being elaborated in the literature.

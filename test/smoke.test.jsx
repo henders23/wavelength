@@ -11,7 +11,8 @@ import { FoundationsView } from '../src/Foundations.jsx';
 import { StudioView } from '../src/Studio.jsx';
 import { GlossaryView } from '../src/Glossary.jsx';
 import { LibraryView } from '../src/Library.jsx';
-import { DIMS, FOUNDATIONS, GLOSSARY, LIBRARY, REFS } from '../src/data.js';
+import { FieldworkView } from '../src/Fieldwork.jsx';
+import { DIMS, FIELDWORK, FOUNDATIONS, GLOSSARY, LIBRARY, REFS } from '../src/data.js';
 
 const go = () => {};
 
@@ -135,6 +136,30 @@ describe('Wavelength views mount cleanly', () => {
     expect(getByRole('heading', { level: 1 }).textContent).toBe('The Library');
   });
 
+  it('renders Fieldwork with the specificity intro and every discipline chip', () => {
+    const { getByRole, getByText, getAllByText } = render(<FieldworkView go={go} />);
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('Designing for the disciplines');
+    expect(getByText('What LCT changes')).toBeTruthy();
+    // every discipline appears at least once (the selected one also heads its profile)
+    for (const d of FIELDWORK.disciplines) expect(getAllByText(d.name).length).toBeGreaterThan(0);
+  });
+
+  it('switches between discipline profiles in Fieldwork', () => {
+    const { getByText, container } = render(<FieldworkView go={go} />);
+    // opens on the first profile (sciences); nursing content not yet shown
+    expect(container.textContent).toMatch(/Anti-Icarus drills/);
+    expect(container.textContent).not.toMatch(/Rubric the wave/);
+    fireEvent.click(getByText('Nursing & health sciences'));
+    expect(container.textContent).toMatch(/Rubric the wave/);
+    expect(getByText('Watch for the clash')).toBeTruthy();
+  });
+
+  it('reaches Fieldwork from the nav rail', () => {
+    const { getByTitle, getByRole } = render(<App />);
+    fireEvent.click(getByTitle('Fieldwork — designing for the disciplines'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('Designing for the disciplines');
+  });
+
   it('renders the Studio and toggles between drafts', () => {
     const { getByText } = render(<StudioView go={go} />);
     expect(getByText(/Plot a paragraph/)).toBeTruthy();
@@ -183,6 +208,13 @@ describe('Wavelength views mount cleanly', () => {
       ...FOUNDATIONS.sections.map((s) => s.t),
       ...GLOSSARY.map((g) => g.def),
       ...LIBRARY.groups.flatMap((grp) => grp.items.map((it) => it.why)),
+      ...FIELDWORK.intro.map((s) => s.t),
+      ...FIELDWORK.disciplines.flatMap((d) => [
+        ...d.signature, d.grounding, d.clash,
+        ...d.genres.map((g) => g.note),
+        ...d.design.map((c) => c.how),
+        ...d.annotated.segments.map((s) => s.note),
+      ]),
     ].filter(Boolean);
     const inline = prose
       .flatMap((s) => [...String(s).matchAll(/\[([^\]]+)\]/g)])
