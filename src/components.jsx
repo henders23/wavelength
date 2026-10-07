@@ -175,6 +175,9 @@ export function NavRail({ route, dim, go }) {
       <RailBtn active={route === 'fieldwork'} title="Fieldwork — designing for the disciplines" hue="var(--clay)" onClick={() => go('fieldwork')}>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="9" cy="9" r="7" /><path d="M11.8 6.2l-1.6 4-4 1.6 1.6-4z" strokeLinejoin="round" /></svg>
       </RailBtn>
+      <RailBtn active={route === 'lab'} title="The Materials Lab — design a unit" hue="var(--clay)" onClick={() => go('lab')}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M7 2.5h4M8 2.5v4.2L3.8 13a2.2 2.2 0 0 0 1.9 3.3h6.6a2.2 2.2 0 0 0 1.9-3.3L10 6.7V2.5" strokeLinejoin="round" /><path d="M5.5 11h7" /></svg>
+      </RailBtn>
       <div style={{ flex: 1 }} />
       <RailBtn active={route === 'welcome'} title="How to use Wavelength" onClick={() => go('welcome')}>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="9" cy="9" r="7.5" /><path d="M6.9 6.7a2.1 2.1 0 0 1 4.1.6c0 1.4-2 1.7-2 3.1" strokeLinecap="round" /><circle cx="9" cy="13" r=".55" fill="currentColor" stroke="none" /></svg>

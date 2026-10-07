@@ -12,7 +12,8 @@ import { StudioView } from '../src/Studio.jsx';
 import { GlossaryView } from '../src/Glossary.jsx';
 import { LibraryView } from '../src/Library.jsx';
 import { FieldworkView } from '../src/Fieldwork.jsx';
-import { DIMS, FIELDWORK, FOUNDATIONS, GLOSSARY, LIBRARY, REFS } from '../src/data.js';
+import { MaterialsLabView } from '../src/MaterialsLab.jsx';
+import { DIMS, FIELDWORK, FOUNDATIONS, GLOSSARY, LAB, LIBRARY, REFS } from '../src/data.js';
 
 const go = () => {};
 
@@ -160,6 +161,44 @@ describe('Wavelength views mount cleanly', () => {
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Designing for the disciplines');
   });
 
+  it('profiles a task onto the Specialization plane in the Materials Lab', () => {
+    const { getByText, container } = render(<MaterialsLabView go={go} />);
+    // no verdict until every question is answered
+    expect(container.textContent).not.toMatch(/knowledge code \(ER\+, SR−\)/);
+    for (const q of LAB.profile.questions) fireEvent.click(getByText(q.options[0].label));
+    // first options are ER-heavy → knowledge code, with its design advice
+    expect(getByText('knowledge code (ER+, SR−)')).toBeTruthy();
+    expect(container.textContent).toMatch(/Design for mastery made visible/);
+  });
+
+  it('plans a wave in the Materials Lab: stages, sliders and shape verdicts', () => {
+    const { getByText, getAllByLabelText, container } = render(<MaterialsLabView go={go} />);
+    const sliders = getAllByLabelText(/gravity$/);
+    expect(sliders.length).toBe(LAB.waveplan.defaultStages.length);
+    // the default template waves
+    expect(container.textContent).toMatch(/A genuine wave/);
+    // flatten every stage → flatline warning
+    for (const s of sliders) fireEvent.change(s, { target: { value: '50' } });
+    expect(container.textContent).toMatch(/This plan barely moves/);
+    // add a stage
+    fireEvent.click(getByText('+ Add a stage'));
+    expect(getAllByLabelText(/gravity$/).length).toBe(LAB.waveplan.defaultStages.length + 1);
+  });
+
+  it('ticks off the audit checklist in the Materials Lab', () => {
+    const { container } = render(<MaterialsLabView go={go} />);
+    const boxes = container.querySelectorAll('input[type="checkbox"]');
+    expect(boxes.length).toBe(LAB.checklist.items.length);
+    fireEvent.click(boxes[0]);
+    expect(boxes[0].checked).toBe(true);
+  });
+
+  it('reaches the Materials Lab from the nav rail', () => {
+    const { getByTitle, getByRole } = render(<App />);
+    fireEvent.click(getByTitle('The Materials Lab — design a unit'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('The Materials Lab');
+  });
+
   it('renders the Studio and toggles between drafts', () => {
     const { getByText } = render(<StudioView go={go} />);
     expect(getByText(/Plot a paragraph/)).toBeTruthy();
@@ -215,6 +254,9 @@ describe('Wavelength views mount cleanly', () => {
         ...d.design.map((c) => c.how),
         ...d.annotated.segments.map((s) => s.note),
       ]),
+      LAB.lede, LAB.profile.intro, LAB.waveplan.intro, LAB.checklist.intro,
+      ...Object.values(LAB.profile.verdicts).map((v) => v.advice),
+      ...LAB.checklist.items.map((c) => c.item),
     ].filter(Boolean);
     const inline = prose
       .flatMap((s) => [...String(s).matchAll(/\[([^\]]+)\]/g)])

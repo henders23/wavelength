@@ -50,6 +50,15 @@ how LCT itself theorises knowledge as constellations.
   materials-design moves, and flags the characteristic code clash — with an
   honesty line separating what is directly studied in the literature from the
   app's own illustrative analyses.
+- **🧪 The Materials Lab** — a three-step unit-design workflow. **Profile the
+  target**: four "code the brief" diagnostic questions place the assessment on
+  the Specialization plane and return a design note for its code. **Plan the
+  wave**: sketch the unit stage by stage (orient → unpack → practise → repack
+  → transfer, fully editable) with a gravity slider per stage, and the
+  intended semantic profile redraws live with shape verdicts (flatline, no
+  return, genuine wave). **Audit the draft**: an LCT checklist — one check per
+  dimension and more — each linking to its dimension. The whole plan persists
+  across reloads and copies out as text for a scheme of work.
 - **📑 Glossary & notation key** — every organising code (SG, SD, ER, SR, PA,
   RA, MaD, MoD, TP, TO) grouped by dimension, plus a glossary of key LCT terms
   (semantic wave, code clash, autonomy tour, translation device, the Icarus

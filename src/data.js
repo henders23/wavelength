@@ -636,8 +636,89 @@ export const LIBRARY = {
   ],
 };
 
-/* Studio sample: one idea, two codings. sg = gravity strength 0..1
-   (1 = concrete/strong gravity, 0 = abstract ceiling). */
+/* The Materials Lab — a guided workflow for designing one discipline-specific
+   unit: profile what the target task rewards, plan the unit's semantic wave,
+   then audit the draft materials. Content here feeds MaterialsLab.jsx. */
+export const LAB = {
+  lede: 'Profile first, write second. Diagnose what your target task actually rewards, sketch the semantic shape of the unit before you write it, then audit the draft against the framework — the design logic of LCT-informed EAP [Kirk 2018; Monbec 2018; Monbec et al. 2021].',
+  /* Step 1 — profile the target task. Each option carries er/sr weights
+     (0..1); means decide the quadrant on the Specialization plane. */
+  profile: {
+    intro: 'Answer for the real assessment your students face — the brief, the rubric, the model answers — not for the discipline’s reputation. This is the “code the brief” move from Specialization, run as a diagnostic.',
+    questions: [
+      {
+        q: 'What do the marking criteria mostly name?',
+        options: [
+          { label: 'Accuracy, method, evidence, coverage', er: 1, sr: 0.2 },
+          { label: 'Voice, criticality, reflection, originality', er: 0.3, sr: 1 },
+          { label: 'Both, explicitly and heavily', er: 1, sr: 1 },
+        ],
+      },
+      {
+        q: 'Could two students with the same knowledge get very different marks on style of thinking alone?',
+        options: [
+          { label: 'Barely — right content, right method wins', er: 0.9, sr: 0.1 },
+          { label: 'Easily — the quality of judgement or voice is decisive', er: 0.4, sr: 0.9 },
+        ],
+      },
+      {
+        q: 'Do model texts efface their author?',
+        options: [
+          { label: 'Yes — passives, no “I”, the writer disappears', er: 0.8, sr: 0.1 },
+          { label: 'No — a first-person stance is expected', er: 0.3, sr: 0.9 },
+          { label: 'They switch registers within one text', er: 0.8, sr: 0.8 },
+        ],
+      },
+      {
+        q: 'Is there one defensible route to a good answer?',
+        options: [
+          { label: 'Largely — procedure is prescribed', er: 0.9, sr: 0.3 },
+          { label: 'Many routes, but judgement separates them', er: 0.5, sr: 0.9 },
+          { label: 'Prescribed procedure and performed judgement', er: 0.9, sr: 0.9 },
+        ],
+      },
+    ],
+    /* Verdict copy per quadrant of the Specialization plane. */
+    verdicts: {
+      tl: { code: 'knowledge code (ER+, SR−)', advice: 'Design for mastery made visible: explicit procedure, worked examples, and scaffolds for the repack into theory. Efface the author in model texts — and warn students the “I” they bring from school may read as a clash here.' },
+      tr: { code: 'élite code (ER+, SR+)', advice: 'Your unit must build two things at once: technical control and a performed voice. Alternate register drills with judgement tasks, and show the join — the élite code punishes retreat into either comfort zone.' },
+      br: { code: 'knower code (ER−, SR+)', advice: 'The hidden criterion is a cultivated gaze. Make it audible: isolate the weighing, hedging and committing moves in model texts, and give students the language of judgement before you grade them on it.' },
+      bl: { code: 'relativist code (ER−, SR−)', advice: 'Neither knowledge nor knower demands are strong — rare in assessment, and worth double-checking: if the rubric truly rewards neither mastery nor stance, ask what it does reward before designing anything.' },
+    },
+  },
+  /* Step 2 — plan the unit's semantic wave. Default stages follow the
+     orient → unpack → practise → repack cycle; sg: 0 abstract, 1 concrete. */
+  waveplan: {
+    intro: 'Sketch the unit as a semantic profile before writing any materials: each stage is a point, its height is how concrete the work is at that moment. Aim for a wave with range — down to unpack, up to consolidate [Maton 2013; Maton 2020] — and make sure the unit ends on a climb, not in the weeds.',
+    defaultStages: [
+      { name: 'Orient — the concept named', sg: 0.3, tip: 'State the principle and why it matters. Brief, dense, honest about difficulty.' },
+      { name: 'Unpack — examples and cases', sg: 0.85, tip: 'Drive gravity down: worked examples, everyday analogues, the raisin in the water.' },
+      { name: 'Practise — students in the concrete', sg: 0.75, tip: 'Students manipulate cases themselves; keep theory within reach but not in charge.' },
+      { name: 'Repack — back to the principle', sg: 0.25, tip: 'The return move: students fold their examples back into the concept in academic wording.' },
+      { name: 'Transfer — a new context', sg: 0.55, tip: 'Part-way back down: the repacked concept meets an unfamiliar case, proving the wave built something.' },
+    ],
+    flatline: 'This plan barely moves — a flat unit teaches at one altitude and strands whoever lives at the other. Add an unpacking descent or a repacking climb.',
+    noReturn: 'The unit ends in the concrete: engaging, but the learning never gets consolidated. Add a repack stage near the end — the return is where cumulative knowledge is built.',
+    waving: 'A genuine wave: the unit descends to unpack and climbs to consolidate. Check each adjacent pair of stages has a bridge task moving students between them.',
+  },
+  /* Step 3 — audit the draft materials, one check per dimension and then some. */
+  checklist: {
+    intro: 'When the draft exists, audit it against the framework. Every “no” is a revision with a name.',
+    items: [
+      { item: 'Every unpacking move has a matching repack — no example is left unreturned.', dim: 'semantics' },
+      { item: 'The unit’s profile has range: it touches both the abstract ceiling and the concrete floor.', dim: 'semantics' },
+      { item: 'The code the unit teaches matches the code the assessment rewards — run the profile above against the rubric.', dim: 'specialization' },
+      { item: 'If the target is a knower or élite code, the language of judgement is explicitly taught, not assumed.', dim: 'specialization' },
+      { item: 'Source-use and example tasks complete their tours: every departure has a visible return sentence.', dim: 'autonomy' },
+      { item: 'Evaluative and technical wording are distinguished — students know when they are being asked for precision and when for stance.', dim: 'density' },
+      { item: 'The genre’s relationship to time is named: what it looks back on, what it promises.', dim: 'temporality' },
+      { item: 'Model texts are profiled with students, not just displayed — the shape is the teaching point.', dim: null },
+      { item: 'At least one task asks students to diagnose a flawed text (flatline, one-way tour) and prescribe the fix.', dim: null },
+    ],
+  },
+};
+
+
 export const STUDIO = {
   topic: 'Explaining “inflation” to a first-year reader',
   drafts: {

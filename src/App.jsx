@@ -9,12 +9,13 @@ import { ConstellationView } from './Constellation.jsx';
 import { DimensionView } from './Dimension.jsx';
 import { FoundationsView } from './Foundations.jsx';
 import { FieldworkView } from './Fieldwork.jsx';
+import { MaterialsLabView } from './MaterialsLab.jsx';
 import { StudioView } from './Studio.jsx';
 import { GlossaryView } from './Glossary.jsx';
 import { LibraryView } from './Library.jsx';
 import { WelcomeView } from './Welcome.jsx';
 
-const PAGES = ['welcome', 'map', 'foundations', 'glossary', 'library', 'fieldwork', 'studio'];
+const PAGES = ['welcome', 'map', 'foundations', 'glossary', 'library', 'fieldwork', 'lab', 'studio'];
 
 function hashFor(route, dim) {
   return route === 'dimension' ? `#/dimension/${dim}` : `#/${route}`;
@@ -69,6 +70,7 @@ export default function App() {
   else if (st.route === 'dimension') view = <DimensionView dim={st.dim} go={go} />;
   else if (st.route === 'foundations') view = <FoundationsView go={go} />;
   else if (st.route === 'fieldwork') view = <FieldworkView go={go} />;
+  else if (st.route === 'lab') view = <MaterialsLabView go={go} />;
   else if (st.route === 'studio') view = <StudioView go={go} />;
   else if (st.route === 'glossary') view = <GlossaryView go={go} />;
   else if (st.route === 'library') view = <LibraryView go={go} />;

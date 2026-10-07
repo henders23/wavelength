@@ -21,6 +21,7 @@ function buildIndex() {
   out.push({ label: 'Glossary & notation key', sub: 'Reference', hue: 'var(--clay)', route: ['glossary'], hay: 'glossary notation key terms codes sources reference' });
   out.push({ label: 'The Library', sub: 'Annotated references', hue: 'var(--clay)', route: ['library'], hay: 'library references reading list bibliography harvard sources annotated further reading' });
   out.push({ label: 'Fieldwork', sub: 'Designing for the disciplines', hue: 'var(--clay)', route: ['fieldwork'], hay: 'fieldwork disciplines materials design esap egap specificity discipline-specific curriculum' });
+  out.push({ label: 'The Materials Lab', sub: 'Design a unit', hue: 'var(--clay)', route: ['lab'], hay: 'materials lab design a unit wave plan profile the target audit checklist code the brief lesson planning curriculum' });
   FIELDWORK.disciplines.forEach((d) => {
     out.push({ label: d.name, sub: 'Fieldwork profile', hue: d.hue, route: ['fieldwork'], hay: `${d.name} ${d.tagline} ${d.codeName} ${d.genres.map((g) => g.name).join(' ')}` });
   });
