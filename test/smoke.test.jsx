@@ -171,18 +171,25 @@ describe('Wavelength views mount cleanly', () => {
     expect(container.textContent).toMatch(/Design for mastery made visible/);
   });
 
-  it('plans a wave in the Materials Lab: stages, sliders and shape verdicts', () => {
+  it('plans a wave in the Materials Lab: stages, gravity & density sliders, shape verdicts', () => {
     const { getByText, getAllByLabelText, container } = render(<MaterialsLabView go={go} />);
-    const sliders = getAllByLabelText(/gravity$/);
-    expect(sliders.length).toBe(LAB.waveplan.defaultStages.length);
-    // the default template waves
+    const gravity = getAllByLabelText(/gravity$/);
+    const density = getAllByLabelText(/density$/);
+    expect(gravity.length).toBe(LAB.waveplan.defaultStages.length);
+    expect(density.length).toBe(LAB.waveplan.defaultStages.length);
+    // the default template waves, and its density line has range
     expect(container.textContent).toMatch(/A genuine wave/);
-    // flatten every stage → flatline warning
-    for (const s of sliders) fireEvent.change(s, { target: { value: '50' } });
+    expect(container.textContent).not.toMatch(/The density line barely moves/);
+    // flatten every gravity slider → flatline warning
+    for (const s of gravity) fireEvent.change(s, { target: { value: '50' } });
     expect(container.textContent).toMatch(/This plan barely moves/);
-    // add a stage
+    // flatten every density slider → the density hint appears too
+    for (const s of density) fireEvent.change(s, { target: { value: '50' } });
+    expect(container.textContent).toMatch(/The density line barely moves/);
+    // add a stage → one more of each slider
     fireEvent.click(getByText('+ Add a stage'));
     expect(getAllByLabelText(/gravity$/).length).toBe(LAB.waveplan.defaultStages.length + 1);
+    expect(getAllByLabelText(/density$/).length).toBe(LAB.waveplan.defaultStages.length + 1);
   });
 
   it('ticks off the audit checklist in the Materials Lab', () => {

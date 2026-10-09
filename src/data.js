@@ -687,19 +687,22 @@ export const LAB = {
     },
   },
   /* Step 2 — plan the unit's semantic wave. Default stages follow the
-     orient → unpack → practise → repack cycle; sg: 0 abstract, 1 concrete. */
+     orient → unpack → practise → repack cycle; sg: 0 abstract, 1 concrete;
+     sd: 0 light, 1 dense. On the chart, density is drawn dashed with
+     denser at the top — the classic semantic profile's SG−/SD+ ceiling. */
   waveplan: {
-    intro: 'Sketch the unit as a semantic profile before writing any materials: each stage is a point, its height is how concrete the work is at that moment. Aim for a wave with range — down to unpack, up to consolidate [Maton 2013; Maton 2020] — and make sure the unit ends on a climb, not in the weeds.',
+    intro: 'Sketch the unit as a semantic profile before writing any materials: each stage is a point, the solid line is how concrete the work is at that moment, the dashed line how condensed its wording. Gravity and density are independent, and tend to move in opposition — unpack and the wording lightens, repack and it condenses [Maton 2013; Maton & Doran 2017a]. Aim for a wave with range — down to unpack, up to consolidate [Maton 2013; Maton 2020] — and make sure the unit ends on a climb, not in the weeds.',
     defaultStages: [
-      { name: 'Orient — the concept named', sg: 0.3, tip: 'State the principle and why it matters. Brief, dense, honest about difficulty.' },
-      { name: 'Unpack — examples and cases', sg: 0.85, tip: 'Drive gravity down: worked examples, everyday analogues, the raisin in the water.' },
-      { name: 'Practise — students in the concrete', sg: 0.75, tip: 'Students manipulate cases themselves; keep theory within reach but not in charge.' },
-      { name: 'Repack — back to the principle', sg: 0.25, tip: 'The return move: students fold their examples back into the concept in academic wording.' },
-      { name: 'Transfer — a new context', sg: 0.55, tip: 'Part-way back down: the repacked concept meets an unfamiliar case, proving the wave built something.' },
+      { name: 'Orient — the concept named', sg: 0.3, sd: 0.75, tip: 'State the principle and why it matters. Brief, dense, honest about difficulty.' },
+      { name: 'Unpack — examples and cases', sg: 0.85, sd: 0.3, tip: 'Drive gravity down: worked examples, everyday analogues, the raisin in the water.' },
+      { name: 'Practise — students in the concrete', sg: 0.75, sd: 0.4, tip: 'Students manipulate cases themselves; keep theory within reach but not in charge.' },
+      { name: 'Repack — back to the principle', sg: 0.25, sd: 0.8, tip: 'The return move: students fold their examples back into the concept in academic wording.' },
+      { name: 'Transfer — a new context', sg: 0.55, sd: 0.55, tip: 'Part-way back down: the repacked concept meets an unfamiliar case, proving the wave built something.' },
     ],
     flatline: 'This plan barely moves — a flat unit teaches at one altitude and strands whoever lives at the other. Add an unpacking descent or a repacking climb.',
     noReturn: 'The unit ends in the concrete: engaging, but the learning never gets consolidated. Add a repack stage near the end — the return is where cumulative knowledge is built.',
     waving: 'A genuine wave: the unit descends to unpack and climbs to consolidate. Check each adjacent pair of stages has a bridge task moving students between them.',
+    densityFlat: 'The density line barely moves: check the unit actually builds toward condensed academic wording — repacking should leave students writing denser than they started.',
   },
   /* Step 3 — audit the draft materials, one check per dimension and then some. */
   checklist: {

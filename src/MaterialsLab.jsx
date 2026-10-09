@@ -32,7 +32,10 @@ export function MaterialsLabView({ go }) {
 
   const [title, setTitle] = React.useState(saved.title || '');
   const [answers, setAnswers] = React.useState(saved.answers || LAB.profile.questions.map(() => null));
-  const [stages, setStages] = React.useState(saved.stages || LAB.waveplan.defaultStages.map(({ name, sg }) => ({ name, sg })));
+  // plans saved before the density slider existed carry no sd — default it mid-scale
+  const [stages, setStages] = React.useState(
+    (saved.stages || LAB.waveplan.defaultStages).map(({ name, sg, sd }) => ({ name, sg, sd: sd ?? 0.5 }))
+  );
   const [checks, setChecks] = React.useState(saved.checks || LAB.checklist.items.map(() => false));
   const [copied, setCopied] = React.useState(false);
 
@@ -53,15 +56,20 @@ export function MaterialsLabView({ go }) {
 
   /* ── step 2: the wave verdict ─────────────────────────────── */
   const pts = stages.map((s, i) => [stages.length === 1 ? 0.5 : i / (stages.length - 1), s.sg]);
+  // density is drawn on the same axis with denser at the top — the classic
+  // semantic profile's SG−/SD+ ceiling — hence the inversion
+  const pts2 = stages.map((s, i) => [stages.length === 1 ? 0.5 : i / (stages.length - 1), 1 - s.sd]);
   const sgVals = stages.map((s) => s.sg);
   const range = stages.length ? Math.max(...sgVals) - Math.min(...sgVals) : 0;
   const flat = range < 0.3;
   const noReturn = !flat && stages.length > 1 && stages[stages.length - 1].sg > 0.6;
   const waveMsg = flat ? LAB.waveplan.flatline : noReturn ? LAB.waveplan.noReturn : LAB.waveplan.waving;
   const waveWarn = flat || noReturn;
+  const sdVals = stages.map((s) => s.sd);
+  const sdFlat = stages.length > 1 && Math.max(...sdVals) - Math.min(...sdVals) < 0.25;
 
   const setStage = (i, patch) => setStages((ss) => ss.map((s, k) => (k === i ? { ...s, ...patch } : s)));
-  const addStage = () => setStages((ss) => [...ss, { name: `Stage ${ss.length + 1}`, sg: 0.5 }]);
+  const addStage = () => setStages((ss) => [...ss, { name: `Stage ${ss.length + 1}`, sg: 0.5, sd: 0.5 }]);
   const removeStage = (i) => setStages((ss) => ss.filter((_, k) => k !== i));
 
   /* ── copy the plan out ────────────────────────────────────── */
@@ -73,8 +81,9 @@ export function MaterialsLabView({ go }) {
       verdict ? `Design note: ${verdict.advice}` : '',
       '',
       '## Semantic wave plan',
-      ...stages.map((s, i) => `${i + 1}. ${s.name} — gravity ${Math.round(s.sg * 100)}/100 ${s.sg > 0.6 ? '(concrete)' : s.sg < 0.4 ? '(abstract)' : '(bridging)'}`),
+      ...stages.map((s, i) => `${i + 1}. ${s.name} — gravity ${Math.round(s.sg * 100)}/100 ${s.sg > 0.6 ? '(concrete)' : s.sg < 0.4 ? '(abstract)' : '(bridging)'}, density ${Math.round(s.sd * 100)}/100 ${s.sd > 0.6 ? '(condensed)' : s.sd < 0.4 ? '(everyday wording)' : '(mixed)'}`),
       `Shape check: ${waveMsg}`,
+      sdFlat ? `Density check: ${LAB.waveplan.densityFlat}` : '',
       '',
       '## Audit checklist',
       ...LAB.checklist.items.map((c, i) => `[${checks[i] ? 'x' : ' '}] ${c.item}`),
@@ -156,12 +165,30 @@ export function MaterialsLabView({ go }) {
           <StepHeader n="02" title="Plan the wave" />
           <RichText className="san" style={{ margin: '0 0 16px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-2)' }}>{LAB.waveplan.intro}</RichText>
           <div style={{ ...card, overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px 4px' }}>
-              <WaveChart pts={pts} w={760} h={190} hue="var(--clay)" />
+            <div style={{ display: 'flex', gap: 18, alignItems: 'center', padding: '13px 20px 0' }}>
+              <span className="san" style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 11.5, fontWeight: 600, color: 'var(--ink-2)' }}>
+                <svg width="22" height="6" viewBox="0 0 22 6"><line x1="1" y1="3" x2="21" y2="3" stroke="var(--clay)" strokeWidth="2.5" strokeLinecap="round" /></svg>
+                semantic gravity SG
+              </span>
+              <span className="san" style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 11.5, fontWeight: 600, color: 'var(--ink-2)' }}>
+                <svg width="22" height="6" viewBox="0 0 22 6"><line x1="1" y1="3" x2="21" y2="3" stroke="var(--d-den)" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 4" /></svg>
+                semantic density SD
+              </span>
             </div>
-            <div style={{ padding: '12px 20px', borderTop: '1px solid var(--line)', background: waveWarn ? 'color-mix(in srgb, var(--clay), transparent 92%)' : 'color-mix(in srgb, var(--d-sem), transparent 92%)', display: 'flex', gap: 9, alignItems: 'flex-start' }}>
-              <span style={{ fontSize: 15, lineHeight: 1, marginTop: 1 }}>{waveWarn ? '⚠️' : '✓'}</span>
-              <span className="san" style={{ fontSize: 13, fontWeight: 600, color: waveWarn ? 'var(--clay)' : 'var(--d-sem)', lineHeight: 1.45 }}>{waveMsg}</span>
+            <div style={{ padding: '4px 20px 4px' }}>
+              <WaveChart pts={pts} pts2={pts2} w={760} h={190} hue="var(--clay)" hue2="var(--d-den)" topLabel="SG−  abstract · SD+  dense" bottomLabel="SG+  concrete · SD−  light" />
+            </div>
+            <div style={{ padding: '12px 20px', borderTop: '1px solid var(--line)', background: waveWarn ? 'color-mix(in srgb, var(--clay), transparent 92%)' : 'color-mix(in srgb, var(--d-sem), transparent 92%)' }}>
+              <div style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
+                <span style={{ fontSize: 15, lineHeight: 1, marginTop: 1 }}>{waveWarn ? '⚠️' : '✓'}</span>
+                <span className="san" style={{ fontSize: 13, fontWeight: 600, color: waveWarn ? 'var(--clay)' : 'var(--d-sem)', lineHeight: 1.45 }}>{waveMsg}</span>
+              </div>
+              {sdFlat && (
+                <div style={{ display: 'flex', gap: 9, alignItems: 'flex-start', marginTop: 7 }}>
+                  <span style={{ fontSize: 13, lineHeight: 1.2, marginTop: 1 }}>◌</span>
+                  <span className="san" style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--ink-2)', lineHeight: 1.45 }}>{LAB.waveplan.densityFlat}</span>
+                </div>
+              )}
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 14 }}>
@@ -177,13 +204,25 @@ export function MaterialsLabView({ go }) {
                     </div>
                     {tip && <p className="san" style={{ margin: '5px 0 0 21px', fontSize: 12, lineHeight: 1.45, color: 'var(--ink-3)' }}>{tip}</p>}
                   </div>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                      <span className="san" style={{ fontSize: 10.5, color: 'var(--ink-3)' }}>abstract</span>
-                      <span className="san" style={{ fontSize: 10.5, color: 'var(--ink-3)' }}>concrete</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+                        <span className="san" style={{ fontSize: 10.5, color: 'var(--ink-3)' }}>abstract</span>
+                        <span className="mono" style={{ fontSize: 10, fontWeight: 600, color: 'var(--clay)' }}>SG</span>
+                        <span className="san" style={{ fontSize: 10.5, color: 'var(--ink-3)' }}>concrete</span>
+                      </div>
+                      <input type="range" min="0" max="100" value={Math.round(s.sg * 100)} onChange={(e) => setStage(i, { sg: Number(e.target.value) / 100 })}
+                        aria-label={`Stage ${i + 1} gravity`} style={{ width: '100%', accentColor: 'var(--clay)', cursor: 'pointer', margin: 0 }} />
                     </div>
-                    <input type="range" min="0" max="100" value={Math.round(s.sg * 100)} onChange={(e) => setStage(i, { sg: Number(e.target.value) / 100 })}
-                      aria-label={`Stage ${i + 1} gravity`} style={{ width: '100%', accentColor: 'var(--clay)', cursor: 'pointer', margin: 0 }} />
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+                        <span className="san" style={{ fontSize: 10.5, color: 'var(--ink-3)' }}>lighter</span>
+                        <span className="mono" style={{ fontSize: 10, fontWeight: 600, color: 'var(--d-den)' }}>SD</span>
+                        <span className="san" style={{ fontSize: 10.5, color: 'var(--ink-3)' }}>denser</span>
+                      </div>
+                      <input type="range" min="0" max="100" value={Math.round(s.sd * 100)} onChange={(e) => setStage(i, { sd: Number(e.target.value) / 100 })}
+                        aria-label={`Stage ${i + 1} density`} style={{ width: '100%', accentColor: 'var(--d-den)', cursor: 'pointer', margin: 0 }} />
+                    </div>
                   </div>
                   <button onClick={() => removeStage(i)} disabled={stages.length <= 2} aria-label={`Remove stage ${i + 1}`} title="Remove stage"
                     style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid var(--line)', background: 'var(--surface-2)', cursor: stages.length <= 2 ? 'default' : 'pointer', color: 'var(--ink-3)', fontSize: 14, lineHeight: 1, opacity: stages.length <= 2 ? 0.35 : 1 }}>×</button>

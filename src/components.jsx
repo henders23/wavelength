@@ -63,28 +63,43 @@ export function splitCiteKeys(s) {
 
 /* ── Semantic-wave chart ──────────────────────────────────────────
    pts: [t(0..1), v(0..1)] with v=0 the weak-gravity ceiling (abstract)
-   and v=1 the strong-gravity floor (concrete). */
-export function WaveChart({ pts, w = 520, h = 200, hue = 'var(--d-sem)', pad = 28, labels = true, dots = true, flat = false, stroke = 2.5, active = -1 }) {
+   and v=1 the strong-gravity floor (concrete). An optional second series
+   (pts2, same coordinates) draws dashed in hue2 — used to chart semantic
+   density alongside gravity; topLabel/bottomLabel relabel the axis ends. */
+export function WaveChart({ pts, w = 520, h = 200, hue = 'var(--d-sem)', pad = 28, labels = true, dots = true, flat = false, stroke = 2.5, active = -1, pts2 = null, hue2 = 'var(--d-den)', topLabel = 'SG−  abstract', bottomLabel = 'SG+  concrete' }) {
   const x = (t) => pad + t * (w - pad * 2);
   const y = (v) => pad + v * (h - pad * 2);
-  const P = pts.map(([t, v]) => [x(t), y(v)]);
-  let d = `M ${P[0][0]},${P[0][1]}`;
-  for (let i = 0; i < P.length - 1; i++) {
-    const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || P[i + 1];
-    d += ` C ${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`;
-  }
+  const toPath = (points) => {
+    const P = points.map(([t, v]) => [x(t), y(v)]);
+    let d = `M ${P[0][0]},${P[0][1]}`;
+    for (let i = 0; i < P.length - 1; i++) {
+      const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || P[i + 1];
+      d += ` C ${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`;
+    }
+    return { d, P };
+  };
+  const main = toPath(pts);
+  const second = pts2 && pts2.length ? toPath(pts2) : null;
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width="100%" style={{ display: 'block', overflow: 'visible' }}>
       {[0, 0.5, 1].map((g) => <line key={g} x1={pad} x2={w - pad} y1={y(g)} y2={y(g)} stroke="var(--line)" strokeWidth="1" strokeDasharray={g === 0.5 ? '3 5' : null} />)}
       <line x1={pad} x2={pad} y1={pad - 6} y2={h - pad + 6} stroke="var(--line-strong)" strokeWidth="1" />
       {labels && (
         <g style={{ fontFamily: 'var(--mono)', fontSize: 9.5, fill: 'var(--ink-3)' }}>
-          <text x={pad + 6} y={y(0) - 6}>SG−  abstract</text>
-          <text x={pad + 6} y={y(1) + 14}>SG+  concrete</text>
+          <text x={pad + 6} y={y(0) - 6}>{topLabel}</text>
+          <text x={pad + 6} y={y(1) + 14}>{bottomLabel}</text>
         </g>
       )}
-      <path d={d} fill="none" stroke={hue} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={flat ? '5 6' : null} opacity={flat ? 0.55 : 1} />
-      {dots && P.map((p, i) => (
+      {second && (
+        <>
+          <path d={second.d} fill="none" stroke={hue2} strokeWidth={stroke * 0.8} strokeLinecap="round" strokeDasharray="4 5" opacity={0.75} />
+          {dots && second.P.map((p, i) => (
+            <circle key={i} cx={p[0]} cy={p[1]} r={2.9} fill="var(--surface)" stroke={hue2} strokeWidth="1.6" opacity={0.85} />
+          ))}
+        </>
+      )}
+      <path d={main.d} fill="none" stroke={hue} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={flat ? '5 6' : null} opacity={flat ? 0.55 : 1} />
+      {dots && main.P.map((p, i) => (
         <circle key={i} cx={p[0]} cy={p[1]} r={i === active ? 5.5 : 3.6} fill={i === active ? hue : 'var(--surface)'} stroke={hue} strokeWidth="2" />
       ))}
     </svg>
