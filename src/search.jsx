@@ -3,7 +3,7 @@
    Selecting a result navigates there. */
 
 import React from 'react';
-import { DIMS, GLOSSARY, REFS } from './data.js';
+import { DIMS, FIELDWORK, GLOSSARY, REFS } from './data.js';
 import { Dot } from './components.jsx';
 
 function buildIndex() {
@@ -19,7 +19,13 @@ function buildIndex() {
   out.push({ label: 'Foundations', sub: 'Start here', hue: 'var(--clay)', route: ['foundations'], hay: 'foundations what is legitimation code theory bernstein bourdieu knowledge-blindness eap' });
   out.push({ label: 'The Studio', sub: 'Code a text', hue: 'var(--clay)', route: ['studio'], hay: 'studio semantic wave code a text gravity density paragraph profile' });
   out.push({ label: 'Glossary & notation key', sub: 'Reference', hue: 'var(--clay)', route: ['glossary'], hay: 'glossary notation key terms codes sources reference' });
-  Object.keys(REFS).forEach((k) => out.push({ label: k, sub: 'Source', hue: 'var(--ink-3)', route: ['glossary'], hay: `${k} ${REFS[k]}` }));
+  out.push({ label: 'The Library', sub: 'Annotated references', hue: 'var(--clay)', route: ['library'], hay: 'library references reading list bibliography harvard sources annotated further reading' });
+  out.push({ label: 'Fieldwork', sub: 'Designing for the disciplines', hue: 'var(--clay)', route: ['fieldwork'], hay: 'fieldwork disciplines materials design esap egap specificity discipline-specific curriculum' });
+  out.push({ label: 'The Materials Lab', sub: 'Design a unit', hue: 'var(--clay)', route: ['lab'], hay: 'materials lab design a unit wave plan profile the target audit checklist code the brief lesson planning curriculum' });
+  FIELDWORK.disciplines.forEach((d) => {
+    out.push({ label: d.name, sub: 'Fieldwork profile', hue: d.hue, route: ['fieldwork'], hay: `${d.name} ${d.tagline} ${d.codeName} ${d.genres.map((g) => g.name).join(' ')}` });
+  });
+  Object.keys(REFS).forEach((k) => out.push({ label: k, sub: 'Source', hue: 'var(--ink-3)', route: ['library'], hay: `${k} ${REFS[k]}` }));
   return out;
 }
 const INDEX = buildIndex();

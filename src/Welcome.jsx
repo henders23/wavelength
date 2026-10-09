@@ -9,7 +9,10 @@ const STEPS = [
   { icon: '📖', h: 'New to all this? Start with Foundations', t: 'The dark circle in the centre of the map opens a gentle primer — what the theory is, where it came from, and why it matters for teaching academic writing.' },
   { icon: '🪜', h: 'Each topic builds up gradually', t: 'Every dimension opens with the plain-English gist and a few examples, then moves to the fuller theory, and tucks the most advanced material behind a “Going deeper” toggle — so you’re never thrown in the deep end.' },
   { icon: '🎼', h: 'Get hands-on in the Studio', t: 'Paste a paragraph and watch its “semantic wave” take shape as you rate each sentence — the quickest way to feel how the theory works on real writing.' },
+  { icon: '🧭', h: 'Design for your disciplines', t: 'Fieldwork profiles what “good writing” rewards in the sciences, engineering, business, nursing, law and the humanities — and turns each profile into concrete materials-design moves for discipline-specific EAP.' },
+  { icon: '🧪', h: 'Draft the unit in the Materials Lab', t: 'A three-step design workflow: diagnose the code your target task rewards, sketch the unit’s semantic wave stage by stage, then audit the draft against an LCT checklist — and copy the whole plan out as text.' },
   { icon: '📑', h: 'Look things up, and make it yours', t: 'The Glossary explains every code and term, the search bar finds anything fast, and the Tweaks panel (the cog in the rail) sets the accent colour, reading font and motion.' },
+  { icon: '📚', h: 'Read beyond the app', t: 'The Library is an annotated reading list: every reference in the app plus the wider EAP-and-LCT literature, Harvard-referenced and grouped by purpose — with a note on why each one is worth your time.' },
 ];
 
 export function WelcomeView({ go }) {

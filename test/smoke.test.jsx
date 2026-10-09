@@ -10,7 +10,10 @@ import { DimensionView } from '../src/Dimension.jsx';
 import { FoundationsView } from '../src/Foundations.jsx';
 import { StudioView } from '../src/Studio.jsx';
 import { GlossaryView } from '../src/Glossary.jsx';
-import { DIMS, GLOSSARY } from '../src/data.js';
+import { LibraryView } from '../src/Library.jsx';
+import { FieldworkView } from '../src/Fieldwork.jsx';
+import { MaterialsLabView } from '../src/MaterialsLab.jsx';
+import { DIMS, FIELDWORK, FOUNDATIONS, GLOSSARY, LAB, LIBRARY, REFS } from '../src/data.js';
 
 const go = () => {};
 
@@ -106,10 +109,101 @@ describe('Wavelength views mount cleanly', () => {
     expect(getByText(/3 \/ 5/)).toBeTruthy();
   });
 
-  it('renders Foundations with its four sections', () => {
+  it('renders Foundations with its sections', () => {
     const { getByText } = render(<FoundationsView go={go} />);
     expect(getByText(/What is Legitimation Code/)).toBeTruthy();
     expect(getByText('The move: legitimation codes')).toBeTruthy();
+    expect(getByText('The company it keeps: LCT & SFL')).toBeTruthy();
+  });
+
+  it('renders a Take it to class section on every dimension', () => {
+    for (const m of DIMS) {
+      const { getByText, unmount } = render(<DimensionView dim={m.key} go={go} />);
+      expect(getByText('Take it to class')).toBeTruthy();
+      expect(getByText(m.classroom[0].name)).toBeTruthy();
+      unmount();
+    }
+  });
+
+  it('renders the Library with every group and its annotated entries', () => {
+    const { getByRole, getByText } = render(<LibraryView go={go} />);
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('The Library');
+    for (const grp of LIBRARY.groups) expect(getByText(grp.h)).toBeTruthy();
+  });
+
+  it('reaches the Library from the nav rail', () => {
+    const { getByTitle, getByRole } = render(<App />);
+    fireEvent.click(getByTitle('The Library — annotated reading list'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('The Library');
+  });
+
+  it('renders Fieldwork with the specificity intro and every discipline chip', () => {
+    const { getByRole, getByText, getAllByText } = render(<FieldworkView go={go} />);
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('Designing for the disciplines');
+    expect(getByText('What LCT changes')).toBeTruthy();
+    // every discipline appears at least once (the selected one also heads its profile)
+    for (const d of FIELDWORK.disciplines) expect(getAllByText(d.name).length).toBeGreaterThan(0);
+  });
+
+  it('switches between discipline profiles in Fieldwork', () => {
+    const { getByText, container } = render(<FieldworkView go={go} />);
+    // opens on the first profile (sciences); nursing content not yet shown
+    expect(container.textContent).toMatch(/Anti-Icarus drills/);
+    expect(container.textContent).not.toMatch(/Rubric the wave/);
+    fireEvent.click(getByText('Nursing & health sciences'));
+    expect(container.textContent).toMatch(/Rubric the wave/);
+    expect(getByText('Watch for the clash')).toBeTruthy();
+  });
+
+  it('reaches Fieldwork from the nav rail', () => {
+    const { getByTitle, getByRole } = render(<App />);
+    fireEvent.click(getByTitle('Fieldwork — designing for the disciplines'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('Designing for the disciplines');
+  });
+
+  it('profiles a task onto the Specialization plane in the Materials Lab', () => {
+    const { getByText, container } = render(<MaterialsLabView go={go} />);
+    // no verdict until every question is answered
+    expect(container.textContent).not.toMatch(/knowledge code \(ER\+, SR−\)/);
+    for (const q of LAB.profile.questions) fireEvent.click(getByText(q.options[0].label));
+    // first options are ER-heavy → knowledge code, with its design advice
+    expect(getByText('knowledge code (ER+, SR−)')).toBeTruthy();
+    expect(container.textContent).toMatch(/Design for mastery made visible/);
+  });
+
+  it('plans a wave in the Materials Lab: stages, gravity & density sliders, shape verdicts', () => {
+    const { getByText, getAllByLabelText, container } = render(<MaterialsLabView go={go} />);
+    const gravity = getAllByLabelText(/gravity$/);
+    const density = getAllByLabelText(/density$/);
+    expect(gravity.length).toBe(LAB.waveplan.defaultStages.length);
+    expect(density.length).toBe(LAB.waveplan.defaultStages.length);
+    // the default template waves, and its density line has range
+    expect(container.textContent).toMatch(/A genuine wave/);
+    expect(container.textContent).not.toMatch(/The density line barely moves/);
+    // flatten every gravity slider → flatline warning
+    for (const s of gravity) fireEvent.change(s, { target: { value: '50' } });
+    expect(container.textContent).toMatch(/This plan barely moves/);
+    // flatten every density slider → the density hint appears too
+    for (const s of density) fireEvent.change(s, { target: { value: '50' } });
+    expect(container.textContent).toMatch(/The density line barely moves/);
+    // add a stage → one more of each slider
+    fireEvent.click(getByText('+ Add a stage'));
+    expect(getAllByLabelText(/gravity$/).length).toBe(LAB.waveplan.defaultStages.length + 1);
+    expect(getAllByLabelText(/density$/).length).toBe(LAB.waveplan.defaultStages.length + 1);
+  });
+
+  it('ticks off the audit checklist in the Materials Lab', () => {
+    const { container } = render(<MaterialsLabView go={go} />);
+    const boxes = container.querySelectorAll('input[type="checkbox"]');
+    expect(boxes.length).toBe(LAB.checklist.items.length);
+    fireEvent.click(boxes[0]);
+    expect(boxes[0].checked).toBe(true);
+  });
+
+  it('reaches the Materials Lab from the nav rail', () => {
+    const { getByTitle, getByRole } = render(<App />);
+    fireEvent.click(getByTitle('The Materials Lab — design a unit'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('The Materials Lab');
   });
 
   it('renders the Studio and toggles between drafts', () => {
@@ -145,6 +239,42 @@ describe('Wavelength views mount cleanly', () => {
     expect(getByText('The notation')).toBeTruthy();
     for (const g of GLOSSARY) {
       expect(getAllByText(g.term).length).toBeGreaterThan(0);
+    }
+  });
+
+  it('resolves every citation in the content against the reference list', () => {
+    // inline [Key] and [Key; Key] markers anywhere in the prose content
+    const prose = [
+      ...DIMS.flatMap((m) => [
+        m.simple, m.eap, m.worked?.note,
+        ...(m.idea || []), ...(m.deeper || []),
+        ...(m.classroom || []).map((c) => c.how),
+        ...(m.readmore || []).map((r) => r.why),
+      ]),
+      ...FOUNDATIONS.sections.map((s) => s.t),
+      ...GLOSSARY.map((g) => g.def),
+      ...LIBRARY.groups.flatMap((grp) => grp.items.map((it) => it.why)),
+      ...FIELDWORK.intro.map((s) => s.t),
+      ...FIELDWORK.disciplines.flatMap((d) => [
+        ...d.signature, d.grounding, d.clash,
+        ...d.genres.map((g) => g.note),
+        ...d.design.map((c) => c.how),
+        ...d.annotated.segments.map((s) => s.note),
+      ]),
+      LAB.lede, LAB.profile.intro, LAB.waveplan.intro, LAB.checklist.intro,
+      ...Object.values(LAB.profile.verdicts).map((v) => v.advice),
+      ...LAB.checklist.items.map((c) => c.item),
+    ].filter(Boolean);
+    const inline = prose
+      .flatMap((s) => [...String(s).matchAll(/\[([^\]]+)\]/g)])
+      .flatMap((match) => match[1].split(';').map((k) => k.trim()));
+    // keys referenced structurally: per-dimension cites/readmore and the Library
+    const structural = [
+      ...DIMS.flatMap((m) => [...m.cites, ...(m.readmore || []).map((r) => r.key)]),
+      ...LIBRARY.groups.flatMap((grp) => grp.items.map((it) => it.key)),
+    ];
+    for (const k of [...inline, ...structural]) {
+      expect(REFS[k], `citation key does not resolve: "${k}"`).toBeTruthy();
     }
   });
 

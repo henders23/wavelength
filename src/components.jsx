@@ -35,44 +35,71 @@ export function Cite({ k }) {
   return <sup className="cite" title={REFS[k] || k} onClick={jump} style={{ cursor: 'pointer' }}>{k}</sup>;
 }
 
-/* RichText — renders *emphasis* and [Citation] markers inside a string. */
+/* RichText — renders *emphasis* and [Citation] markers inside a string.
+   A marker may hold several keys separated by semicolons: [A 2013; B 2020]. */
 export function RichText({ children, ...rest }) {
   const parts = String(children).split(/(\*[^*]+\*|\[[^\]]+\])/g).filter(Boolean);
   return (
     <p {...rest}>
       {parts.map((p, i) => {
         if (p[0] === '*' && p[p.length - 1] === '*') return <em key={i} style={{ fontStyle: 'italic', color: 'var(--ink)' }}>{p.slice(1, -1)}</em>;
-        if (p[0] === '[' && p[p.length - 1] === ']') return <Cite key={i} k={p.slice(1, -1)} />;
+        if (p[0] === '[' && p[p.length - 1] === ']') {
+          const keys = p.slice(1, -1).split(';').map((k) => k.trim()).filter(Boolean);
+          return keys.map((k, j) => <React.Fragment key={`${i}-${j}`}>{j > 0 && <sup className="cite">, </sup>}<Cite k={k} /></React.Fragment>);
+        }
         return <React.Fragment key={i}>{p}</React.Fragment>;
       })}
     </p>
   );
 }
 
+/* splitCiteKeys — every citation key used inside a prose string. */
+export function splitCiteKeys(s) {
+  return (String(s).match(/\[([^\]]+)\]/g) || [])
+    .flatMap((b) => b.slice(1, -1).split(';'))
+    .map((k) => k.trim())
+    .filter(Boolean);
+}
+
 /* ── Semantic-wave chart ──────────────────────────────────────────
    pts: [t(0..1), v(0..1)] with v=0 the weak-gravity ceiling (abstract)
-   and v=1 the strong-gravity floor (concrete). */
-export function WaveChart({ pts, w = 520, h = 200, hue = 'var(--d-sem)', pad = 28, labels = true, dots = true, flat = false, stroke = 2.5, active = -1 }) {
+   and v=1 the strong-gravity floor (concrete). An optional second series
+   (pts2, same coordinates) draws dashed in hue2 — used to chart semantic
+   density alongside gravity; topLabel/bottomLabel relabel the axis ends. */
+export function WaveChart({ pts, w = 520, h = 200, hue = 'var(--d-sem)', pad = 28, labels = true, dots = true, flat = false, stroke = 2.5, active = -1, pts2 = null, hue2 = 'var(--d-den)', topLabel = 'SG−  abstract', bottomLabel = 'SG+  concrete' }) {
   const x = (t) => pad + t * (w - pad * 2);
   const y = (v) => pad + v * (h - pad * 2);
-  const P = pts.map(([t, v]) => [x(t), y(v)]);
-  let d = `M ${P[0][0]},${P[0][1]}`;
-  for (let i = 0; i < P.length - 1; i++) {
-    const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || P[i + 1];
-    d += ` C ${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`;
-  }
+  const toPath = (points) => {
+    const P = points.map(([t, v]) => [x(t), y(v)]);
+    let d = `M ${P[0][0]},${P[0][1]}`;
+    for (let i = 0; i < P.length - 1; i++) {
+      const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || P[i + 1];
+      d += ` C ${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`;
+    }
+    return { d, P };
+  };
+  const main = toPath(pts);
+  const second = pts2 && pts2.length ? toPath(pts2) : null;
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width="100%" style={{ display: 'block', overflow: 'visible' }}>
       {[0, 0.5, 1].map((g) => <line key={g} x1={pad} x2={w - pad} y1={y(g)} y2={y(g)} stroke="var(--line)" strokeWidth="1" strokeDasharray={g === 0.5 ? '3 5' : null} />)}
       <line x1={pad} x2={pad} y1={pad - 6} y2={h - pad + 6} stroke="var(--line-strong)" strokeWidth="1" />
       {labels && (
         <g style={{ fontFamily: 'var(--mono)', fontSize: 9.5, fill: 'var(--ink-3)' }}>
-          <text x={pad + 6} y={y(0) - 6}>SG−  abstract</text>
-          <text x={pad + 6} y={y(1) + 14}>SG+  concrete</text>
+          <text x={pad + 6} y={y(0) - 6}>{topLabel}</text>
+          <text x={pad + 6} y={y(1) + 14}>{bottomLabel}</text>
         </g>
       )}
-      <path d={d} fill="none" stroke={hue} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={flat ? '5 6' : null} opacity={flat ? 0.55 : 1} />
-      {dots && P.map((p, i) => (
+      {second && (
+        <>
+          <path d={second.d} fill="none" stroke={hue2} strokeWidth={stroke * 0.8} strokeLinecap="round" strokeDasharray="4 5" opacity={0.75} />
+          {dots && second.P.map((p, i) => (
+            <circle key={i} cx={p[0]} cy={p[1]} r={2.9} fill="var(--surface)" stroke={hue2} strokeWidth="1.6" opacity={0.85} />
+          ))}
+        </>
+      )}
+      <path d={main.d} fill="none" stroke={hue} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={flat ? '5 6' : null} opacity={flat ? 0.55 : 1} />
+      {dots && main.P.map((p, i) => (
         <circle key={i} cx={p[0]} cy={p[1]} r={i === active ? 5.5 : 3.6} fill={i === active ? hue : 'var(--surface)'} stroke={hue} strokeWidth="2" />
       ))}
     </svg>
@@ -147,6 +174,9 @@ export function NavRail({ route, dim, go }) {
       <RailBtn active={route === 'glossary'} title="Glossary & notation key" onClick={() => go('glossary')}>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 4.5h7M3 9h7M3 13.5h4.5" /><circle cx="13.5" cy="9" r="2" /><path d="M13.5 11v2.5" /></svg>
       </RailBtn>
+      <RailBtn active={route === 'library'} title="The Library — annotated reading list" onClick={() => go('library')}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 15V3h3v12zM6 15V3h3v12z" strokeLinejoin="round" /><path d="M9.5 3.6l3.4-.9 3.1 11.6-3.4.9z" strokeLinejoin="round" /></svg>
+      </RailBtn>
       <div style={{ width: 24, height: 1, background: 'var(--line)', margin: '4px 0' }} />
       {DIMS.map((m) => (
         <RailBtn key={m.key} active={route === 'dimension' && dim === m.key} hue={m.hue} title={`${m.n} · ${m.name}`} onClick={() => go('dimension', m.key)}>
@@ -156,6 +186,12 @@ export function NavRail({ route, dim, go }) {
       <div style={{ width: 24, height: 1, background: 'var(--line)', margin: '4px 0' }} />
       <RailBtn active={route === 'studio'} title="The Studio — code a text" hue="var(--clay)" onClick={() => go('studio')}>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M2 13c2-.2 2-7 4-7s2 5 4 5 2-7 4-7" /></svg>
+      </RailBtn>
+      <RailBtn active={route === 'fieldwork'} title="Fieldwork — designing for the disciplines" hue="var(--clay)" onClick={() => go('fieldwork')}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="9" cy="9" r="7" /><path d="M11.8 6.2l-1.6 4-4 1.6 1.6-4z" strokeLinejoin="round" /></svg>
+      </RailBtn>
+      <RailBtn active={route === 'lab'} title="The Materials Lab — design a unit" hue="var(--clay)" onClick={() => go('lab')}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M7 2.5h4M8 2.5v4.2L3.8 13a2.2 2.2 0 0 0 1.9 3.3h6.6a2.2 2.2 0 0 0 1.9-3.3L10 6.7V2.5" strokeLinejoin="round" /><path d="M5.5 11h7" /></svg>
       </RailBtn>
       <div style={{ flex: 1 }} />
       <RailBtn active={route === 'welcome'} title="How to use Wavelength" onClick={() => go('welcome')}>

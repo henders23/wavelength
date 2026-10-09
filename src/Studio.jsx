@@ -196,6 +196,15 @@ export function StudioView({ go }) {
               </div>
             )}
 
+            <div style={{ border: '1px dashed var(--line-strong)', borderRadius: 13, background: 'var(--surface-2)', padding: '14px 16px' }}>
+              <Eyebrow size={9.5} style={{ display: 'block', marginBottom: 8 }}>Using this in a workshop</Eyebrow>
+              <ul className="san" style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, lineHeight: 1.6, color: 'var(--ink-2)' }}>
+                <li>Project the two drafts and let the group argue the codings before revealing them — the disagreement <em>is</em> the learning.</li>
+                <li>Then paste an anonymised student paragraph into <em>Your text</em> and code it live, sentence by sentence.</li>
+                <li>Close by asking: what one sentence would change this profile? Write it together.</li>
+              </ul>
+            </div>
+
             <button onClick={() => go('dimension', 'semantics')} style={{ padding: '13px 16px', borderRadius: 13, border: '1px solid var(--line)', background: 'var(--surface)', cursor: 'pointer', textAlign: 'left' }}>
               <div className="san" style={{ fontSize: 13.5, fontWeight: 700, color: hue }}>Revisit the theory →</div>
               <div className="san" style={{ fontSize: 12, color: 'var(--ink-2)', marginTop: 2 }}>Semantic gravity, density &amp; the wave</div>

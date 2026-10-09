@@ -1,11 +1,12 @@
 /* Foundations.jsx — the conceptual on-ramp: what LCT is and why EAP needs it. */
 
 import { FOUNDATIONS, REFS } from './data.js';
-import { Eyebrow, RichText, useNarrow } from './components.jsx';
+import { Eyebrow, RichText, splitCiteKeys, useNarrow } from './components.jsx';
 
 export function FoundationsView({ go }) {
   const narrow = useNarrow();
-  const sk = ['Maton 2014', 'Bernstein 2000', 'Kirk 2017', 'Monbec 2020'];
+  // every source actually cited across the sections, in citation order
+  const sk = Array.from(new Set(FOUNDATIONS.sections.flatMap((s) => splitCiteKeys(s.t))));
   return (
     <div style={{ flex: 1, overflowY: 'auto', background: 'var(--paper)' }}>
       <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', gap: 14, padding: '13px 34px', background: 'color-mix(in srgb, var(--paper), transparent 8%)', borderBottom: '1px solid var(--line)', backdropFilter: 'blur(8px)' }}>
@@ -32,7 +33,7 @@ export function FoundationsView({ go }) {
         <div style={{ height: 1, background: 'var(--line)', margin: '10px 0 30px' }} />
         <Eyebrow size={11} style={{ marginBottom: 14, display: 'block' }}>Sources</Eyebrow>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 40 }}>
-          {sk.map((k) => <p key={k} id={'ref-' + k} className="ser" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: 'var(--ink-2)', paddingLeft: 14, borderLeft: '2px solid var(--clay)' }}>{REFS[k]}</p>)}
+          {sk.map((k) => <RichText key={k} id={'ref-' + k} className="ser" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: 'var(--ink-2)', paddingLeft: 14, borderLeft: '2px solid var(--clay)' }}>{REFS[k]}</RichText>)}
         </div>
 
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
