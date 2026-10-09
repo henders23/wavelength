@@ -13,7 +13,7 @@ import { GlossaryView } from '../src/Glossary.jsx';
 import { LibraryView } from '../src/Library.jsx';
 import { FieldworkView } from '../src/Fieldwork.jsx';
 import { MaterialsLabView } from '../src/MaterialsLab.jsx';
-import { DIMS, FIELDWORK, FOUNDATIONS, GLOSSARY, LAB, LIBRARY, REFS } from '../src/data.js';
+import { DIMS, FIELDWORK, FOUNDATIONS, GLOSSARY, LAB, LIBRARY, REFS, SAMPLES, SORTER } from '../src/data.js';
 
 const go = () => {};
 
@@ -206,6 +206,55 @@ describe('Wavelength views mount cleanly', () => {
     expect(getByRole('heading', { level: 1 }).textContent).toBe('The Materials Lab');
   });
 
+  it('offers guided pathways on the welcome screen that navigate into the app', () => {
+    window.location.hash = '';
+    const { getByText, getByRole } = render(<App />);
+    expect(getByText('Choose your path')).toBeTruthy();
+    fireEvent.click(getByText('The Materials Lab — profile the task, plan the wave, audit the draft'));
+    expect(getByRole('heading', { level: 1 }).textContent).toBe('The Materials Lab');
+  });
+
+  it('serves discipline samples in the Studio with per-sentence analysis', () => {
+    const { getByText } = render(<StudioView go={go} />);
+    fireEvent.click(getByText('Discipline samples'));
+    // chemistry opens first; sentence 1's analytic note shows
+    expect(getByText(/mean titre decreased/)).toBeTruthy();
+    expect(getByText(/The evidence floor/)).toBeTruthy();
+    // switch to the extended nursing analysis — all eight sentences render
+    fireEvent.click(getByText(/Nursing · reflective account/));
+    expect(getByText(/Mr T refused his evening medication/)).toBeTruthy();
+    const last = getByText(/operationalises autonomy at the bedside/);
+    fireEvent.click(last);
+    expect(getByText(/The wave ends on a climb/)).toBeTruthy();
+  });
+
+  it('opens the right sample when Fieldwork hands a discipline to the Studio', () => {
+    let went = null;
+    const { getByText } = render(<FieldworkView go={(r) => { went = r; }} />);
+    fireEvent.click(getByText('Code this discipline’s sample in the Studio →'));
+    expect(went).toBe('studio');
+    expect(localStorage.getItem('wl-studio-sample')).toBe('sciences');
+    // the Studio consumes the handoff and opens on that sample
+    const studio = render(<StudioView go={go} />);
+    expect(studio.getByText(/mean titre decreased/)).toBeTruthy();
+    expect(localStorage.getItem('wl-studio-sample')).toBe(null);
+  });
+
+  it('runs the code sorter on the Specialization page', () => {
+    const { getByText, getByRole } = render(<DimensionView dim="specialization" go={go} />);
+    expect(getByText('SORT THE CODES · try it')).toBeTruthy();
+    // first task is the physics problem sheet → knowledge code
+    fireEvent.click(getByRole('button', { name: /knowledge code/ }));
+    expect(getByText(/Pure epistemic relations/)).toBeTruthy();
+    fireEvent.click(getByText('Next task →'));
+    expect(getByText(/2 \/ 8 · score 1/)).toBeTruthy();
+  });
+
+  it('keeps the code sorter off the other dimension pages', () => {
+    const { queryByText } = render(<DimensionView dim="semantics" go={go} />);
+    expect(queryByText('SORT THE CODES · try it')).toBeNull();
+  });
+
   it('renders the Studio and toggles between drafts', () => {
     const { getByText } = render(<StudioView go={go} />);
     expect(getByText(/Plot a paragraph/)).toBeTruthy();
@@ -264,6 +313,8 @@ describe('Wavelength views mount cleanly', () => {
       LAB.lede, LAB.profile.intro, LAB.waveplan.intro, LAB.checklist.intro,
       ...Object.values(LAB.profile.verdicts).map((v) => v.advice),
       ...LAB.checklist.items.map((c) => c.item),
+      ...SAMPLES.flatMap((s) => [s.lede, s.verdict, ...s.sentences.map((x) => x.note)]),
+      SORTER.intro, ...SORTER.items.map((x) => x.why),
     ].filter(Boolean);
     const inline = prose
       .flatMap((s) => [...String(s).matchAll(/\[([^\]]+)\]/g)])

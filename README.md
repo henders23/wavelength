@@ -14,7 +14,9 @@ how LCT itself theorises knowledge as constellations.
 ## What's inside
 
 - **👋 Welcome screen** — the default landing: a guide explaining what LCT is and
-  how to use the app, with a step-by-step "how to use this app" walkthrough. The
+  how to use the app, with three **guided pathways** (new to LCT · designing a
+  course · analysing student writing) whose steps link straight into the right
+  views in order, plus a step-by-step "how to use this app" walkthrough. The
   app opens here every time (deep links and reloads still go straight to their
   view), and it's reopenable any time from the **?** in the rail.
 - **🌌 Constellation home** — the five dimensions orbit a central hub. Click a
@@ -33,12 +35,19 @@ how LCT itself theorises knowledge as constellations.
   with margin notes showing the feature at work), a **Take it to class** panel
   of low-prep teaching activities, and a **Try it yourself** exercise — a short
   text with questions whose answers reveal on click. Semantics adds an
-  interactive **Unpack / Repack lab** that traces out the semantic wave.
+  interactive **Unpack / Repack lab** that traces out the semantic wave, and
+  Specialization adds a **code sorter** — eight assessment tasks to place on
+  the plane, with instant feedback and a score.
 - **🎼 The Studio** — code a real paragraph. Study two worked drafts (a
-  flatlined student draft vs. a reworked "waved" version), or switch to **Your
+  flatlined student draft vs. a reworked "waved" version), browse **discipline
+  samples** — six fully coded texts matched to the Fieldwork profiles (lab
+  discussion, design report, case analysis, history paragraph, plus extended
+  worked analyses of a complete nursing reflection and a full legal IRAC
+  answer) with an analytic note on every sentence — or switch to **Your
   text** to paste your own paragraph: it's segmented into sentences you rate
   with semantic gravity / density sliders, and the wave redraws live. Your text
-  and ratings persist across reloads.
+  and ratings persist across reloads, and each Fieldwork profile links straight
+  to its sample.
 - **🧭 Fieldwork** — designing EAP materials for specific disciplines. Opens
   with the EGAP/ESAP specificity debate read through LCT (Hyland's specificity
   argument vs. Monbec's knowledge-based common core), then six worked

@@ -4,7 +4,7 @@
    building the profile yourself and watching the wave redraw. */
 
 import React from 'react';
-import { STUDIO } from './data.js';
+import { SAMPLES, STUDIO } from './data.js';
 import { Eyebrow, WaveChart, useNarrow } from './components.jsx';
 
 /* Read-only meter for the worked samples. */
@@ -48,7 +48,16 @@ const OWN_KEY = 'wl-studio-own';
 
 export function StudioView({ go }) {
   const narrow = useNarrow();
-  const [mode, setMode] = React.useState('flat'); // 'flat' | 'waved' | 'own'
+  // Fieldwork hands a discipline over via localStorage so its sample opens directly.
+  const [handoff] = React.useState(() => {
+    try {
+      const h = localStorage.getItem('wl-studio-sample') || '';
+      localStorage.removeItem('wl-studio-sample');
+      return SAMPLES.some((s) => s.key === h) ? h : '';
+    } catch { return ''; }
+  });
+  const [mode, setMode] = React.useState(handoff ? 'samples' : 'flat'); // 'flat' | 'waved' | 'samples' | 'own'
+  const [selSample, setSelSample] = React.useState(handoff || SAMPLES[0].key);
   const [sel, setSel] = React.useState(0);
 
   // Own-text state, persisted across reloads.
@@ -60,7 +69,7 @@ export function StudioView({ go }) {
   });
   const [editing, setEditing] = React.useState(() => ownSents.length === 0);
 
-  React.useEffect(() => { setSel(0); }, [mode]);
+  React.useEffect(() => { setSel(0); }, [mode, selSample]);
   React.useEffect(() => {
     localStorage.setItem(OWN_KEY, JSON.stringify({ text: ownText, sents: ownSents }));
   }, [ownText, ownSents]);
@@ -79,7 +88,9 @@ export function StudioView({ go }) {
   const rate = (idx, field, val) => setOwnSents((ss) => ss.map((s, i) => (i === idx ? { ...s, [field]: val } : s)));
 
   const isOwn = mode === 'own';
-  const sample = STUDIO.drafts[mode === 'own' ? 'flat' : mode];
+  const isSample = mode === 'samples';
+  const sampleText = SAMPLES.find((s) => s.key === selSample) || SAMPLES[0];
+  const sample = isSample ? sampleText : STUDIO.drafts[isOwn ? 'flat' : mode];
   const sents = isOwn ? ownSents : sample.sentences;
   const hasData = sents.length > 0;
   const pts = sents.map((s, i) => [sents.length === 1 ? 0.5 : i / (sents.length - 1), s.sg]);
@@ -105,11 +116,11 @@ export function StudioView({ go }) {
       <div style={{ maxWidth: 1080, margin: '0 auto', padding: narrow ? '28px 18px 48px' : '40px 34px 60px' }}>
         <Eyebrow size={11} hue="var(--clay)">Applied · Semantics</Eyebrow>
         <h1 className="ser" style={{ margin: '12px 0 10px', fontSize: narrow ? 34 : 46, fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1 }}>Plot a paragraph’s semantic wave</h1>
-        <p className="ser" style={{ margin: '0 0 26px', fontSize: 19, fontStyle: 'italic', color: 'var(--ink-2)', maxWidth: 660, lineHeight: 1.4 }}>Study the two worked drafts, or switch to <em>Your text</em> to code a paragraph of your own — rate each sentence and watch the profile take shape.</p>
+        <p className="ser" style={{ margin: '0 0 26px', fontSize: 19, fontStyle: 'italic', color: 'var(--ink-2)', maxWidth: 660, lineHeight: 1.4 }}>Study the two worked drafts, read a <em>discipline sample</em> with its sentence-by-sentence analysis, or switch to <em>Your text</em> to code a paragraph of your own — rate each sentence and watch the profile take shape.</p>
 
         {/* mode toggle */}
-        <div style={{ display: 'inline-flex', background: 'var(--surface-2)', borderRadius: 11, padding: 4, gap: 3, marginBottom: 26, border: '1px solid var(--line)' }}>
-          {[['flat', 'Student draft'], ['waved', 'Reworked draft'], ['own', 'Your text']].map(([k, l]) => (
+        <div style={{ display: 'inline-flex', background: 'var(--surface-2)', borderRadius: 11, padding: 4, gap: 3, marginBottom: 26, border: '1px solid var(--line)', flexWrap: 'wrap' }}>
+          {[['flat', 'Student draft'], ['waved', 'Reworked draft'], ['samples', 'Discipline samples'], ['own', 'Your text']].map(([k, l]) => (
             <button key={k} onClick={() => setMode(k)} style={{ fontFamily: 'var(--sans)', fontSize: 13.5, fontWeight: 600, padding: '8px 18px', borderRadius: 8, border: 'none', cursor: 'pointer', background: mode === k ? 'var(--surface)' : 'transparent', color: mode === k ? 'var(--ink)' : 'var(--ink-3)', boxShadow: mode === k ? '0 1px 3px rgba(0,0,0,.08)' : 'none' }}>{l}</button>
           ))}
         </div>
@@ -129,8 +140,24 @@ export function StudioView({ go }) {
               </div>
             ) : (
               <>
+                {isSample && (
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 12 }}>
+                      {SAMPLES.map((s) => {
+                        const on = s.key === selSample;
+                        return (
+                          <button key={s.key} onClick={() => setSelSample(s.key)}
+                            style={{ fontFamily: 'var(--sans)', fontSize: 12.5, fontWeight: 600, padding: '7px 13px', borderRadius: 20, cursor: 'pointer', border: `1px solid ${on ? hue : 'var(--line-strong)'}`, background: on ? `color-mix(in srgb, ${hue}, transparent 90%)` : 'var(--surface)', color: on ? 'var(--ink)' : 'var(--ink-2)' }}>
+                            {s.name}{s.extended && <span style={{ fontWeight: 400, fontStyle: 'italic', color: 'var(--ink-3)' }}> · extended</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <p className="san" style={{ margin: 0, fontSize: 13, lineHeight: 1.55, color: 'var(--ink-2)' }}>{sampleText.lede}</p>
+                  </div>
+                )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                  <Eyebrow size={10}>{isOwn ? 'Your text — click a sentence to code it' : 'The text — click a sentence'}</Eyebrow>
+                  <Eyebrow size={10}>{isOwn ? 'Your text — click a sentence to code it' : isSample ? 'Worked sample — click a sentence for its analysis' : 'The text — click a sentence'}</Eyebrow>
                   {isOwn && <button onClick={() => setEditing(true)} style={{ fontFamily: 'var(--sans)', fontSize: 12, fontWeight: 600, padding: '5px 11px', borderRadius: 8, border: '1px solid var(--line-strong)', background: 'var(--surface)', cursor: 'pointer', color: 'var(--ink-2)' }}>Edit text</button>}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -148,7 +175,9 @@ export function StudioView({ go }) {
                 <p className="san" style={{ margin: '16px 0 0', fontSize: 12.5, color: 'var(--ink-3)', lineHeight: 1.5 }}>
                   {isOwn
                     ? 'Rate each sentence’s gravity and density on the right. There are no “correct” numbers — coding is a judgement you build and defend.'
-                    : 'Codings here are illustrative. Switch to Your text to segment and rate a paragraph of your own.'}
+                    : isSample
+                      ? 'Worked codings with a sentence-by-sentence analysis. Try predicting the meters before you click — then argue with them.'
+                      : 'Codings here are illustrative. Switch to Your text to segment and rate a paragraph of your own.'}
                 </p>
               </>
             )}
@@ -175,7 +204,7 @@ export function StudioView({ go }) {
               <div style={{ border: '1px solid var(--line)', borderRadius: 16, background: 'var(--surface)', padding: '16px 18px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
                   <span className="mono" style={{ fontSize: 12, fontWeight: 600, color: hue }}>Sentence {sel + 1}</span>
-                  <span className="san" style={{ fontSize: 12, color: 'var(--ink-3)' }}>{isOwn ? 'rate it' : 'coding'}</span>
+                  <span className="san" style={{ fontSize: 12, color: 'var(--ink-3)' }}>{isOwn ? 'rate it' : isSample ? 'analysis' : 'coding'}</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {isOwn ? (
@@ -191,7 +220,9 @@ export function StudioView({ go }) {
                   )}
                 </div>
                 <p className="san" style={{ margin: '14px 0 0', fontSize: 12.5, lineHeight: 1.5, color: 'var(--ink-2)' }}>
-                  {cur.sg > 0.6 ? 'Concrete and context-bound — strong gravity, lighter density. This is an unpacking move.' : cur.sd > 0.7 ? 'Abstract and condensed — weak gravity, heavy density. Powerful, but it needs unpacking to land.' : 'A bridging move between the abstract and the concrete.'}
+                  {isSample && cur.note
+                    ? cur.note
+                    : cur.sg > 0.6 ? 'Concrete and context-bound — strong gravity, lighter density. This is an unpacking move.' : cur.sd > 0.7 ? 'Abstract and condensed — weak gravity, heavy density. Powerful, but it needs unpacking to land.' : 'A bridging move between the abstract and the concrete.'}
                 </p>
               </div>
             )}

@@ -744,3 +744,102 @@ export const STUDIO = {
     },
   },
 };
+
+/* Discipline sample texts for the Studio — worked codings with a note per
+   sentence, matched to the Fieldwork profiles (several reuse Fieldwork's
+   annotated extracts, now with full gravity/density values, so the same
+   material is met twice at rising depth). `extended: true` marks the longer
+   worked analyses. sg: 0 abstract → 1 concrete; sd: 0 light → 1 dense. */
+export const SAMPLES = [
+  {
+    key: 'sciences', disc: 'sciences', name: 'Chemistry · lab discussion',
+    lede: 'A lab-report discussion making the climb from bench results to theory — the move where science marks are won and lost.',
+    verdict: 'A working wave: result, mechanism, theory, and back to the bench.',
+    sentences: [
+      { sg: 0.9, sd: 0.45, t: 'The mean titre decreased by 0.8 cm³ for each 10 °C rise in bath temperature.', note: 'The evidence floor: a concrete, numerical result bound to this experiment. Moderate density — units and apparatus carry some technicality.' },
+      { sg: 0.6, sd: 0.5, t: 'This trend suggests the side-reaction consumes reagent faster at higher temperatures.', note: 'The bridging move: still this experiment, but a mechanism is being generalised from the numbers.' },
+      { sg: 0.2, sd: 0.85, t: 'Such behaviour is characteristic of kinetically controlled processes described by the Arrhenius relationship.', note: 'The repack: gravity weakens sharply and density spikes — the result is folded into named theory. Without this sentence the report describes; with it, it explains.' },
+      { sg: 0.5, sd: 0.4, t: 'Temperature control is therefore the main source of error to address in any repeat.', note: 'A practical return: the theory lands back in the lab as a recommendation. Note the effaced author throughout — a knowledge code performing itself.' },
+    ],
+  },
+  {
+    key: 'engineering', disc: 'engineering', name: 'Engineering · design report',
+    lede: 'A design-report justification touring out to a standard and home again — the autonomy move the genre is built from.',
+    verdict: 'Tours out to the standard and comes home with a judgement.',
+    sentences: [
+      { sg: 0.8, sd: 0.55, t: 'The bridge deck must carry 5 kN/m² of pedestrian load without perceptible sway.', note: 'Home base: the brief, concrete and quantified. This sentence is the anchor every later move must return to.' },
+      { sg: 0.45, sd: 0.8, t: 'Eurocode 1 prescribes a vertical forcing model for synchronised walking at 1.25 Hz.', note: 'The tour departs: imported content (PA−), highly condensed — a standard compresses years of research into a citation.' },
+      { sg: 0.85, sd: 0.5, t: 'Applying that model to the 40 m span gives a comfort margin of 1.8.', note: 'Gravity strengthens hard: the borrowed model is pressed into this bridge’s numbers.' },
+      { sg: 0.5, sd: 0.55, t: 'The proposed section is therefore acceptable, provided the damping assumption is verified on site.', note: 'The return home with a verdict — plus a calibrated hedge. Description has become engineering judgement.' },
+    ],
+  },
+  {
+    key: 'business', disc: 'business', name: 'Business · case analysis',
+    lede: 'The closing moves of a strategy case analysis — framework down into numbers, back up into a priced recommendation.',
+    verdict: 'Framework applied, condensed into evaluation, delivered as a decision.',
+    sentences: [
+      { sg: 0.95, sd: 0.3, t: 'Three customers account for 61% of the firm’s revenue.', note: 'Maximal gravity, light wording: a bare company fact. On its own it means nothing — the framework gives it force.' },
+      { sg: 0.4, sd: 0.8, t: 'On Porter’s analysis, this concentration gives buyers decisive bargaining power.', note: 'The climb: the fact is read through an imported framework. “Bargaining power” condenses a whole model.' },
+      { sg: 0.5, sd: 0.6, t: 'A unilateral price rise is therefore untenable in the short term.', note: 'Evaluative condensation: “untenable” packs the analysis into a verdict word — moral density doing business work.' },
+      { sg: 0.7, sd: 0.45, t: 'We recommend renegotiating the two largest contracts before any repricing.', note: 'The performed managerial self (SR+): decisive, concrete, first-person-plural. The sentence the marker was waiting for.' },
+    ],
+  },
+  {
+    key: 'nursing', disc: 'nursing', name: 'Nursing · reflective account', extended: true,
+    lede: 'An extended worked analysis: a full reflective cycle — incident, feeling, theory, changed practice — the wave the nursing rubric rewards.',
+    verdict: 'A complete reflective wave: down in the incident, up into theory, home to changed practice.',
+    sentences: [
+      { sg: 0.95, sd: 0.2, t: 'Mr T refused his evening medication and turned to face the wall.', note: 'The incident: maximal gravity, everyday wording. Essential raw material — but a profile that stays here is “descriptive, not critical”.' },
+      { sg: 0.9, sd: 0.15, t: 'I stood holding the cup, unsure whether to insist or withdraw.', note: 'Still in the moment, and now inside the writer’s uncertainty — the honest first-person the caring gaze requires.' },
+      { sg: 0.8, sd: 0.25, t: 'At the time I felt I had failed a basic task of the shift.', note: 'Feelings named, still concrete. Many weak reflections end here, mistaking emotion-reporting for reflection.' },
+      { sg: 0.3, sd: 0.85, t: 'Looking back, the collision was between beneficence and respect for patient autonomy.', note: 'The climb: the moment is repacked into ethical concepts. Density spikes — the incident becomes a case *of* something.' },
+      { sg: 0.45, sd: 0.6, t: 'His refusal was also one of the few choices still available to him after admission.', note: 'Theory re-grounded in this patient: the concept and the person held together — the élite code’s double demand.' },
+      { sg: 0.25, sd: 0.8, t: 'The literature on dignity in care frames such refusals as communication rather than non-compliance.', note: 'A second climb, now touring out to the literature (PA−) and bending it to this incident (RA+).' },
+      { sg: 0.8, sd: 0.3, t: 'In future I will open the exchange with a question rather than a cup.', note: 'The return: theory folded into a concrete, changed future practice. This is what “deep reflection” cashes out as.' },
+      { sg: 0.5, sd: 0.65, t: 'That small change operationalises autonomy at the bedside, where it matters.', note: 'Final consolidation: the action plan is itself repacked, naming the principle it enacts. The wave ends on a climb.' },
+    ],
+  },
+  {
+    key: 'law', disc: 'law', name: 'Law · problem answer', extended: true,
+    lede: 'An extended worked analysis: a full IRAC sequence — rule at the ceiling, application on the facts, a committed landing.',
+    verdict: 'IRAC as a wave: issue, condensed rule, hard descent to the facts, committed conclusion.',
+    sentences: [
+      { sg: 0.55, sd: 0.6, t: 'The issue is whether Dana’s email of 3 May accepted Finn’s offer or destroyed it.', note: 'Issue: pitched between fact and law, naming the doctrinal battleground.' },
+      { sg: 0.2, sd: 0.9, t: 'Under Hyde v Wrench, a reply that varies the terms of an offer operates as a counter-offer.', note: 'Rule: the abstract ceiling. A precedent condenses an entire dispute into a portable principle — peak density.' },
+      { sg: 0.25, sd: 0.75, t: 'An acceptance must instead mirror the offer exactly.', note: 'The rule restated in its general form — still at the ceiling, slightly lighter wording.' },
+      { sg: 0.95, sd: 0.25, t: 'Dana accepted the price but demanded delivery a week earlier.', note: 'Application begins: a hard descent to the client’s facts, in plain wording.' },
+      { sg: 0.6, sd: 0.6, t: 'That variation of terms is precisely the Hyde v Wrench situation.', note: 'The hinge sentence: facts and rule gripped together. This is where problem answers are won.' },
+      { sg: 0.5, sd: 0.7, t: 'Her email therefore destroyed the original offer, which could no longer be accepted on 7 May.', note: 'The legal consequence drawn, condensing facts-plus-rule into a position.' },
+      { sg: 0.7, sd: 0.5, t: 'No contract formed, and Finn is free to sell elsewhere.', note: 'Committed conclusion: concrete, confident, client-facing. Hedging here — after committing above — is the voice the élite code punishes.' },
+    ],
+  },
+  {
+    key: 'history', disc: 'history', name: 'History · essay paragraph',
+    lede: 'An essay paragraph climbing from the evidence floor to an interpretive claim — the humanities’ wave in miniature.',
+    verdict: 'Evidence floor to interpretive claim, with the cultivated gaze audible on the way up.',
+    sentences: [
+      { sg: 0.9, sd: 0.4, t: 'Parish records for 1548–52 show grain prices trebling while recorded alms fell by half.', note: 'The sources: strong gravity, epistemic relations visibly at work in dates and quantities.' },
+      { sg: 0.6, sd: 0.5, t: 'Fragmentary as the record is, the direction of change is consistent across all three registers.', note: 'The gaze performs itself: judicious hedging plus a committed reading — exactly the cultivated judgement the discipline rewards.' },
+      { sg: 0.35, sd: 0.75, t: 'Hunger, not doctrine, was doing the recruiting for the rebellion.', note: 'The interpretive repack: evidence condensed into a claim with a voice. One short sentence, carrying the paragraph’s whole argument.' },
+      { sg: 0.3, sd: 0.7, t: 'Any account of its causes must therefore begin in the fields rather than the pulpit.', note: 'The claim generalised a register further — positioning the essay against other interpretations, constellation work in miniature.' },
+    ],
+  },
+];
+
+/* The code sorter — practise placing tasks on the Specialization plane.
+   quad keys match PLANES.specialization (tl knowledge, tr élite, br knower,
+   bl relativist). Lives on the Specialization dimension page. */
+export const SORTER = {
+  intro: 'Eight assessment tasks. For each one, ask: what is the basis of achievement here — what you know, who you are, both, or neither? Place it on the plane.',
+  items: [
+    { t: 'A first-year physics problem sheet, marked only on correct method and final answer.', quad: 'tl', why: 'Pure epistemic relations: the right procedure and result legitimate the work, and it does not matter who produced it.' },
+    { t: 'A fine-art degree show, where examiners reward a distinctive personal vision.', quad: 'br', why: 'A knower code: achievement rests on a cultivated, distinctive gaze rather than mastery of fixed procedures.' },
+    { t: 'A medical OSCE station: flawless clinical procedure performed with a convincing bedside manner.', quad: 'tr', why: 'An élite code: the checklist (ER+) and the performed professional self (SR+) are both graded, at the same moment.' },
+    { t: 'A seminar brainstorm where the tutor accepts every contribution uncritically, “to keep ideas flowing”.', quad: 'bl', why: 'A relativist code — deliberately, and temporarily: neither knowledge nor knower is allowed to be the basis of legitimacy.' },
+    { t: 'A chemistry titration write-up, marked for method, precision and replicability.', quad: 'tl', why: 'A knowledge code: procedure and accuracy rule, and the conventions (passives, no “I”) efface the author.' },
+    { t: 'A conservatoire audition judged on technical accuracy and interpretative flair.', quad: 'tr', why: 'Élite: wrong notes fail you (ER+), but so does a technically perfect performance with nothing to say (SR+).' },
+    { t: 'A creative-writing portfolio rewarding an authentic, original voice.', quad: 'br', why: 'A knower code: craft matters, but the legitimating achievement is the cultivated voice — who is writing, audibly.' },
+    { t: 'A reflective practice journal in teacher training, assessed for honest self-examination theorised against the literature.', quad: 'tr', why: 'Trickier than it looks: the confession alone (SR+) is not enough — the reflection must also be theorised (ER+). Many “reflective” genres are secretly élite, which is exactly why students misread them.' },
+  ],
+};
+

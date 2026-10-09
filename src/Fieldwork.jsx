@@ -5,7 +5,7 @@
    signatures). */
 
 import React from 'react';
-import { FIELDWORK, REFS } from './data.js';
+import { FIELDWORK, REFS, SAMPLES } from './data.js';
 import { Eyebrow, Dot, RichText, WaveChart, CodePlane, splitCiteKeys, useNarrow } from './components.jsx';
 
 export function FieldworkView({ go }) {
@@ -78,6 +78,12 @@ export function FieldworkView({ go }) {
               <Eyebrow size={11} hue={d.hue} style={{ marginBottom: 12, display: 'block' }}>Code signature · {d.codeName}</Eyebrow>
               {d.signature.map((p, k) => <RichText key={k} className="ser" style={{ margin: '0 0 16px', fontSize: 17.5, lineHeight: 1.6, color: 'var(--ink)' }}>{p}</RichText>)}
               <RichText className="san" style={{ margin: 0, fontSize: 12.5, lineHeight: 1.55, color: 'var(--ink-3)', fontStyle: 'italic', padding: '10px 12px', borderRadius: 10, background: 'var(--surface-2)', border: '1px dashed var(--line-strong)' }}>{d.grounding}</RichText>
+              {SAMPLES.some((s) => s.disc === d.key) && (
+                <button onClick={() => { try { localStorage.setItem('wl-studio-sample', SAMPLES.find((s) => s.disc === d.key).key); } catch { /* ignore */ } go('studio'); }}
+                  style={{ marginTop: 12, fontFamily: 'var(--sans)', fontSize: 12.5, fontWeight: 600, padding: '8px 14px', borderRadius: 9, cursor: 'pointer', border: `1px solid ${d.hue}`, background: 'transparent', color: d.hue }}>
+                  Code this discipline’s sample in the Studio →
+                </button>
+              )}
             </div>
             <div style={{ border: '1px solid var(--line)', borderRadius: 16, background: 'var(--surface)' }}>
               <CodePlane planeKey="specialization" hue={d.hue} highlight={d.codeQuad} />

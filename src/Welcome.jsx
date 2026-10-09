@@ -4,6 +4,36 @@
 
 import { Eyebrow } from './components.jsx';
 
+/* Guided pathways — three sequenced routes through the app, matched to the
+   jobs practitioners actually arrive with. Each step navigates via go(). */
+const PATHWAYS = [
+  {
+    icon: '🌱', title: 'New to LCT?', time: 'about 30 minutes',
+    steps: [
+      { label: 'Foundations — what the theory is, and why EAP took to it', route: ['foundations'] },
+      { label: 'Semantics — the semantic wave, with the Unpack/Repack lab', route: ['dimension', 'semantics'] },
+      { label: 'The Studio — watch a flatlined draft become a wave', route: ['studio'] },
+      { label: 'Keep the Glossary at your elbow as you read on', route: ['glossary'] },
+    ],
+  },
+  {
+    icon: '📐', title: 'Designing a course or unit', time: 'an afternoon’s companion',
+    steps: [
+      { label: 'Fieldwork — the specificity debate, and your discipline’s profile', route: ['fieldwork'] },
+      { label: 'The Materials Lab — profile the task, plan the wave, audit the draft', route: ['lab'] },
+      { label: 'The Library — the design literature, annotated', route: ['library'] },
+    ],
+  },
+  {
+    icon: '✍️', title: 'Analysing student writing', time: 'about 45 minutes',
+    steps: [
+      { label: 'Specialization — what “good” secretly means in the task', route: ['dimension', 'specialization'] },
+      { label: 'Autonomy — the quotations that never come home', route: ['dimension', 'autonomy'] },
+      { label: 'The Studio — study a discipline sample, then code a real student paragraph', route: ['studio'] },
+    ],
+  },
+];
+
 const STEPS = [
   { icon: '🌌', h: 'Roam the constellation', t: 'The home screen is a map of the five “dimensions” of the theory. Tap any circle to preview it in the side panel; open it to read the full topic.' },
   { icon: '📖', h: 'New to all this? Start with Foundations', t: 'The dark circle in the centre of the map opens a gentle primer — what the theory is, where it came from, and why it matters for teaching academic writing.' },
@@ -29,6 +59,33 @@ export function WelcomeView({ go }) {
         <p className="san" style={{ margin: '0 0 36px', fontSize: 16, lineHeight: 1.65, color: 'var(--ink-2)' }}>You don’t need any background to start. This app walks you from the simple idea up to the detailed theory, with worked examples at every step. It’s built for EAP tutors and practitioners — whether you’re brand new to LCT or deepening what you already know.</p>
 
         <div style={{ height: 1, background: 'var(--line)', margin: '0 0 32px' }} />
+        <Eyebrow size={11} style={{ marginBottom: 6, display: 'block' }}>Choose your path</Eyebrow>
+        <p className="san" style={{ margin: '0 0 18px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-2)' }}>Three routes through the app, depending on what brought you here. Every step is a link — follow one in order, or wander.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14, marginBottom: 40 }}>
+          {PATHWAYS.map((p) => (
+            <div key={p.title} style={{ padding: '16px 16px 14px', borderRadius: 14, border: '1px solid var(--line)', background: 'var(--surface)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 9, marginBottom: 4 }}>
+                <span style={{ fontSize: 19, lineHeight: 1 }}>{p.icon}</span>
+                <h2 className="ser" style={{ margin: 0, fontSize: 19, fontWeight: 500, letterSpacing: '-0.01em' }}>{p.title}</h2>
+              </div>
+              <p className="san" style={{ margin: '0 0 12px 28px', fontSize: 11.5, fontStyle: 'italic', color: 'var(--ink-3)' }}>{p.time}</p>
+              <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {p.steps.map((s, i) => (
+                  <li key={i}>
+                    <button onClick={() => go(...s.route)}
+                      style={{ display: 'flex', gap: 9, alignItems: 'baseline', width: '100%', textAlign: 'left', padding: '7px 9px', borderRadius: 8, border: 'none', background: 'transparent', cursor: 'pointer' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--surface-2)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
+                      <span className="mono" style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--clay)', flex: '0 0 auto' }}>{i + 1}</span>
+                      <span className="san" style={{ fontSize: 12.5, lineHeight: 1.45, color: 'var(--ink)', fontWeight: 500 }}>{s.label}</span>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))}
+        </div>
+
         <Eyebrow size={11} style={{ marginBottom: 18, display: 'block' }}>How to use this app</Eyebrow>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 40 }}>

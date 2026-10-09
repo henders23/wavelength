@@ -3,7 +3,7 @@
    Semantics, the EAP application, related dimensions and sources. */
 
 import React from 'react';
-import { DIMS, REFS } from './data.js';
+import { DIMS, PLANES, REFS, SORTER } from './data.js';
 import { Code, Eyebrow, Dot, RichText, WaveChart, CodePlane, splitCiteKeys, useNarrow } from './components.jsx';
 
 const UNPACK = [
@@ -48,6 +48,71 @@ function UnpackLab({ hue }) {
 }
 function navBtn(disabled, hue) {
   return { fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 600, padding: '8px 14px', borderRadius: 9, cursor: disabled ? 'default' : 'pointer', border: '1px solid var(--line-strong)', background: hue || 'var(--surface)', color: hue ? '#fff' : 'var(--ink)', opacity: disabled ? 0.4 : 1, borderColor: hue || 'var(--line-strong)' };
+}
+
+/* The code sorter — practise the Specialization plane: read a task, decide
+   what legitimates achievement in it, and place it on one of the four codes. */
+function CodeSorter({ hue }) {
+  const quads = PLANES.specialization.quads;
+  const order = ['tl', 'tr', 'bl', 'br'];
+  const [idx, setIdx] = React.useState(0);
+  const [picked, setPicked] = React.useState(null);
+  const [score, setScore] = React.useState(0);
+  const [done, setDone] = React.useState(false);
+  const item = SORTER.items[idx];
+  const pick = (q) => { if (picked) return; setPicked(q); if (q === item.quad) setScore((s) => s + 1); };
+  const next = () => { if (idx + 1 >= SORTER.items.length) setDone(true); else { setIdx((i) => i + 1); setPicked(null); } };
+  const restart = () => { setIdx(0); setPicked(null); setScore(0); setDone(false); };
+
+  if (done) {
+    return (
+      <div style={{ border: '1px solid var(--line)', borderRadius: 16, background: 'var(--surface)', padding: '26px 24px', textAlign: 'center' }}>
+        <p className="ser" style={{ margin: '0 0 6px', fontSize: 26, fontWeight: 500 }}>{score} / {SORTER.items.length}</p>
+        <p className="san" style={{ margin: '0 0 16px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-2)' }}>
+          {score === SORTER.items.length ? 'A clean sweep — your gaze for codes is cultivating nicely.' : 'The near-misses are the interesting ones: most sit near a boundary, which is where real tasks live too.'}
+        </p>
+        <button onClick={restart} style={navBtn(false, hue)}>Sort them again</button>
+      </div>
+    );
+  }
+  return (
+    <div style={{ border: '1px solid var(--line)', borderRadius: 16, overflow: 'hidden', background: 'var(--surface)' }}>
+      <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--line)', display: 'flex', alignItems: 'center', gap: 10, background: 'var(--surface-2)' }}>
+        <span style={{ width: 8, height: 8, borderRadius: 8, background: hue }} />
+        <span className="san" style={{ fontSize: 13, fontWeight: 700, letterSpacing: '.02em' }}>SORT THE CODES · try it</span>
+        <span className="mono" style={{ fontSize: 11, color: 'var(--ink-3)', marginLeft: 'auto' }}>{idx + 1} / {SORTER.items.length} · score {score}</span>
+      </div>
+      <div style={{ padding: '18px 22px 22px' }}>
+        <blockquote className="ser" style={{ margin: '0 0 16px', padding: '14px 18px', fontSize: 17, lineHeight: 1.5, color: 'var(--ink)', background: 'var(--surface-2)', borderRadius: 11, borderLeft: `3px solid ${hue}` }}>{item.t}</blockquote>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          {order.map((q) => {
+            const isAnswer = picked && q === item.quad;
+            const isWrongPick = picked === q && q !== item.quad;
+            return (
+              <button key={q} onClick={() => pick(q)} disabled={!!picked}
+                style={{ textAlign: 'left', padding: '12px 14px', borderRadius: 11, cursor: picked ? 'default' : 'pointer', transition: 'all .15s',
+                  border: `1.5px solid ${isAnswer ? hue : isWrongPick ? 'var(--clay)' : 'var(--line)'}`,
+                  background: isAnswer ? `color-mix(in srgb, ${hue}, transparent 90%)` : 'var(--surface)',
+                  opacity: picked && !isAnswer && !isWrongPick ? 0.45 : 1 }}>
+                <span className="mono" style={{ display: 'block', fontSize: 10.5, fontWeight: 600, color: hue, marginBottom: 2 }}>{quads[q].code}</span>
+                <span className="ser" style={{ fontSize: 16, fontWeight: 500, color: 'var(--ink)' }}>{quads[q].name}</span>
+                {isAnswer && <span className="san" style={{ float: 'right', fontSize: 14, color: hue, fontWeight: 700 }}>✓</span>}
+                {isWrongPick && <span className="san" style={{ float: 'right', fontSize: 14, color: 'var(--clay)', fontWeight: 700 }}>✗</span>}
+              </button>
+            );
+          })}
+        </div>
+        {picked && (
+          <div style={{ marginTop: 14, padding: '13px 16px', borderRadius: 11, background: `color-mix(in srgb, ${hue}, transparent 94%)`, border: `1px solid color-mix(in srgb, ${hue}, transparent 80%)` }}>
+            <p className="san" style={{ margin: 0, fontSize: 13, lineHeight: 1.55, color: 'var(--ink)' }}>
+              <strong style={{ color: picked === item.quad ? hue : 'var(--clay)' }}>{picked === item.quad ? 'Yes — ' : `It’s the ${quads[item.quad].name}. `}</strong>{item.why}
+            </p>
+            <button onClick={next} style={{ ...navBtn(false, hue), marginTop: 11 }}>{idx + 1 >= SORTER.items.length ? 'See your score →' : 'Next task →'}</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 /* A short check-yourself exercise: a text and questions whose answers reveal
@@ -190,6 +255,15 @@ export function DimensionView({ dim, go }) {
             <section style={{ margin: '34px 0' }}>
               <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 14, display: 'block' }}>See it move</Eyebrow>
               <UnpackLab hue={m.hue} />
+            </section>
+          )}
+
+          {/* interactive for specialization — the code sorter */}
+          {m.key === 'specialization' && (
+            <section style={{ margin: '34px 0' }}>
+              <Eyebrow size={11} hue={m.hue} style={{ marginBottom: 6, display: 'block' }}>Sort the codes</Eyebrow>
+              <p className="san" style={{ margin: '0 0 14px', fontSize: 13.5, color: 'var(--ink-2)', lineHeight: 1.5 }}>{SORTER.intro}</p>
+              <CodeSorter hue={m.hue} />
             </section>
           )}
 
